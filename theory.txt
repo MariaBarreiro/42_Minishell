@@ -1,0 +1,13 @@
+Videos:
+- https://www.youtube.com/watch?v=xCySbqj9BKI&list=PL2POs8ZJ4I2JJK3lICRW0b-L2y9mLiDmU
+
+Books:
+Unix and Linux System administration handbook
+  -> Every shell has at least three communication channels available: STDIN, STDOUT and STDERR (standard input(0), standard output(1) and standard error(2));
+  -> Most commands accept their input from STDIN and write their output to STDOUT.
+  -> Shell interprets symbols: 
+     --> '<' connects the command's STDIN to the contents of an existing file.
+     --> '>' and '>>' redirects STDOUT.
+     --> '>' replaces the file's existing contents.
+     --> '>>' appends to the file's existing contents.
+
