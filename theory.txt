@@ -2,12 +2,67 @@ Videos:
 - https://www.youtube.com/watch?v=xCySbqj9BKI&list=PL2POs8ZJ4I2JJK3lICRW0b-L2y9mLiDmU
 
 Books:
-Unix and Linux System administration handbook
-  -> Every shell has at least three communication channels available: STDIN, STDOUT and STDERR (standard input(0), standard output(1) and standard error(2));
-  -> Most commands accept their input from STDIN and write their output to STDOUT.
-  -> Shell interprets symbols: 
-     --> '<' connects the command's STDIN to the contents of an existing file.
-     --> '>' and '>>' redirects STDOUT.
-     --> '>' replaces the file's existing contents.
-     --> '>>' appends to the file's existing contents.
 
+**Unix and Linux System administration handbook**
+
+
+-Pipes and redirection (Page 33)-
+    -> Every shell has at least three communication channels available: STDIN, STDOUT and STDERR (standard input(0), standard output(1) and standard error(2));
+    -> Most commands accept their input from STDIN and write their output to STDOUT.
+    -> Shell interprets symbols: 
+         --> '<' connects the command's STDIN to the contents of an existing file. (Take the input for a program from the following file instead of from the terminal).
+        --> '>' and '>>' redirects STDOUT.
+        --> '>' replaces the file's existing contents. (put the output in the following file rather than the terminal).
+        --> '>>' appends to the file's existing contents. (add the output to the end of the following file instead of the terminal).
+    -> To connect the STDOUT of one command to the STDIN of another, use the | symbol.     --> ps -ef | grep httpd (runs ps command to generate a list of processes and pipes it through the grep command to slsect lines that contain the word httpd. The output of grep is not redirected, so the matching lines come to the terminal window).
+    -> To execute a second command only if its precursor completes successfully, you can separate the commands with an && symbol (logical AND).
+    -> The || symbol executes the following command only if the preceding command fails (aka produces a nonzero exit status).
+
+
+-Variables and quoting-
+    -> Variable names are unmarked in assignments but prefixed with a dollar sign when their vlaues are referenced: 
+        --> $ etcdir='/etc'
+        --> $ echo $etcdir
+        --> /etc
+        --> Referencing a variable can be done like: $etcdir (the one on the example above) or ${etcdir}. The {} are not normally required but are useful when you want to expand variables inside double-quoted strings:
+            ---> $ echo "Saved ${rev}th version of mdadm.conf."
+            ---> Saved 8th version of mdadm.conf.
+    -> ALL CAPS normally suggest environment variables or variables read from global configuration files.
+        --> Environment variables are dynamic, named values that are set outside of a program and influence how processes run on a computer.
+        --> They are automatically imported into bash's variable namespace, so they can be set and read with the standard syntax.
+    -> lowercase separated with _ suggest local variables.
+    -> The shell treats strings enclsed in single and double quotes similarly, except that double quoted strings are subject to globbing (the expansion of filename-matching metacharacters such as * and ?) and variable expansion:
+        --> $ mylang="Pennsylvania Dutch"
+        --> $ echo "I speak ${mylang}."
+        --> I speak Pennsylvania Dutch.
+        --> $ echo 'I speak ${mylang}.'
+        --> I speak ${mylang}.
+    -> Back quotes ( `` ) are treated similarly to double quotes, but they have an additional effect of eecuting the contents of the string as a shell command and replacing the string with the command's output:
+        --> $ echo "There are `wc -l < /etc/passwd` lines in the passwd file."
+        --> There are 28 lines in the passwd file.
+
+
+-Common filter commands-
+    -> Any well-behaved command that reads STDIN and writes STDOUT can be used as a filter (component of a pipeline) to process data.
+
+
+
+
+
+
+**The Unix programming environment**
+
+-Pipes-
+    -> Pipe is a way to connect the output of one program to the input of another program without any temporary file. 
+    -> A pipeline is a connection of two or more programs through pipes.
+    -> The programs in a pipeline run at the same time!
+    -> Most commands follow a commons design:
+        --> command optional-arguments optional-filenames.
+        --> If no filenames are given, the command reads to the standard input (the terminal).
+
+-Processes-
+    -> Program VS processes:
+        --> An instance of running a program is called a process.
+        --> For example, wc (word count) is a program that each time that it is run creates a new process. If several instances of the same program are running at the same time, each is a separate process with a different process-id.
+    -> PID is a process-ID.
+    -> TTY is the terminal associated with the process.
