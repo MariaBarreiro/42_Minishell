@@ -115,9 +115,28 @@ Books:
 
 -Echo-
     -> Ends with newline! Can be supressed with the '-n'!
-    ->  
 
+-Creating new commands-
+    -> The shell takes its input from a file if one is named as an argument:
+        --> If i create an ordinary file with 'who | wc -l' ($ echo 'who | wc -l' > nu) 
+        --> And redirect the input from sh (shell) to come from the file nu instead of the terminal (sh < nu).
+        --> The output is the same as it would have been if you had typed who | wc -l at the terminal
+        --> You could have written $sh nu for the same result
+        --> What if you want to remove the sh? 
+            ---> If a file is executable and if it contains text, the shell assumes it to be a file of shell commands (a shell file). Although I have to make that file executable:
+                ----> $ chmod +x nu
+            ---> And thereafter you can invoke it with:
+                ----> $ nu.
+            ---> What really happens is that the shell runs nu by creating a new shell process exactly as if you typed $ sh nu. This is called a sub-shell (a shell process invoked by your current shell).
+                ----> $ sh < nu is DIFFERENT than $ sh nu, since the first its standard input and still connected to the terminal.
+            ---> As it stands, nu works only if it's in your current directory (provided that the current directory is in your PATH).
 
+-Command arguments and parameters-
+    -> What if I want to make a program called cx to change the mode of a file to executable? 
+        --> cx nu as a shorthand for chmod +x nu.
+        --> We need a file called cs whose contents are chmod +x filename.
+        --> But now, how to tell cs what the name of the file is? Since it will be different each time cs is run?
+            ---> When the shell executes a file of commands, each occurrence of $1 is replaced by the first argument, each $2 is replaced by the second argument and so on until $9.                ---> So if the cx contains chmod +x $1, when the command $cx nu is run, the sub-shell replaces $1 by its first argument, nu.
 
 
 
