@@ -66,3 +66,67 @@ Books:
         --> For example, wc (word count) is a program that each time that it is run creates a new process. If several instances of the same program are running at the same time, each is a separate process with a different process-id.
     -> PID is a process-ID.
     -> TTY is the terminal associated with the process.
+    -> Processes have an hierarchical structure:
+        --> Each process has a parent, and may well have children.
+        --> Your shell was created by a process associated with whatever terminal line connects you to the system. As I run commands, those processes are the direct children of your shell. If you run a program from within one of those, that creates its own child process, which is thus a grandchild of the shell.
+
+-Tailoring the environment-
+    -> The file called .profile in your login directory, are all the commands the shell will execute when you log in, before printing the first prompt.
+    -> Some of the properties of the shell are actually controlled by the so-called shell variables, with values that you can access and set yourself.
+        --> The prompt string, ($), is stored in a variable called PS1.
+    -> The shell also treats the variables HOME and MAIL specially.
+        --> HOME is the name of your home directory, it is normally set properly whitout having to be in .profile.
+        --> MAIL names the standard file where your mail is kept.
+    -> PATH is also a very useful shell variable.
+        --> PATH controls where the shell looks for commands.
+
+//The file system//
+-What's in a file?-
+    -> There are four typical files, all related to the editor:
+        --> $ file /bin /bin/ed /usr/stc/cmd/ed.c /usr/man/man1/ed.1
+            ---> The directory in which it resides (/bin).
+            ---> The "binary" or runnable program itself (/bin/ed).
+            ---> The "source" or C statements that define the program (/usr/src/cmd/ed.c).
+            ---> The manual page (/usr/man/man1/ed.1).
+
+//Using the shell//
+-Metacharacters-
+    -> '*': tells the shell to search the directory for filenames in which any string of characters occurs in the position of the *.
+    -> '>'.
+    -> '>>' program >> file: appends standard output to file.
+    -> '<'.
+    -> '|' p1 | p2: connects standard output of p1 to standard input of p2. 
+    -> '<<str' here document: standard input follows, up to next str on a line by itself.
+    -> '?': match any single character in filenames.
+    -> '[ccc]': match any single character from ccc in filenames.
+    -> ';' p1 ; p2: command terminator. Does p1 then p2.
+    -> '&': Like ; but doesn't wait for p1 to finish.
+    -> '`...`': run command(s) in ...; output replaces `...`.
+    -> '(...)': run command(s) in ... in a sub-shell.
+    -> '$1, $2 ... $9': replaced by arguments to shell file.
+    -> '$var': value of shell variable var.
+    -> '\' \c: take character c literally.
+    -> '´...´': take ... literally.
+    -> '"..."': take ... literally after $, `...`and \ interpreted.
+    -> '#': comment.
+    -> 'var=value': assign to variable var.
+    -> 'p1 && p2': run p1, if successful run p2.
+    -> 'p1 || p2': run p1, if unsuccessful run p2.
+
+-Echo-
+    -> Ends with newline! Can be supressed with the '-n'!
+    -> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
