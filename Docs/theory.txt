@@ -1,0 +1,292 @@
+Videos:
+- https://www.youtube.com/watch?v=xCySbqj9BKI&list=PL2POs8ZJ4I2JJK3lICRW0b-L2y9mLiDmU
+
+Books:
+
+**Unix and Linux System administration handbook**
+
+
+-Pipes and redirection (Page 33)-
+    -> Every shell has at least three communication channels available: STDIN, STDOUT and STDERR (standard input(0), standard output(1) and standard error(2));
+    -> Most commands accept their input from STDIN and write their output to STDOUT.
+    -> Shell interprets symbols: 
+         --> '<' connects the command's STDIN to the contents of an existing file. (Take the input for a program from the following file instead of from the terminal).
+        --> '>' and '>>' redirects STDOUT.
+        --> '>' replaces the file's existing contents. (put the output in the following file rather than the terminal).
+        --> '>>' appends to the file's existing contents. (add the output to the end of the following file instead of the terminal).
+    -> To connect the STDOUT of one command to the STDIN of another, use the | symbol.     --> ps -ef | grep httpd (runs ps command to generate a list of processes and pipes it through the grep command to slsect lines that contain the word httpd. The output of grep is not redirected, so the matching lines come to the terminal window).
+    -> To execute a second command only if its precursor completes successfully, you can separate the commands with an && symbol (logical AND).
+    -> The || symbol executes the following command only if the preceding command fails (aka produces a nonzero exit status).
+
+
+-Variables and quoting-
+    -> Variable names are unmarked in assignments but prefixed with a dollar sign when their vlaues are referenced: 
+        --> $ etcdir='/etc'
+        --> $ echo $etcdir
+        --> /etc
+        --> Referencing a variable can be done like: $etcdir (the one on the example above) or ${etcdir}. The {} are not normally required but are useful when you want to expand variables inside double-quoted strings:
+            ---> $ echo "Saved ${rev}th version of mdadm.conf."
+            ---> Saved 8th version of mdadm.conf.
+    -> ALL CAPS normally suggest environment variables or variables read from global configuration files.
+        --> Environment variables are dynamic, named values that are set outside of a program and influence how processes run on a computer.
+        --> They are automatically imported into bash's variable namespace, so they can be set and read with the standard syntax.
+    -> lowercase separated with _ suggest local variables.
+    -> The shell treats strings enclsed in single and double quotes similarly, except that double quoted strings are subject to globbing (the expansion of filename-matching metacharacters such as * and ?) and variable expansion:
+        --> $ mylang="Pennsylvania Dutch"
+        --> $ echo "I speak ${mylang}."
+        --> I speak Pennsylvania Dutch.
+        --> $ echo 'I speak ${mylang}.'
+        --> I speak ${mylang}.
+    -> Back quotes ( `` ) are treated similarly to double quotes, but they have an additional effect of eecuting the contents of the string as a shell command and replacing the string with the command's output:
+        --> $ echo "There are `wc -l < /etc/passwd` lines in the passwd file."
+        --> There are 28 lines in the passwd file.
+
+
+-Common filter commands-
+    -> Any well-behaved command that reads STDIN and writes STDOUT can be used as a filter (component of a pipeline) to process data.
+
+
+
+
+
+
+**The Unix programming environment**
+
+-Pipes-
+    -> Pipe is a way to connect the output of one program to the input of another program without any temporary file. 
+    -> A pipeline is a connection of two or more programs through pipes.
+    -> The programs in a pipeline run at the same time!
+    -> Most commands follow a commons design:
+        --> command optional-arguments optional-filenames.
+        --> If no filenames are given, the command reads to the standard input (the terminal).
+
+-Processes-
+    -> Program VS processes:
+        --> An instance of running a program is called a process.
+        --> For example, wc (word count) is a program that each time that it is run creates a new process. If several instances of the same program are running at the same time, each is a separate process with a different process-id.
+    -> PID is a process-ID.
+    -> TTY is the terminal associated with the process.
+    -> Processes have an hierarchical structure:
+        --> Each process has a parent, and may well have children.
+        --> Your shell was created by a process associated with whatever terminal line connects you to the system. As I run commands, those processes are the direct children of your shell. If you run a program from within one of those, that creates its own child process, which is thus a grandchild of the shell.
+
+-Tailoring the environment-
+    -> The file called .profile in your login directory, are all the commands the shell will execute when you log in, before printing the first prompt.
+    -> Some of the properties of the shell are actually controlled by the so-called shell variables, with values that you can access and set yourself.
+        --> The prompt string, ($), is stored in a variable called PS1.
+    -> The shell also treats the variables HOME and MAIL specially.
+        --> HOME is the name of your home directory, it is normally set properly whitout having to be in .profile.
+        --> MAIL names the standard file where your mail is kept.
+    -> PATH is also a very useful shell variable.
+        --> PATH controls where the shell looks for commands.
+
+//The file system//
+-What's in a file?-
+    -> There are four typical files, all related to the editor:
+        --> $ file /bin /bin/ed /usr/stc/cmd/ed.c /usr/man/man1/ed.1
+            ---> The directory in which it resides (/bin).
+            ---> The "binary" or runnable program itself (/bin/ed).
+            ---> The "source" or C statements that define the program (/usr/src/cmd/ed.c).
+            ---> The manual page (/usr/man/man1/ed.1).
+
+//Using the shell//
+-Metacharacters-
+    -> '*': tells the shell to search the directory for filenames in which any string of characters occurs in the position of the *.
+    -> '>'.
+    -> '>>' program >> file: appends standard output to file.
+    -> '<'.
+    -> '|' p1 | p2: connects standard output of p1 to standard input of p2. 
+    -> '<<str' here document: standard input follows, up to next str on a line by itself.
+    -> '?': match any single character in filenames.
+    -> '[ccc]': match any single character from ccc in filenames.
+    -> ';' p1 ; p2: command terminator. Does p1 then p2.
+    -> '&': Like ; but doesn't wait for p1 to finish.
+    -> '`...`': run command(s) in ...; output replaces `...`.
+    -> '(...)': run command(s) in ... in a sub-shell.
+    -> '$1, $2 ... $9': replaced by arguments to shell file.
+    -> '$var': value of shell variable var.
+    -> '\' \c: take character c literally.
+    -> '´...´': take ... literally.
+    -> '"..."': take ... literally after $, `...`and \ interpreted.
+    -> '#': comment.
+    -> 'var=value': assign to variable var.
+    -> 'p1 && p2': run p1, if successful run p2.
+    -> 'p1 || p2': run p1, if unsuccessful run p2.
+
+-Echo-
+    -> Ends with newline! Can be supressed with the '-n'!
+
+-Creating new commands-
+    -> The shell takes its input from a file if one is named as an argument:
+        --> If i create an ordinary file with 'who | wc -l' ($ echo 'who | wc -l' > nu) 
+        --> And redirect the input from sh (shell) to come from the file nu instead of the terminal (sh < nu).
+        --> The output is the same as it would have been if you had typed who | wc -l at the terminal
+        --> You could have written $sh nu for the same result
+        --> What if you want to remove the sh? 
+            ---> If a file is executable and if it contains text, the shell assumes it to be a file of shell commands (a shell file). Although I have to make that file executable:
+                ----> $ chmod +x nu
+            ---> And thereafter you can invoke it with:
+                ----> $ nu.
+            ---> What really happens is that the shell runs nu by creating a new shell process exactly as if you typed $ sh nu. This is called a sub-shell (a shell process invoked by your current shell).
+                ----> $ sh < nu is DIFFERENT than $ sh nu, since the first its standard input and still connected to the terminal.
+            ---> As it stands, nu works only if it's in your current directory (provided that the current directory is in your PATH).
+
+-Command arguments and parameters-
+    -> What if I want to make a program called cx to change the mode of a file to executable? 
+        --> cx nu as a shorthand for chmod +x nu.
+        --> We need a file called cs whose contents are chmod +x filename.
+        --> But now, how to tell cs what the name of the file is? Since it will be different each time cs is run?
+            ---> When the shell executes a file of commands, each occurrence of $1 is replaced by the first argument, each $2 is replaced by the second argument and so on until $9.                ---> So if the cx contains chmod +x $1, when the command $cx nu is run, the sub-shell replaces $1 by its first argument, nu.
+                ----> $ echo 'chmod +x $1' > cx         // create cx originally
+                ----> $ sh cx cx                        // make cx itself executable
+                ----> $ echo echo Hi, there! > hello    // make a test program
+                ----> $ hello                           // try it
+                ----> hello: cannot execute
+                ----> $ cx hello                        // make it executable
+                ----> $ hello                           // try again
+                ----> Hi, there!                        // worked!
+                ----> The sh cx cx was done exactly as the shell would have done it if cx were already executable and we typed cx cx!
+
+-Program output as arguments-
+    -> The output of any program can be placed in a command line by enclosing the invocation in backquotes `...`:
+        --> $ echo At the tone the time will be `date`.
+        --> At the tone the time will be THu Sep 29 00:0015 EDT 1993.
+
+-Shell variables-
+    -> Strings such as $1 are positional parameters (variables that hod the arguments to a shell file) where the digit indicates the position on the command line.
+    -> The value of a variable is associated with the shell that creates it, and is not automatically passed to the shell's children!
+        --> $ x=Hello           //create x
+        --> $ sh                //new shell
+        --> $ echo $x  
+        --> (\n)                //Newline only: x is undefined in the sub-shell
+        --> (ctrl+d)            //leave the shell
+        --> $                   //back in the original shell
+        --> $echo $x           
+        --> Hello               //x still defined!
+        --> This means that a shell file cannot change the value of a variable, because the shell file is run by a sub-shell.
+    -> How can I set the value of a variable in a sub-shell then?
+        --> by exeucting with '.'. This is used to change the value of a variable permanently:
+            ---> $ cat /usr/you/bin/games                   //This means that the file /usr/you/bin/games contains a single line of code that appends /usr/games to whatever the current PATH already is
+            ---> PATH=$PATH:/usr/games                      //Keep the old list of executable directories, but also add /usr/games to the end.
+            ---> $ echo $PATH                               //Here we print out the current PATH. It lists the directories the shell searches when you type a command name.
+            ---> :/usr/you/bin:/bin:/usr/bin                
+            ---> $ . games                                  //Run the scrip in the current shell!!! Not a sub-shell. The '.' means "apply these changes here and now!".
+            ---> $ echo $PATH
+            ---> :/usr/you/bin:/bin:/usr/bin:/usr/games     //Updated path
+        --> by explicitly assigining the value of a variable on the command line before the command itself. This is used for temporary changes.
+        --> export!
+            ---> $ x=Hello
+            ---> $ export x
+            ---> $ sh             //new shell
+            ---> $ echo $x
+            ---> Hello            //x known in sub-shell
+            ---> $ x='Good Bye'   //change the value of x
+            ---> $ echo $x      
+            ---> Good Bye         //updated value
+            ---> (ctrl + d)       //leave shell
+            ---> $                //back in the original shell
+            ---> $ echo $x   
+            ---> Hello            //the value only changed in the sub-shell!
+            ---> Don't export temporary variables set for short-term convenience, but always export variables you want to set in all your shells and sub-shells (variables special to the shell - like PATH and HOME - should be exported).
+
+-More on I/O redirection-
+    -> Every program has 3 default files established when it starts (standard input (0), standard output (1) and the standard error (2)).
+    -> '>file': direct standard output to file.
+    -> '>>file': append standard output to file.
+    -> '<file': take standard input from file.
+    -> 'p1|p2': connect standard output from p1 to input of p2.
+    -> 'n>file': direct output from file descriptor n to file.
+    -> 'n>>file': append output from file descriptor n to file.
+    -> 'n>&m': merge output from file descriptor n with file descriptor m.
+    -> 'n<&m': merge input from file descriptor n with file descriptor m.
+    -> '<<s': here document: take standard input until next s at beggining of a line.
+    -> '<<\s' or '<<'s'': here document with no substitution.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

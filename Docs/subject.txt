@@ -1,0 +1,444 @@
+External functions
+
+**readline** 
+char  *readline (const char *prompt) → #include <stdio.h>
+
+- Read a line from the terminal and return it.
+- Promp NULL? No prompt issued.
+- Line returned allocated with malloc! → Caller MUST free!
+- It automatically removes the newline.
+
+
+**rl_clear_history**
+void rl_clear_history(void)
+
+- Clear the history list by delleting all of the entries.
+- Frees private data that Readline saves in the history list.
+
+
+**rl_on_new_line**
+int rl_on_new_line(void)
+
+- Tell the update functions that we have moved onto a new (empty) line.
+- Used usually after outputting a newline.
+
+
+**rl_replace_line**
+void rl_replace_line (const char *text, int clear_undo)
+
+- Replace the contents of rl_line_buffer with text.
+    - *rl_line_buffer:  variable char*rl_line_buffer is the line gathered so far.*
+- Preserves the point and mark, when it is possible.
+- If clear_undo is non-zero, this function clear the undo list associated with the current line.
+
+
+**rl_redisplay**
+void rl_redisplay (void)
+
+- Changes what’s displayed on the screen to reflect the current contents of rl_line_buffer.
+
+
+**add_history** 
+void add_history(char *s)
+
+- Saves the line passed as a parameter in the history so it can be retrieved later in the terminal.
+- Similar to pressing up in bash
+
+**printf (we already know this shit)**
+
+**malloc (we already know this shit)**
+
+**free (we already know this shit)**
+
+**write (we already know this shit)**
+
+
+**access**
+int access (const char *pathname, int mode) → #include <unistd.h>
+
+- Checks whether the calling process can access the file path name.
+- If path name is a symbolic link, it is de-referenced.
+- The mode specifies the accessibility check(s) to be performed. It’s either the value F_OK, or a mask consisting of the bitwise OR (|) of one or more of R_OK, W_OK and X_OK:
+    - F_OK → Tests for the existence of the file.
+    - R_OK, W_OK and X_OK → Test whether the file exists and grands read, write and execute permissions (respectively).
+    - The check is done using the calling process real UID and GID.
+- Think of access as answering the following question: “can the user who invoked me read/write/execute this file?”
+
+
+**open**
+int open (const char *path, int flags, …, mode_t mode) → #include <fcntl.h>
+
+- The open() system call opens the file specified by path. If the specified file does not exist, it may optionally (if 0_CREAT is specified in flags) be created by open().
+- The return value is a file descriptor, that will be used in the subsequent system calls (read, write, lseek, fcntl, etc.) to refer to the open file. The file descriptor returned by a successful call will be the lowest-numbered file descriptor not currently open for the process.
+- By default, the new file descriptor is set to remain open across an execve().
+- The argument flags must include one of the following access modes: O_RDONLY, O_WRONLY, or O_RDWR (read-only, write-only, or read/write).
+
+
+**read**
+ssize_t read(size_t count, int fd, void buf[count], size_t count) → # include <unistd.h>
+
+- Attempts to read up to count bytes from the file descriptor (fd) into the buffer starting at buf.
+- On files that support seeking, the read operation commences at the file offset, and the file offset is incremented by the number of bytes read. If the file offset is at or past the end of file, no bytes are read, and read() returns zero.
+- If count is zero, read() may detect the errors described below. In the absence of any errors, or if read() does not check for errors, a read() with a count of 0 returns zero and has no other effects,
+
+
+**close**
+int close (int fd) → #include <unistd.h>
+
+- Closes a file descriptor, so that it no longer refers to any file and may be reused.
+- If fd is the last file descriptor referring to the underlying open file description, the resources associated with the open file description are freed.
+- If the file descriptor was the last reference to a file which has been removed using unlink(), the file is deleted.
+- Returns zero on success. On error, -1 and errno is set to indicate the error.
+
+
+**fork**
+pid_t fork (void) → #include <unistd.h>
+
+- Creates a new process by duplicating the calling process. The new process is referred to as the child process. The calling process is referred to as the parent process.
+- They run in separate memory spaces. At the time of fork, both memory spaces have the same content. Everything related to memory performed by one of the processes do not affect the other.
+- On success, it returns the PID of the child process in the parent, and 0 is returned in the child. On failure, it returns -1 in the parent, no child process is created and errno is set to indicate the error.
+
+
+**wait**
+pid_t wait(int *_Nullable wstatus) → #include <sys/wait.h>
+
+- Used to wait for state changes in a child of the calling process, and obtain information about the child whose state has changed.
+    - Examples of state change: child is terminated, the child was stopped by a signal, or the child was resumed by a signal.
+- If a child has already changed state, then these calls return immediately. Otherwise, thy block until either a child changes state or a signal handler interrupts the call.
+- The wait() system call suspends execution of the calling thread until one of its children terminates.
+
+
+**waitpid**
+int waitpid(pid_t pid, int *_Nullable wstatus, int options) → #include <sys/wait.h>
+
+- Reread the first two paragraphs of wait.
+- The waitpid() system call suspends execution of the calling thread until a child specified by pid argument has changed state.
+- By default, it waits only for terminated children, but this behavior is modifiable via the options argument.
+- The value of pid can be:
+    - < -1 → Wait for any child process whose process group ID is equal to the absolute value of pid.
+    - -1 → Wait for any child process.
+    - 0 → Wait for any child process whose process group ID is equal to that of the calling process at the time of the call to waitpid().
+    - >0 → Wait for the child whose process ID is equal to the value of pid.
+
+
+**wait3**
+pid_t wait3(int *_Nullable wstatus, int options, struct rusage *_Nullable rusage) → #include <sys/wait.h>
+
+- Similar to the waitpid but returns resource usage information about the child in the structure pointed to by rusage.
+- Waits of any child.
+- If rusage is not NULL, the struct rusage to which it points will be filled with accounting information about the child.
+
+
+**wait4**
+pid_t wait4(pid_t pid, int *_Nullable wstatus, int options, struct rusage *_Nullble rusage) → #include <sys/wait.h>
+
+- Similar to wait3 but wait4 can be used to select a specific child, or children on which to wait.
+
+
+**signal**
+sighandler_t signal (int signum, sighandler_t handler) → #include <signal.h>
+
+- Sets the disposition of the signal signum to handler, which is either SIG_IGN, SIG_DFL or the address of a programmer—defined function (a “signal handler”).
+    - SIG_IGN → the signal is ignored.
+    - SIG_DFL → the default action associated with the signal occurs.
+- The signals SIGKILL and SIGSTOP cannot be caught or ignored.
+
+
+**sigaction**
+int sigaction(int signum, const struct sigaction *_Nullable restrict act, struct sigaction *_Nullable restrict oldact) → #include <signal.h>
+
+- Used to change the action taken by a process on receipt of a specific signal.
+- Signum specifies the signal and can be any valid signal except SIGKILL and SIGSTOP
+- If act is non-NULL the new action for signal signum is installed from act.
+- if oldact is non-NULL the previous action is saved in oldact.
+- Sigaction structure:
+    - struct sigaction {
+        - void (*sa_handler) (int);
+        - void (*sa_sigaction)(int, siginfo_t *, void *);
+        - sigset_t sa_mask;
+        - int sa_flags;
+        - void (*sa_restorer)(void);
+    - }
+        - sa_handler works just like the signal handler.
+        - If SA_SIGINFO is specified in sa_flags, the sa_sigaction (instead of sa_handler) specifies the signal-handling function for signum.
+        - sa_maks specifies a mask of signals which should be blocked during execution of the signal handler.
+        - sa_flags specifies a set of flags which modify the behavior of the signal.
+
+
+**sigemptyset**
+int sigemptyset(sigset_t *set) → #include <signal.h>
+
+- Initializes the signal set pointed to by set.
+
+
+**sigaddset**
+int sigaddset(sigset_t *set, int signo) → #include <signal.h>
+
+- Adds the individual signal specified by the signo to the signal set pointed to by set.
+- Applications must call either sigemptyset() or sigfillset() at least once for each object of type sigset_t prior to any use of that object. The object needs to be initialised that way!
+
+
+**kill**
+int kill(pid_t pid, int sig) → #include <signal.h>
+
+- Used to send any signal to any process group or process.
+    - Pid positive? The signal sig is sent to the process with the ID specified by pid.
+    - Pid == 0? Sig is sent to every process in the process group of the calling process.
+    - Pid == -1? Sig is sent to every process for which the calling process has permission to send signals, except for process 1 (init).
+    - Pid < -1? Sig is sent to every process in the process group whose ID is -pid.
+    - Sig == 0? NO signal is sent, but existence and permission checks are still performed. (Used to check the existence of a process ID or process group ID).
+
+
+**exit**
+void exit(int status) → #include <stdlib.h>
+
+- Causes normal process termination and the least significant byte of status is returned to the parent.
+
+
+**getcwd**
+get current working directory!
+char *getcwd(size_t size; char buf[size], size_t size) → #include <unistd.h>
+
+- Copies an absolute pathname of the current working directory to the array pointed to by buf, which is of length size.
+- Returns a null-terminated string containing and abslute pathname.
+- Does not malloc any memory!
+
+
+**chdir**
+change working directory!
+int chdir(const char *path) → #include <unistd.h>
+
+- Changes the current working directory of the calling process to the directory specified in path.
+- On success, zero is returned. On error, -1 is returned with an errno set to indicate the error.
+
+
+**stat**
+int stat(const char *restrict path, struct stat *restrict statbuf) → #include <sys/stat.h>
+
+- Return information about a file in the buffer pointed to by statbuf.
+- Retrieves the information about the file pointed by path.
+- The struct stat looks like this:
+    
+    struct stat {
+    dev_t      st_dev;/*ID of device containing file*/
+    ino_t      st_ino;/*Inode number*/
+    mode_t     st_mode;/*File type and mode*/
+    nlink_t    st_nlink;/*Number of hard links*/
+    uid_t      st_uid;/*User ID of owner*/
+    gid_t      st_gid;/*Group ID of owner*/
+    dev_t      st_rdev;/*Device ID (if special file)*/
+    off_t      st_size;/*Total size, in bytes*/
+    blksize_t  st_blksize;/*Block size for filesystem I/O*/
+    blkcnt_t   st_blocks;/*Number of 512 B blocks allocated*/
+    struct timespec  st_atim;/*Time of last access*/
+    struct timespec  st_mtim;/*Time of last modification*/
+    struct timespec  st_ctim;/*Time of last status change*/
+    #define st_atime  st_atim.tv_sec/*Backward compatibility*/
+    #define st_mtime  st_mtim.tv_sec#define st_ctime  st_ctim.tv_sec
+    };
+    
+
+**lstat**
+int lstat(const char *restrict path, struct stat *restrict statbuf) → #include <sys/stat.h>
+
+- Identical to stat, except that if path is a symbolic link, then it returns information about the link itself, not the file that the link refers to.
+
+
+**fstat**
+int fstat(int fd, struct stat *statbuf) → #include <sys/stat.h>
+
+- Identical to stat, except that the file about which information is to be retrieved is specified by the file descriptor fd.
+
+
+**unlink**
+int unlink(const char *path) → #include <unistd.h>
+
+- Deletes a name from the filesystem.
+- If that name was the last link to a file and no processes have the file open, the file is deleted and the space it was using is made available for reuse.
+- If that name was the last link to a file but any processes still have the file open, the file will remain in existence until the last files descriptor referring to it is closed.
+- If the name referred to a symbolic link, the link is removed.
+- if the name referred to a socket, FIF0 or device, the name for it is removed but processes which have the object open may continue to use it.
+
+
+**execve**
+int execve(const char *path, char *const _Nullable argv[], char *const _Nullable envp[])
+
+- Executes the program referred to by path. This causes the program that is currently being run by the calling process to be replaced with a new program, with newly initialized stack heap, and (initialized and uninitialized) data segments.
+- Argv is an array of pointers to strings passed to the new program as its command-line arguments. Must be terminated by a null pointer.
+- Envp is an array of pointers to strings, conventionally of the form key=value, which are passed as the environment of the new program. Must be terminated by a null pointer.
+
+
+**dup**
+int dup(int oldfd) → #include <unistd.h>
+
+- Allocates a new file descriptor that refers to the same open file description as the descriptor oldfd.
+- The new file descriptor number is guaranteed to be the lowest-numbered file descriptor that was unused in the calling process.
+- After a sucessful return, the old and new file descriptors may be used interchangeably. Since the two file descriptors refer to the same open file description, they share file offset and file status flags.
+- The two file descriptors do not share file descriptor flags.
+
+
+**dup2**
+int dup2(int oldfd, int newfd) → #include <unistd.h>
+
+- Same as dup, but instead of using the lowest-numbered unused file descriptor, it uses the file descriptor number specified in newfd. (The file descriptor in newfd is adjusted so that it now refers to the same open file description as oldfd).
+- Newfd was previously open? Closes it before being reused.
+
+
+**pipe**
+int pipe(int pipefd[2]) → #include <unistd.h>
+
+- Creates a pipe, a unidirectional data channel that can be used for interprocess communication.
+- The array pipefd is used to return two file descriptors referring to the ends of the pipe.
+
+
+**opendir**
+DIR *opendir(const char *name) → #include <sys/types.h> #include <dirent.h>
+
+- Opens a directory stream corresponding to the directory name.
+- Returns a pointer to the directory stream. The stream is positioned at the first entry in the directory.
+
+
+**readdir**
+struct dirent *readdir(DIR *dirp) → #include <dirent.h>
+
+- Returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp.
+- Returns NULL on reaching the end of the directory stream or if an error occurred.
+- The dirent structure is defined as follows:
+
+ struct dirent {
+  ino_t          d_ino;/* Inode number */
+  off_t          d_off;/* Not an offset; see below */
+  unsigned short d_reclen;/* Length of this record */
+  unsigned char  d_type;/* Type of file; not supported
+                              by all filesystem types */
+  char           d_name[256];/* Null-terminated filename */
+  };
+ d_ino -> inode number of the file.
+ d_off ->  the value returned is the same as if by calling telldir at the current position in the directory stream.
+ d_reclen -> size (in bytes) of the returned record.
+ d_type -> contains a value indicating the file type, making it possible to avoid the expense of calling lstat if further actions depend on the type of the file.
+ d_name -> contains the null terminated filename.
+
+
+**closedir**
+int closedir(DIR *dirp) → #include <sys/types.h> #include <dirent.h>
+
+- Closes the directory stream associated with dirp.
+- A successful call also closes the underlying file descriptor associated with dirp.
+- The directory stream descriptor dirp is not available after this call.
+
+
+**strerror**
+char *strerror(int errnum) → #include <string.h>
+
+- Returns a pointer to a string that describes the error code passed in the argument errnum.
+
+
+**perror**
+void perror(const char *s) → #include <stdio.h>
+
+- Produces a message on standard error escribing the last error encountered during a call to a system or library function.
+- If s is not null and not a null byte, the argument in the string s is printed, followed by a colong and a blank. Then an error message corresponding to the current value of errno and a new-line.
+
+
+**isatty**
+int isatty(int fd) → #include <unistd.h>
+
+- Testes whether fd is an open file descriptor referring to a terminal.
+- Returns 1 if true, 0 and erro is set to indicate the error if false.
+
+
+**ttyname**
+char **ttyname(int fd) → #include <unistd.h>
+
+- Returns a pointer to the null-terminated pathname of the terminal device that is open on the file descriptor fd, or null on error.
+- The return value may point to static data, possibly overwritten by the next call.
+
+
+**ttyslot**
+int ttyslot(void) → #include <unistd.h>
+
+- Returns the index of the current users’s entry in some file.
+    - Returns the index of the controlling terminal of the calling process in the file /etc/ttys.
+
+
+**ioctl**
+control device
+int ioctl(int fd, unsigned long op, …) → #include <sys/ioctl.h>
+
+- Manipulates the underlying device parameters of special files.
+- The second argument is a device-dependent operation code.
+    - Has encoded in it whether the argument is an *in* parameter or *out* parameter, and the size of the argument in bytes.
+    - Macros and defines used in specifying an ioctl() op are located in the file <sys/ioctl.h>.
+- The third argument is an untyped pointer to memory.
+    - Traditionally char *argp.
+    
+
+**getenv**
+get an environment variable.
+char *getenv(const char *name) → #include <stdlib.h>
+
+- Searches the environment list to find the environment variable *name* and returns a pointer to the corresponding *value* string.
+
+
+**tcsetattr**
+Set the parameters associated with the terminal.
+int tcsetattr(int fildes, int optional_actions, const struct termios *termios_p) → #include <termios.h>
+
+- Set the parameters associated with the terminal referred to by the open fd fildes (an open fd associated with a terminal) from the termios structure referenced by termios_p as follows. If optional_actions is:
+    - TCSANOW → The change shall occur immediately.
+    - TCSADRAIN → The change shall occur after all output written to fildes is transmitted. Use when changing parameters affect the output!
+    - TCSAFLUSH → The change shall occur after all output written to fildes is transmitted, just like TCSDRAIN. But, all input so far received but not read shall be discarded before the change is made.
+
+
+**tcgetattr**
+Get the parameters associated with the terminal.
+int tcgetattr(int fildes, struct termios *termios_p) → #include <termios.h>
+
+- Get the parameters associated with the terminal referred to by fildes and store them in the termios structure referenced by termios_p.
+- The fildes argument is an open fd associated with a terminal.
+- This function is allowed from any process.
+
+
+**tgetent**
+int tgetent(char *bp, const char *name) → #include <curses.h> #include <term.h>
+
+- Loads the terminal database entry for *name*.
+- Must be done befory calling any of the other functions.
+- Returns 1 on sucess, 0 if there is no such entry and -1 if the *terminfo* database could not be found.
+
+
+**tgetflag**
+int tgetflag(const char *id)  → #include <curses.h> #include <term.h>
+
+- Reports the Boolean entry for id, or zero if it is not available.
+
+
+**tgetnum**
+int tgetnum(const char *id)  → #include <curses.h> #include <term.h>
+
+- Obtains the numeric entry for id, or -1 if it is not available.
+
+
+**tgetstr**
+int *tgetstr(const char *id, char **area)  → #include <curses.h> #include <term.h>
+
+- Returns the string entry for id, or null if it is not available.
+- Combine its use with tputs to output the string returned!
+- The area parameter is used as follows:
+    - It is assumed to be the address of a pointer to a buffer managed by the calling application.
+    - Checks to ensure that area is not null and that the resulting buffer pointer is also not null. If either check fails, area is ignored.
+    - If the checks succeed, copies the return value to the buffer pointed to by area and the library updates area to point past the null char terminating this value.
+    - The return value itself is an address in the terminal type description loaded into memory.
+
+
+**tgoto**
+char *tgoto(const char *cap, int col, int row)  → #include <curses.h> #include <term.h>
+
+- String capabilities can be parameterized. tgoto applies its second and third args to the parametric placeholders in the capability stored in the  first arg.
+
+
+**tputs**
+int tputs(const char *str, int affcnt, int (**putc)(int))  → #include <curses.h> #include <term.h>
+
+- Used with tgetstr to output the string returned.
