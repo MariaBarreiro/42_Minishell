@@ -1,0 +1,83 @@
+%left PIPE
+
+/* tokens */
+%token WORD SQSTR DQSTR
+%token REDIR_IN REDIR_OUT REDIR_APP HEREDOC
+%token PIPE
+
+%%
+
+input                                                       //entry point
+    : /* empty */                                           //empty input ([press enter])
+    | list                                                  //list (echo hello)
+    ;
+
+list
+    : pipeline                                              //single pipeline (ls -l | grep ".c")
+    ;
+
+pipeline                                                    //a pipeline is one or more commands chained with |
+    : command                                               //simple command (echo hello)
+    | pipeline PIPE command                                 //two commands linkes by a | (cat file.txt | wc -l)
+    ;
+
+command                                                     //a simple command(something executable plus args and optional redirections)
+    : simple_command                                        //(grep foo < input.txt > output.txt)
+    ;
+
+simple_command                                              //a simple command can have words, redirections and optional prefixes
+    : maybe_prefix maybe_words maybe_redirs                 //
+    | maybe_prefix maybe_words
+    | words maybe_redirs
+    | words
+    ;
+
+maybe_prefix
+    : /* empty */
+    | prefix_seq
+    ;
+
+prefix_seq
+    : prefix
+    | prefix_seq prefix
+    ;
+
+prefix
+    : redirection
+    /* | assignment */         /* optional, keep commented unless you implement it */
+    ;
+
+maybe_words
+    : /* empty */
+    | words
+    ;
+
+words
+    : word
+    | words word
+    ;
+
+word
+    : WORD                                  //a bare word (echo hello -> words = ["echo", "hello"])
+    | SQSTR                                 //a single quoted string (echo 'literal $PATH' -> words = ["echo", "'literal $PATH'"])
+    | DQSTR                                 //a double quoted string (echo "hi $USER" -> words = ["echo", "\"hi $USER\""])
+    ;
+
+maybe_redirs
+    : /* empty */
+    | redir_seq
+    ;
+
+redir_seq
+    : redirection
+    | redir_seq redirection
+    ;
+
+redirection
+    : REDIR_IN  word                        //< for input ((cat < input.txt)REDIR_IN word("input.txt"))
+    : REDIR_OUT word                        //> for output overwrite((echo hello > output.txt)(REDIT_OUT word("output.txt")))
+    | REDIR_APP word                        //>> for output append((grep foo >> logs.txt)(REDIR_APP word("logs.txt")))
+    | HEREDOC   word                        //<<for heredoc((cat << END)(HEREDOC word("END")))
+    ;
+%%
+

@@ -15,13 +15,9 @@ NAME = minishell
 #                                    Paths                                     #
 # **************************************************************************** #
 
-LIB_PATH						=	./libs/42_Libft/
+LIB_PATH						= ./libs/42_Libft/
 LIB_NAME						= libft.a
 LIB								= $(LIB_PATH)$(LIB_NAME)
-
-PRINTF_PATH						= ./libs/42_Libft/42_Ft_Printf/
-PRINTF_NAME						= libftprintf.a
-PRINTF							= $(PRINTF_PATH)$(PRINTF_NAME)
 
 INC_PATH						= ./includes/
 
@@ -40,10 +36,9 @@ OBJS							= $(patsubst %.c, $(OBJS_DIR)/%.o, $(SRC))
 
 CC							= cc
 CFLAGS          			= -Wall -Wextra -Werror -g
-INC     			        = -I $(INC_PATH)
-INC						    += -I $(LIB_PATH)/42_Gnl/ 
-INC							+= -I $(LIB_PATH)
-INC							+= -I $(PRINTF_PATH)
+INC     			        = -I$(INC_PATH)
+INC						    += -I$(LIB_PATH)/42_Gnl/ 
+INC							+= -I$(LIB_PATH)
 
 # **************************************************************************** #
 #                                   Commands                                   #
@@ -58,7 +53,6 @@ RM              = rm -rf
 all: $(LIB) $(NAME)
 
 $(LIB): 
-	@$(MAKE) -C $(PRINTF_PATH)
 	@$(MAKE) -C $(LIB_PATH)
 
 $(OBJS_DIR):
@@ -70,7 +64,7 @@ $(OBJS_DIR)/%.o: %.c
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 $(NAME): $(OBJS_DIR) $(OBJS)
-	@$(CC) $(CFLAGS) $(INC) $(OBJS) $(LIB) $(PRINTF) -o $(NAME)
+	@$(CC) $(CFLAGS) $(INC) $(OBJS) $(LIB) -o $(NAME) -lreadline
 	@echo "Compilation completed!"
 
 clean:

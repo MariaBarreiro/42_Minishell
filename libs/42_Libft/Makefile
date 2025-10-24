@@ -56,19 +56,6 @@ GNL_FILES						+= get_next_line_bonus.c
 GNL_FILES						+= get_next_line_utils.c
 GNL_FILES						+= get_next_line_utils_bonus.c
 
-PRINTF_PATH					= ./42_Ft_Printf/
-PRINTF_NAME					= libftprintf.a
-PRINTF							= $(PRINTF_PATH)$(PRINTF_NAME)
-
-PRINTF_FILES						+= 42_Ft_Printf/ft_printf.c
-PRINTF_FILES						+= 42_Ft_Printf/ft_printf_hex.c
-PRINTF_FILES						+= 42_Ft_Printf/ft_printf_ptr.c
-PRINTF_FILES						+= 42_Ft_Printf/ft_printf_str.c
-PRINTF_FILES						+= 42_Ft_Printf/ft_printf_uns.c
-PRINTF_FILES						+= 42_Ft_Printf/ft_utils.c
-PRINTF_FILES						+= 42_Ft_Printf/ft_utils2.c
-
-
 SRC									= $(addprefix $(SRC_PATH), $(SRC_FILES))
 SRC									+= $(addprefix $(GNL_PATH), $(GNL_FILES))
 
@@ -83,7 +70,6 @@ CC              = cc
 CFLAGS          = -Wall -Wextra -Werror
 INC             = -I $(INC_PATH) 
 INC							+= -I $(INC_PATH)/42_Gnl 
-INC							+= -I $(PRINTF_PATH)
 
 # **************************************************************************** #
 #                                   Commands                                   #
@@ -111,11 +97,9 @@ $(NAME): $(OBJS_DIR) $(OBJS)
 	@echo "📌 Libft Compiled!"
 
 clean:
-	@$(MAKE) clean -C $(PRINTF_PATH)
 	@$(RM) $(OBJS)
 
 fclean: clean
-	@$(MAKE) fclean -C $(PRINTF_PATH)
 	@$(RM) $(NAME) $(OBJS_DIR)
     
 re: fclean all

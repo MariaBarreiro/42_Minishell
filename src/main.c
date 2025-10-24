@@ -17,5 +17,11 @@ void    main_loop(void)
     while (1)
     {
         input = readline("minishell");
+		if (!input)
+		{
+			ft_putstr_fd(("exit"), 2);
+			break ;
+		}
+		add_history(input);
     }
 }

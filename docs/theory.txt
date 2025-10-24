@@ -1,5 +1,31 @@
+Links:
+-> https://tomassetti.me/guide-parsing-algorithms-terminology/
+-Structure of a parser-
+    -> A parser is usually composed of two parts:
+        --> A lexer, also known as scanner or tokenizer.
+        --> The parser.
+        --> Some parsers do not depend on a separate lexer and they combine the two steps. They are called sannerless parsers.
+    -> A lexer and a parser work in sequence: the lexer scans the input and produces the matching tokens, the parser then scans the tokens and produces the parsing result.        
+        --> 123 + 456 -> LEXER -> 123(num) +(tokens plus) 456(num) -> PARSER
+    -> The definitions used by lexers and parsers are called rules or productions. In the example above, a lexer rule will specify that a squence of digits corresponds to a token of type NUM, while a parser rule will specify that a sequence of tokens of type NUM, PLUS, NUM corresponds to a sum expression.
+        --> https://en.wikipedia.org/wiki/Lexer_hack
+    -> Types of tokens:
+        --> Keywords (reserved words the language treats as sacred, such as if, while etc., that can't be used for briable names).
+        --> Identifiers (names you make up for things, like variables, functions, classes, etc.).
+        --> Literals / Constants (fixed values written directly in the code. Numeric (32, 0.3), Characters ('a', 'b'), Strings ("Hello, World!"), Booleans (true/false)).
+        --> Operators (symbols that perform operations (+, -, !, ||, etc.)).
+        --> Delimiters / Separators / Punctuation ((, ), {, }, [, ], ;, ,).
+        --> Comments.
+        --> Preprocessor tokens (these start with # and are handled before actual compilation. examples include: #define, #if, #include, #endif, etc.).
+
+-
+
+
 Videos:
 - https://www.youtube.com/watch?v=xCySbqj9BKI&list=PL2POs8ZJ4I2JJK3lICRW0b-L2y9mLiDmU
+
+
+
 
 Books:
 
