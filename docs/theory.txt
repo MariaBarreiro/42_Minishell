@@ -1,4 +1,6 @@
 Links:
+-> https://pubs.opengroup.org/onlinepubs/9699919799.2018edition/utilities/V3_chap02.html#tag_18_10
+
 -> https://tomassetti.me/guide-parsing-algorithms-terminology/
 -Structure of a parser-
     -> A parser is usually composed of two parts:
@@ -18,7 +20,18 @@ Links:
         --> Comments.
         --> Preprocessor tokens (these start with # and are handled before actual compilation. examples include: #define, #if, #include, #endif, etc.).
 
--
+-Left-recursive Rules-
+  -> The rule starts with a reference to itself.
+    --> 5 + 3 * 2 
+      ---> expression -> expression1 (5) + expression2 (3 * 2) -> expression2 = expression3 (3) * expression 4 (2)
+      ---> expression -> expression1 (5) + expression2 (6)
+      ---> expression = 11;
+
+-Embedded actions-
+  -> Embedded actions identify code that is executed every time the rule is matched.
+
+  -BNF-
+    
 
 
 Videos:

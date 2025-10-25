@@ -1,0 +1,67 @@
+//Grammar symbols//
+
+%token  WORD                                /*When the token is exactly a reserved word, the token identifier for that reserved word shall result. Otherwise, the token WORD shall be returned! Examples: ls, echo, main.c */
+
+%token  DLESS ('<<') -> heredoc (redirect input from inline text))    
+        DGREAT ('>>') -> redirect output to a file (append)   
+        RET_TO ('>') -> redirect output to a file (overwrite)  
+        RET_FROM ('<') -> redirect input from a file
+
+start           ::= pipeline;
+
+pipeline        ::= simple_command 
+                  | pipeline PIPE simple_command;
+
+/*
+A pipeline can be one simple_command or several commands chained with PIPE (|)
+    ls -l
+    cat file.txt| grep main
+    cat file.txt | grep main | wc -l
+*/    
+
+simple_command  ::= cmd_prefix cmd_word cmd_suffix 
+                  | cmd_prefix cmd_word 
+                  | cmd_prefix 
+                  | cmd_name cmd_suffix 
+                  | cmd_name;
+
+/*
+A simple command is basically [prefix redirs] command_name [arguments] [suffix redirs]!
+Redirections can appear before or after the command!
+
+   < in cat > out               (cmd_prefix (redir) + cmd_word ("cat") + cmd_suffix (redir))
+   < infile cat                 (cmd_prefix (io_redirect) + cmd_word ("cat"))
+
+   grep pattern < file > out    (cmd_name + cmd_suffix (args + io_redirect))
+   ls                           (cmd_name)
+*/
+
+cmd_name            ::= WORD;   
+
+/*
+The first word (the command itself).
+*/
+
+cmd_word            ::= WORD;
+
+/*
+Any additional argument.
+*/
+
+cmd_prefix          ::= io_redirect | cmd_prefix io_redirect;
+
+/*
+
+*/
+
+cmd_suffix          ::= io_redirect | cmd_suffix io_redirect | WORD | cmd_suffix WORD;
+
+io_redirect         ::= io_file | io_here;
+
+io_file             ::= RET_TO filename | RET_FROM filename | DGREAT filename;
+
+filename            ::= WORD;
+
+io_here             ::= DLESS here_end;
+
+here_end            ::= WORD;
