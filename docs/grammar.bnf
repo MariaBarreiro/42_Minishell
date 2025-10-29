@@ -54,14 +54,44 @@ cmd_prefix          ::= io_redirect | cmd_prefix io_redirect;
 
 */
 
-cmd_suffix          ::= io_redirect | cmd_suffix io_redirect | WORD | cmd_suffix WORD;
+cmd_suffix          ::= io_redirect 
+                        | cmd_suffix io_redirect 
+                        | WORD 
+                        | cmd_suffix WORD;
 
-io_redirect         ::= io_file | io_here;
+/*
+Lets you mix redirections and words AFTER the command.
 
-io_file             ::= RET_TO filename | RET_FROM filename | DGREAT filename;
+*/
 
-filename            ::= WORD;
+io_redirect         ::= io_file 
+                        | io_here;
+/*
+Redirections. 
+    Can be either an io_file aka a file redirection. Or a io_here aka an heredoc.
+*/
+
+io_file             ::= RET_TO filename 
+                        | RET_FROM filename 
+                        | DGREAT filename;
+
+/*
+    eho hi > out.txt            (RET_TO (">") + filename ("out.txt") -> stdout -> overwrite file)
+    cat < in.txt                (RET_FROM ("<") + FILENAME ("in.txt") -> stdin <- read from file)
+    echo hi >> out.txt          (DGREAT (">>") + filename ("out.txt") -> stdout -> append to file)
+*/
+
+filename            ::= WORD; 
+
+/*
+name of a file.                 (WORD -> "input.txt")
+*/
 
 io_here             ::= DLESS here_end;
+
+/*
+heredoc!
+    cat << EOF                  (DLESS ("<<") + here_end -> WORD ("EOF"))
+*/
 
 here_end            ::= WORD;
