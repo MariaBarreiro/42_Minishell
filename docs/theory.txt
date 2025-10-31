@@ -1,4 +1,6 @@
 Links:
+-> https://mywiki.wooledge.org/BashParser
+
 -> https://pubs.opengroup.org/onlinepubs/9699919799.2018edition/utilities/V3_chap02.html#tag_18_10
 
 -> https://tomassetti.me/guide-parsing-algorithms-terminology/
@@ -34,6 +36,12 @@ Links:
     
 
 
+https://www.gnu.org/software/bash/manual/bash.html#What-is-a-shell_003f
+-Pipelines-
+    -> A pipeline is a sequence of one or more commands separated by one of the control operator '|' or '&|'
+    -> The output of each command in the pipeline is connected via pipe to the input of the next command. That is, each command reads the previous command's output. This connection is performed before any redirections specified by command1.
+        -> if '&|' is the pipeline operator, 
+   
 Videos:
 - https://www.youtube.com/watch?v=xCySbqj9BKI&list=PL2POs8ZJ4I2JJK3lICRW0b-L2y9mLiDmU
 

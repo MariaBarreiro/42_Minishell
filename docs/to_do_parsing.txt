@@ -1,0 +1,6 @@
+- <, >, $, ispace(9 a 13 e 32),  tem? 
+- tokenizer
+- check if its a command or not and if it is if its built in or extern (execve to use)
+- 
+
+
