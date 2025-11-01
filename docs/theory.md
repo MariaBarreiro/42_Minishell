@@ -1,6 +1,6 @@
 # Parsing, Lexing, and Shell Notes
 
-## Links
+# Links
 - https://pubs.opengroup.org/onlinepubs/9699919799.2018edition/utilities/V3_chap02.html#tag_18_10
 - https://tomassetti.me/guide-parsing-algorithms-terminology/
 - https://en.wikipedia.org/wiki/Lexer_hack
@@ -50,11 +50,11 @@ expr
   ;
 ```
 
-## Videos
+# Videos
 - https://www.youtube.com/watch?v=xCySbqj9BKI&list=PL2POs8ZJ4I2JJK3lICRW0b-L2y9mLiDmU
 
-## Books
-- **Unix and Linux System Administration Handbook**
+# Books
+## Unix and Linux System Administration Handbook
 
 ### Pipes and Redirection (p. 33)
 - Standard streams: `STDIN`(0), `STDOUT`(1), `STDERR`(2).
@@ -70,20 +70,16 @@ expr
 
 ### Variables and Quoting
 - Assign unmarked; reference with `$name` or `${name}`.
-  ```sh
-  etcdir='/etc'
-  echo "$etcdir"
-  echo "Saved ${rev}th version of mdadm.conf."
-  ```
+<img width="97" height="52" alt="Screenshot from 2025-11-01 14-50-06" src="https://github.com/user-attachments/assets/1986af77-0629-4d4a-98fd-8eda9e7308e5" />
+
 - All caps conventionally indicate environment variables.
 - Lowercase with underscores suggest local variables.
 - Quoting:
   - Single quotes: no expansion.
   - Double quotes: expand variables and command substitutions, and allow globbing.
 - Backquotes `` `cmd` `` execute and substitute output (modern form `$(cmd)` preferred):
-  ```sh
-  echo "There are $(wc -l < /etc/passwd) lines in the passwd file."
-  ```
+ <img width="306" height="33" alt="Screenshot from 2025-11-01 14-50-58" src="https://github.com/user-attachments/assets/bc6ef6d0-4b96-4887-8813-d9fb72b271f2" />
+
 
 ### Common Filter Commands
 Any well-behaved command that reads `STDIN` and writes `STDOUT` can be used as a filter in a pipeline.
@@ -162,15 +158,8 @@ Example outputs relate to:
 
 ### Command Arguments and Parameters
 - Use positional parameters in scripts:
-  ```sh
-  # cx: make a file executable
-  echo 'chmod +x $1' > cx
-  sh cx cx        # make cx itself executable
-  echo 'echo Hi, there!' > hello
-  ./hello         # cannot execute yet
-  sh cx hello     # or chmod +x hello
-  ./hello
-  ```
+
+<img width="432" height="179" alt="Screenshot from 2025-11-01 14-54-44" src="https://github.com/user-attachments/assets/b9523900-4352-442d-b054-521f1da3a251" />
 
 ### Program Output as Arguments
 ```sh
@@ -180,13 +169,8 @@ echo "At the tone the time will be $(date)."
 ### Shell Variables
 - Positional parameters `$1`..`$9` are for script arguments.
 - Variable scope: a child shell does not inherit variables unless exported.
-  ```sh
-  x=Hello
-  sh           # new shell
-  echo "$x"    # empty unless exported
-  exit
-  echo "$x"    # Hello
-  ```
+ <img width="465" height="152" alt="Screenshot from 2025-11-01 14-55-45" src="https://github.com/user-attachments/assets/a9fbbaec-59fb-4731-a1f5-697115e485f7" />
+
 - To affect the current shell, **source** a file:
   ```sh
   . games      # same as: source games
