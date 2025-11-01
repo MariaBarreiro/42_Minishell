@@ -37,12 +37,6 @@ The definitions used by lexers and parsers are called **rules** or **productions
 A rule is **left-recursive** if it starts with a reference to itself.
 
 Illustrative evaluation for `5 + 3 * 2` (abstracted):
-```
-expression -> expression + term
-term       -> term * factor | factor
-factor     -> NUM | '(' expression ')'
-```
-Possible derivation:
 <img width="656" height="229" alt="Screenshot from 2025-11-01 14-44-08" src="https://github.com/user-attachments/assets/484d70ff-7f98-4852-a2a0-f5454bcf76e2" />
 
 ## Embedded Actions
@@ -54,14 +48,6 @@ expr
   : expr '+' term   { $$ = $1 + $3; }
   | term            { $$ = $1; }
   ;
-```
-
-## BNF
-**BNF (Backus–Naur Form)** is a notation for formal grammar specifications. Variants include EBNF and ABNF. Typical forms:
-```bnf
-<expr>   ::= <expr> "+" <term> | <term>
-<term>   ::= <term> "*" <factor> | <factor>
-<factor> ::= NUM | "(" <expr> ")"
 ```
 
 ## Videos
