@@ -11,3 +11,21 @@ https://aosabook.org/en/v1/bash.html
     -> Value is optional. Omitting it assigns the empty string to name. (unset variables)
     -> $WORD introduces a variable or parameter reference. The word including the dolar sign is replaced with the value of the named variable.
     -> Bash uses hash tables to store and retrieve shell variables, and linked lists of these hash tables to implement variable scoping.
+
+
+
+Enum!!
+
+typedef enum e_...
+{
+    ...
+    ...
+    ...
+    ...
+    ...
+} t_...;
+
+-> enum (enumeration) is a user-defined type that assigns names to integer constants. For example, you can have a struct enum called Day that's consisted of every day of the week (MONDAY, TUESDAY, etc.)
+    -> All the names must be uppercase.
+    -> By default, the first name gets the value 0, and each one after it inscreases by one.
+    -> You can also asign values to them, that can be used for error handling.
