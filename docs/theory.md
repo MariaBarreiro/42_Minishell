@@ -15,9 +15,8 @@ Some parsers do not depend on a separate lexer and combine the two steps. These 
 A lexer and a parser work in sequence: the lexer scans the input and produces tokens; the parser scans the tokens and produces the parsed result.
 
 Example:
-```
-123 + 456  --(LEXER)-->  123(NUM)  +(PLUS)  456(NUM)  --(PARSER)-->  <sum-expression>
-```
+
+<img width="749" height="139" alt="Screenshot from 2025-11-01 14-42-41" src="https://github.com/user-attachments/assets/7bce9acb-4b18-48ca-8c46-0dbba3b76af1" />
 
 The definitions used by lexers and parsers are called **rules** or **productions**. In the example above, a lexer rule specifies that a sequence of digits corresponds to a token of type `NUM`, while a parser rule specifies that a sequence of tokens `NUM PLUS NUM` corresponds to a sum expression.
 
@@ -44,17 +43,7 @@ term       -> term * factor | factor
 factor     -> NUM | '(' expression ')'
 ```
 Possible derivation:
-```
-expression
-=> expression + term
-=> term + term
-=> factor + term
-=> NUM(5) + term
-=> NUM(5) + term * factor
-=> NUM(5) + factor * factor
-=> NUM(5) + NUM(3) * NUM(2)
-=> 5 + 3 * 2  ==>  11   (with standard precedence/associativity)
-```
+<img width="656" height="229" alt="Screenshot from 2025-11-01 14-44-08" src="https://github.com/user-attachments/assets/484d70ff-7f98-4852-a2a0-f5454bcf76e2" />
 
 ## Embedded Actions
 **Embedded actions** are snippets of code executed every time a rule is matched. They’re used to build AST nodes, emit bytecode, accumulate values, perform checks, etc.
