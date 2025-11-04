@@ -1,13 +1,24 @@
 #include "../includes/minishell.h"
 
+t_shell	*global_sh;
+
 int main(int ac, char **av)
 {
-    (void)ac;
-    (void)av;
+	t_shell	shell;
+
     if (ac != 1 || av[1])
         return (ft_putstr_fd("[Error] Usage: ./minishell\n", 2),127);
+    (void)ac;
+    (void)av;
+    init_shell(&shell);
 
     main_loop();
+}
+
+void    init_shell(t_shell *shell)
+{
+    shell->input = NULL;
+	shell->tokens = NULL;
 }
 
 void    main_loop(void)
