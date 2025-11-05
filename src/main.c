@@ -175,7 +175,7 @@ bool	check_spaces(char *str)
 	return (0);
 }
 
-void	tokenization(t_shell *shell, char *line)
+t_token	tokenization(t_shell *shell, char *line)
 {
 	t_token	*start;
 	t_token	*current;
@@ -200,12 +200,21 @@ void	tokenization(t_shell *shell, char *line)
 	return (start);
 }
 
-void	init_token(t_shell *shell, t_token *start, char *line, int *i)
+t_token	init_token(t_shell *shell, t_token *start, char *line, int *i)
 {
+	t_token	*new;
 
+	new = calloc(sizeof(t_token), 1);
+	if (!new)
+		error(start, "Error: failed in memory allocate\n", 1);
+	if(line[*i] == '>' && line[1 + *i] == '>' 
+		|| line[*i] == '<' && line[1 + *i] == '<')
+	{
+
+	}
 }
 
-void	new_token(t_token **new, t_token **start, t_token **current)
+t_token	new_token(t_token **new, t_token **start, t_token **current)
 {
 
 }

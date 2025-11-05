@@ -94,10 +94,12 @@ void			sighandler(int signal);
 void			main_loop(t_shell *shell, char **env);
 t_command_block	tokenizer(t_shell *shell, char *line);
 bool			check_spaces(char *str);
-void			tokenization(t_shell *shell, char *line);
-void			init_token(t_shell *shell, t_token *start, char *line, int *i);
-void			new_token(t_token **new, t_token **start, t_token **current);
+t_token			tokenization(t_shell *shell, char *line);
+t_token			init_token(t_shell *shell, t_token *start, char *line, int *i);
+t_token			new_token(t_token **new, t_token **start, t_token **current);
 void			parse_blocks(t_token *token, t_shell *shell);
 void			free_tokens(t_token *token);
+void			error(t_token *token, char *message, int code);
+bool			check_delimiter(char c);
 
 #endif
