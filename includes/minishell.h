@@ -55,4 +55,8 @@ extern  t_shell *global_sh;
 //Prototypes
 void    main_loop(void);
 void    init_shell(t_shell *shell);
+void	set_signals(void);
+void	sighandler(int signal);
+
+
 #endif
