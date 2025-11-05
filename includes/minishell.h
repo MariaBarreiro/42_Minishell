@@ -49,37 +49,55 @@ typedef struct s_token
     struct s_token  *next;
 } t_token;
 
+/*
+	The shell state. The "session". The "short-term memory".
+*/
+
 typedef struct  s_shell
 {
-    char    **args;
-	char	**env;
-	int		exit_status;
+	char    **args;						//Temporary storage when executing a command.
+	char	**env;						//Current environment variables.
+	char	**export_variables;			//List of variables marked for export.
+	int		exit_status;				//Last command exit status ($?).
+	char	**history;					//Command history.
 } t_shell;
 
-typedef struct s_tokenizer
+/*
+	Parsed representation. What comes after lexing and parsing.
+	Each t_command_block corresponds to one command in the pipeline.
+		For example: cat < file | grep hello are 2 command_block linked together.
+*/
+
+typedef struct s_command_block
 {
-	int					redir_in;
-	int					redir_out;
-	int					redir_append;
-	int					heredoc;
-	int					heredoc_fd;
-	char				**limits;
-	char				**args;
-	char				**input;
-	char				**output;
-	struct s_tokenizer	*next;
-} t_tokenizer;
+	int					redir_in;		//Boolean or fd for '<'
+	int					redir_out;		//Boolean or fd for '>'
+	int					redir_append;	//Boolean for '>>'
+	int					heredoc;		//Boolean for '<<'
+	int					heredoc_fd;		//Fd for the temporary heredoc file.
+	char				**limits;		//Delimiter words for heredocs (ex: EOF).
+	char				**args;			//The command and its arguments.
+	char				**input;		//Filenames for '<' redirections.
+	char				**output;		//Filenames for '>' and '>>' redirections.
+	struct s_command_block	*next;		//Pointer to the next command in the pipeline.
+} t_command_block;
 
 
 //
 extern  t_shell *global_sh;
 
 //Prototypes
-void    init_shell(t_shell *shell, char	**env);
-char	**cpy_env(char **env);
-void	set_signals(void);
-void	sighandler(int signal);
-void    main_loop(t_shell *shell, char **env);
-
+void			init_shell(t_shell *shell, char	**env);
+char			**cpy_env(char **env);
+void			set_signals(void);
+void			sighandler(int signal);
+void			main_loop(t_shell *shell, char **env);
+t_command_block	tokenizer(t_shell *shell, char *line);
+bool			check_spaces(char *str);
+void			tokenization(t_shell *shell, char *line);
+void			init_token(t_shell *shell, t_token *start, char *line, int *i);
+void			new_token(t_token **new, t_token **start, t_token **current);
+void			parse_blocks(t_token *token, t_shell *shell);
+void			free_tokens(t_token *token);
 
 #endif

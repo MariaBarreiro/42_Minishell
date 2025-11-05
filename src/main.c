@@ -101,16 +101,116 @@ void	sighandler(int signal)
 
 void    main_loop(t_shell *shell, char **env)
 {
-    char *input;
+    char			*input;
+	t_command_block	*blocks;
 
     while (1)
     {
-        input = readline("minishell");
+        /*input = readline("minishell");
 		if (!input)
 		{
 			ft_putstr_fd(("exit"), 2);
 			break ;
 		}
-		add_history(input);
+		add_history(input);*/
+		blocks = tokenizer(shell, input);
+
     }
 }
+
+/*
+	Fills token data with the input string.
+		Line is the input from the user.
+		Return the token created.
+*/
+
+t_command_block	tokenizer(t_shell *shell, char *line)
+{
+	t_token			*token;
+	t_command_block	*blocks;
+
+	blocks = NULL;
+
+	//Check if there's something there.
+	if (!line[0] || !ft_strcmp(line, "$EMPTY") ||!check_spaces(line))
+		return NULL;
+	
+	//Check for the $EMPTY marker and skip it.
+	if (!ft_strncmp(line, "$EMPTY", 6))
+		line += 6;
+	
+	//Check if line is "" (or "" followed by a space).
+	if (!ft_strncmp(line, "\"\"", 2) && (!line[2] || line[2] == ' '))
+	{
+		ft_putendl_fd(":command not found", STDERR_FILENO);
+		shell->exit_status = 127;
+		return (NULL);
+	}
+
+	//Turn raw input into a token list.
+	token = init_token(shell, line);
+	if (!token)
+	{
+		printf("Error: input incorrect\n");
+		return NULL;
+	}
+
+	//Turn tokens into executable blocks.
+	blocks = parse_blocks(token, shell);
+
+	//Free the tokens and keep the parsed struct.
+	free_tokens(token);
+	return (blocks);
+}
+
+bool	check_spaces(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+		i++;
+	if (str[i])
+		return (1);
+	return (0);
+}
+
+void	tokenization(t_shell *shell, char *line)
+{
+	t_token	*start;
+	t_token	*current;
+	t_token	*new;
+	int		i;
+
+	start = NULL;
+	current = NULL;
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == ' ' || line[i] == '\t')
+			i++;
+		else
+		{
+			new = init_token(shell, start, line, &i);
+			if (!new)
+				return (NULL);
+			new_token(&new, &start, &current);
+		}
+	}
+	return (start);
+}
+
+void	init_token(t_shell *shell, t_token *start, char *line, int *i)
+{
+
+}
+
+void	new_token(t_token **new, t_token **start, t_token **current)
+{
+
+}
+
+
+
+
+
