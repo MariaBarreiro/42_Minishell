@@ -132,11 +132,11 @@ t_command_block	tokenizer(t_shell *shell, char *line)
 	blocks = NULL;
 
 	//Check if there's something there.
-	if (!line[0] || !ft_strcmp(line, "$EMPTY") ||!check_spaces(line))
+	if (!line[0] || !ft_strcmp(line, "$NOTHING") ||check_spaces(line) == false)
 		return NULL;
 	
 	//Check for the $EMPTY marker and skip it.
-	if (!ft_strncmp(line, "$EMPTY", 6))
+	if (!ft_strncmp(line, "$NOTHING", 8))
 		line += 6;
 	
 	//Check if line is "" (or "" followed by a space).
@@ -163,6 +163,11 @@ t_command_block	tokenizer(t_shell *shell, char *line)
 	return (blocks);
 }
 
+/*
+	Ignore spaces and \t. If there's still str after that return true, 
+		else return false.
+*/
+
 bool	check_spaces(char *str)
 {
 	size_t	i;
@@ -171,15 +176,19 @@ bool	check_spaces(char *str)
 	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 		i++;
 	if (str[i])
-		return (1);
-	return (0);
+		return (true);
+	return (false);
 }
 
-t_token	tokenization(t_shell *shell, char *line)
+/*
+	Alloc memory and call functions for value and type.
+*/
+
+t_token	*tokenization(t_shell *shell, char *line)
 {
-	t_token	*start;
-	t_token	*current;
-	t_token	*new;
+	t_token	*start;				//Head to the linked list.
+	t_token	*current;			//Current variable used to walk inside the list.
+	t_token	*new;				//New node.
 	int		i;
 
 	start = NULL;
@@ -197,24 +206,56 @@ t_token	tokenization(t_shell *shell, char *line)
 			new_token(&new, &start, &current);
 		}
 	}
-	return (start);
+	return (start); 
 }
 
-t_token	init_token(t_shell *shell, t_token *start, char *line, int *i)
+/*
+	If it's delimiter create a token, else get the value.
+		start is the head of the linked list.
+*/
+
+t_token	*init_token(t_shell *shell, t_token *start, char *line, int *i)
 {
 	t_token	*new;
 
 	new = calloc(sizeof(t_token), 1);
 	if (!new)
 		error(start, "Error: failed in memory allocate\n", 1);
-	if(line[*i] == '>' && line[1 + *i] == '>' 
+	if (line[*i] == '>' && line[1 + *i] == '>' 
 		|| line[*i] == '<' && line[1 + *i] == '<')
 	{
-
+		new->value = ft_substr(line, *i, 2);
+		*i += 2;
 	}
+	else if (check_delimiter(line[*i]) == true)
+	{
+		new->value = ft_substr(line, *i, 1);
+		*i += 1;
+	}
+	else
+		new->value = get_tokens(shell, line, i);
+	if (!new->value)
+	{
+		free_tokens(start);
+		free(new);
+		return (NULL);
+	}
+	return (new);
 }
 
-t_token	new_token(t_token **new, t_token **start, t_token **current)
+bool	check_delimiter(char c)
+{
+	if (c == '>' || c == '<' || c == '|')
+		return (true);
+	return (false);
+}
+
+/*
+	Get the type and update the current.
+
+*/
+
+t_token	*new_token(t_token **new, t_token **start, t_token **current)
 {
 
 }
