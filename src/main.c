@@ -251,6 +251,92 @@ bool	check_delimiter(char c)
 }
 
 /*
+	Word constructor!
+		Builds one word at a time!
+*/
+
+char	*get_tokens(t_shell *shell, const char *line, int *i)
+{
+	char	*word;
+	char	*fragment;
+	char	*temp;
+
+	word = NULL;
+
+	while (line[*i] && line[*i] != ' ' && line[*i] != '\t' && check_delimiter(line[*i]) == false)
+	{
+		fragment = get_single_token(shell, line, i);
+		if (!fragment)
+		{
+			free(word);
+			return (NULL);
+		}
+		temp = word;
+		if (word)
+			word = ft_strjoin(word, fragment);
+		else
+			word = ft_strdup(fragment);
+		free(temp);
+		free(fragment);
+	}
+	return (word);
+}
+
+/*
+	Fragment extractor.
+*/
+
+char	*get_single_token(t_shell *shell, const char *line, int *i)
+{
+	int		start_word;
+	char	quote_type;
+	char	*fragment;
+
+	quote_type = 0;
+	if (line[*i] == '\'' || line[*i] == '"')
+	{
+		quote_type = line[*i];
+		(*i) += 1;
+		start_word = *i;
+		while (line[*i] && line[*i] != quote_type)
+			(*i)++;
+		if (line[*i] != quote_type)
+			return (NULL);
+		fragment = ft_substr(line, start_word, (*i - start_word));
+		(*i) += 1;
+	}
+	else
+	{
+		start_word = *i;
+		while (line[*i] && check_delimiter(line[*i]) == false && line[*i] != '"'
+				&& line[*i] != ' ' && line[*i] != '\t' && line[*i] != '\'')
+			(*i)++;
+		fragment = ft_substr(line, start_word, (*i - start_word));
+	}
+	fragment = variable_expansion(shell, fragment, quote_type);
+	return (fragment);
+}
+
+/*
+	Expand variables.
+		Doesn't happen with single quotes!!
+*/
+
+char	*variable_expansion(t_shell *shell, char *fragment, char quote_type)
+{
+	char	*position;
+
+	while(quote_type != '\'' && ft_strchr(fragment, '$'))
+	{
+		position = ft_strchr(fragment, '$');
+		if (!position[1] || position[1] == ' ' || check_delimiter(position[1]) == true)
+			break ;
+		fragment = get_env_variable(shell->env, fragment, shell->exit_status);
+	}
+	return (fragment);
+}
+
+/*
 	Get the type and update the current.
 
 */

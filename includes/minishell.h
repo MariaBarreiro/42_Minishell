@@ -101,6 +101,8 @@ void			parse_blocks(t_token *token, t_shell *shell);
 void			free_tokens(t_token *token);
 void			error(t_token *token, char *message, int code);
 bool			check_delimiter(char c);
-
+char			*get_tokens(t_shell *shell, const char *line, int *i);
+char			*get_single_token(t_shell *shell, const char *line, int *i);
+char			*variable_expansion(t_shell *shell, char *fragment, char quote_type);
 
 #endif
