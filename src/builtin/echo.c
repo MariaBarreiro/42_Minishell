@@ -7,17 +7,22 @@ Supports expansion of environment variables like $USER within double quotes.
 Supports > for redirection, as seen in echo hello > outfile.txt.
 */
 
-int	ft_echo(char **arg)
+int	ft_echo(char *arg)
 {
-	if (arg[1][0] == '-' && arg[1][1] == 'n')
+	int i = 5;
+	if (!arg[4])
+		return (0);
+	if (arg[i] == '-' && arg[i + 1] == 'n')
 	{
-		for(int i = 2; arg[i]; i++)
-			printf("%s", arg[i]);
+		i += 2;
+		while (arg[i++])
+			write (1, &arg[i], 1);
 	}
 	else
 	{
-		for(int i = 1; arg[i]; i++)
-			printf("%s\n", arg[i]);
+		while (arg[i])
+			write (1, &arg[i++], 1);
+		write (1, "\n", 1);
 	}
 	return (0);
 }

@@ -1,0 +1,166 @@
+
+    EXTERNAL FUNCTS:
+
+Readline Library
+
+readline – Reads a line of text from the user with line-editing and history support.
+rl_clear_history – Clears the command history stored by Readline.
+rl_on_new_line – Informs Readline that the cursor is on a new line (used when redisplaying).
+rl_replace_line – Replaces the current input line with a new string.
+rl_redisplay – Refreshes the display of the current input line.
+add_history – Adds the current line to the command history.
+
+Standard C / System Calls
+
+printf – Prints formatted text to standard output.
+malloc – Allocates a block of memory dynamically.
+free – Frees previously allocated memory.
+write – Writes data to a file descriptor.
+
+File Operations
+
+access – Checks a file’s accessibility (existence, permissions).
+open – Opens a file and returns a file descriptor.
+read – Reads data from a file descriptor.
+close – Closes an open file descriptor.
+unlink – Deletes a file from the filesystem.
+
+Process Management
+
+fork – Creates a new process (child) by duplicating the current one.
+wait / waitpid / wait3 / wait4 – Waits for child processes to finish and retrieves their status.
+execve – Executes a new program, replacing the current process.
+exit – Terminates the calling process.
+
+File System & Directories
+
+getcwd – Gets the current working directory.
+chdir – Changes the current working directory.
+stat / lstat / fstat – Gets file information (size, permissions, type, etc.).
+opendir – Opens a directory stream.
+readdir – Reads entries (files) from an open directory.
+closedir – Closes a directory stream.
+
+File Descriptors & I/O
+
+dup / dup2 – Duplicates file descriptors (used for redirection).
+pipe – Creates a unidirectional communication channel between processes.
+
+Errors & Terminals
+
+strerror – Returns a string describing an error code.
+perror – Prints a system error message to standard error.
+isatty – Checks if a file descriptor refers to a terminal.
+ttyname – Returns the name of the terminal associated with a file descriptor.
+ttyslot – Returns the index of the terminal slot for the current process.
+ioctl – Performs low-level device control operations.
+
+Environment & Terminal Control
+
+getenv – Retrieves the value of an environment variable.
+tcsetattr / tcgetattr – Set or get terminal attributes (like input mode, echo, etc.).
+
+Termcap (Terminal Capabilities)
+
+tgetent – Loads terminal capabilities from the termcap database.
+tgetflag – Gets a boolean terminal capability.
+tgetnum – Gets a numeric terminal capability.
+tgetstr – Gets a string terminal capability.
+tgoto – Computes cursor movement string.
+tputs – Outputs terminal control strings with padding.
+
+---------------------------------------------------------------------------------------------------------------
+
+    SUBJECT: 
+
+Goals: 
+> Display a prompt when waiting for a new command.
+> Have a working history.
+> Search and launch the right executable (based on the PATH variable or using a
+relative or an absolute path).
+> Use at most one global variable to indicate a received signal. Consider the
+implications: this approach ensures that your signal handler will not access your
+main data structures. -- This global variable must only store the signal number
+and must not provide any additional information or access to data.
+Therefore, using "norm" type structures in the global scope is
+forbidden. --
+> ot interpret unclosed quotes or special characters which are not required by the
+subject such as \ (backslash) or ; (semicolon).
+> Handle ’ (single quote) which should prevent the shell from interpreting the meta-
+characters in the quoted sequence.
+> Handle " (double quote) which should prevent the shell from interpreting the meta-
+characters in the quoted sequence except for $ (dollar sign).
+>  Implement the following redirections:
+    ◦ < should redirect input.
+    ◦ > should redirect output.
+    ◦ << should be given a delimiter, then read the input until a line containing the
+    delimiter is seen. However, it doesn’t have to update the history!
+    ◦ >> should redirect output in append mode.
+> Implement pipes (| character). The output of each command in the pipeline is
+connected to the input of the next command via a pipe.
+> Handle environment variables ($ followed by a sequence of characters) which
+should expand to their values.
+> Handle $? which should expand to the exit status of the most recently executed
+foreground pipeline.
+> Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
+>  In interactive mode:
+    ◦ ctrl-C displays a new prompt on a new line.
+    ◦ ctrl-D exits the shell.
+    ◦ ctrl-\ does nothing.
+> Your shell must implement the following built-in commands:
+    ◦ echo with option -n
+    ◦ cd with only a relative or absolute path
+    ◦ pwd with no options
+    ◦ export with no options
+    ◦ unset with no options
+    ◦ env with no options or arguments
+    ◦ exit with no options
+> The readline() function may cause memory leaks, but you are not required to fix them.
+However, this does not mean your own code, yes the code you wrote, can have
+memory leaks.
+
+You should limit yourself to the subject description. Anything that
+is not asked is not required.
+If you have any doubt about a requirement, take bash as a reference.
+
+
+---------------------------------------------------------------------------------------------------------------
+
+    TASKS:
+
+Parsing & Input Handling (Person 1)
+
+Responsible for reading and interpreting what the user types.
+Functions and parts:
+readline, add_history, rl_* functions
+Tokenization: separating commands, arguments, redirections, pipes
+Expansions: $VAR, $?, single and double quotes
+Syntax detection (|, <, >, etc.)
+Organization of AST (Abstract Syntax Tree) or linked list of commands
+
+Expected result:
+→ Data structure ready for execution (e.g., list of commands with arguments, redirections, and pipes).
+
+Executor & Process Management (Person 2)
+
+Responsible for executing already parsed commands.
+Functions and parts:
+fork, execve, wait, waitpid
+Redirections (open, close, dup2)
+Pipes (pipe)
+Builtins (cd, echo, exit, pwd, export, unset, env)
+Management of exit status, signals, heredoc, etc.
+
+Expected result:
+→ The minishell executes external commands and builtins correctly, with redirections and pipes.
+
+Common to Both (Both must work)
+
+Memory management: malloc, free, avoid leaks (Valgrind).
+Error handling: perror, strerror.
+Signals: sigaction, kill, SIGINT, SIGQUIT, EOF.
+Env variables: getenv, setenv, envp list manipulation.
+
+Tip: one takes care of the t_env structure, the other takes care of integration with the executor.
+
+---------------------------------------------------------------------------------------------------------------
