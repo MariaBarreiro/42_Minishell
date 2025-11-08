@@ -96,7 +96,7 @@ t_command_block	tokenizer(t_shell *shell, char *line);
 bool			check_spaces(char *str);
 t_token			*tokenization(t_shell *shell, char *line);
 t_token			*init_token(t_shell *shell, t_token *start, char *line, int *i);
-t_token			*new_token(t_token **new, t_token **start, t_token **current);
+void			*new_token(t_token **new, t_token **start, t_token **current);
 void			parse_blocks(t_token *token, t_shell *shell);
 void			free_tokens(t_token *token);
 void			error(t_token *token, char *message, int code);
@@ -104,5 +104,12 @@ bool			check_delimiter(char c);
 char			*get_tokens(t_shell *shell, const char *line, int *i);
 char			*get_single_token(t_shell *shell, const char *line, int *i);
 char			*variable_expansion(t_shell *shell, char *fragment, char quote_type);
+t_token_type	get_type(char *value);
+bool			redir_out_token_check(const char *token, const char *value, size_t len_value);
+bool			redir_append_token_check(const char *token, const char *value, size_t len_value);
+bool			redir_in_token_check(const char *token, const char *value, size_t len_value);
+bool			pipe_token_check(const char *token, const char *value, size_t len_value);
+bool			heredoc_token_check(const char *token, const char *value, size_t len_value);
+
 
 #endif

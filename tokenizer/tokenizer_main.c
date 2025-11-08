@@ -338,12 +338,102 @@ char	*variable_expansion(t_shell *shell, char *fragment, char quote_type)
 
 /*
 	Get the type and update the current.
-
 */
 
-t_token	*new_token(t_token **new, t_token **start, t_token **current)
+void	new_token(t_token **new, t_token **start, t_token **current)
 {
+i	(*new)->type = get_type((*new)->value);
+	(*new)->next = NULL;
 
+	if(!start)
+	{
+		*start = *new;
+		*new = *current;
+	}
+	else
+	{
+		(*current)->next = *new;
+		*current = *new;
+	}
+}
+
+/*
+	Determine what kind of token a value represents.
+*/
+
+t_token_type get_type(char *value)
+{
+	if (redir_out_token_check("<", value, ft_strlen(value)) == true && value[0])
+		return (T_REDIR_OUT);
+	else if (redir_append_token_check(">>", value, ft_strlen(value)) == true) && value[0])
+		return (T_REDIR_APPEND);
+	else if (redir_in_token_check("<", value, ft_strlen(value)) == true) && value[0])
+		return (T_REDIR_IN);
+	else if (pipe_token_check("|", value, ft_strlen(value)) == true) && value[0])
+		return (T_PIPE);
+	else if (heredoc_token_check("<<", value, ft_strlen(value)) == true && value[0])
+		return (T_HEREDOC);
+	else
+		return (T_WORD);
+}
+
+/*
+	Boolean check for redir_out token using strncmp.
+*/
+bool	redir_out_token_check(const char *token, const char *value, size_t len_value)
+{
+	if (ft_strncmp("<", value, ft_strlen(value)))
+		return true;
+	else
+		return false;
+}
+
+/*
+	Boolean check for redir_append token using strncmp.
+*/
+
+bool	redir_append_token_check(const char *token, const char *value, size_t len_value)
+{
+	if (ft_strncmp(">>", value, ft_strlen(value)))
+		return true;
+	else
+		return false;
+}
+
+/*
+	Boolean check for redir_in token using strncmp.
+*/
+
+bool	redir_in_token_check(const char *token, const char *value, size_t len_value)
+{
+	if (ft_strncmp("<", value, ft_strlen(value)))
+		return true;
+	else
+		return false;
+}
+
+/*
+	Boolean check for pipe token using strncmp.
+*/
+
+bool	pipe_token_check(const char *token, const char *value, size_t len_value)
+{
+	if (ft_strncmp("|", value, ft_strlen(value)))
+		return true;
+	else
+		return false;
+}
+
+/*
+	Boolean check for heredoc token using strncmp.
+*/
+
+bool	heredoc_token_check(const char *token, const char *value, size_t len_value)
+{
+	if (ft_strncmp(">>", value, ft_strlen(value)))
+		return true;
+	else
+		return false;
 }
 
 
