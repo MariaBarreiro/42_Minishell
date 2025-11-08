@@ -28,6 +28,7 @@
 	The enum classifies the kinds of tokens possible
 		that the lexer can find.
 */
+
 typedef enum e_token_type
 {
     T_WORD,					//normal word like "ls"
@@ -82,7 +83,6 @@ typedef struct s_command_block
 	struct s_command_block	*next;		//Pointer to the next command in the pipeline.
 } t_command_block;
 
-
 //
 extern  t_shell *global_sh;
 
@@ -97,7 +97,6 @@ bool			check_spaces(char *str);
 t_token			*tokenization(t_shell *shell, char *line);
 t_token			*init_token(t_shell *shell, t_token *start, char *line, int *i);
 void			*new_token(t_token **new, t_token **start, t_token **current);
-void			parse_blocks(t_token *token, t_shell *shell);
 void			free_tokens(t_token *token);
 void			error(t_token *token, char *message, int code);
 bool			check_delimiter(char c);
@@ -110,6 +109,12 @@ bool			redir_append_token_check(const char *token, const char *value, size_t len
 bool			redir_in_token_check(const char *token, const char *value, size_t len_value);
 bool			pipe_token_check(const char *token, const char *value, size_t len_value);
 bool			heredoc_token_check(const char *token, const char *value, size_t len_value);
+void			parse_blocks(t_token *token, t_shell *shell);
+int				count_ac(t_token *temp_token);
+t_block			*new_block(int ac);
+static int		fill_block(t_block *block,t_token **token, t_shell *shell, t_block *head);
+static int		pipe_error(t_block *head, t_shell *shell);\:wq
+
 
 
 #endif

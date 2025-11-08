@@ -436,6 +436,36 @@ bool	heredoc_token_check(const char *token, const char *value, size_t len_value)
 		return false;
 }
 
+void	parse_blocks(t_token *token, t_shell *shell)
+{
+	int		total_ac;
+	t_block	*blocks[3];
+
+	block[0] = NULL;
+	block[1] = NULL;
+
+	while (token)
+	{
+		total_ac  = count_ac(token);
+		block[2] = new_block(total_ac);
+		if (!block[2])
+			return (NULL);
+		if (fill_block(block[2], &token, shell, block[0]) < 0)
+			return (NULL);
+		if (!block[0])
+			block[0] = block[2];
+		else
+			block[1]->next = block[2];
+		block[1] = block[2];
+		if (token && token->type == T_PIPE)
+		{
+			token = token->next;
+			if (!token || token->type == T_PIPE)
+				return (pipe_error(block[0], shell), NULL);
+		}
+	}
+	return (block[0]);
+}
 
 
 
