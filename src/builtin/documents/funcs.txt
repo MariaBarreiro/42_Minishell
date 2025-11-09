@@ -1,73 +1,81 @@
 
-    EXTERNAL FUNCTS:
+EXTERNAL FUNCTS:
 
-Readline Library
+User Input & Command History (Readline Library)
 
-readline – Reads a line of text from the user with line-editing and history support.
-rl_clear_history – Clears the command history stored by Readline.
-rl_on_new_line – Informs Readline that the cursor is on a new line (used when redisplaying).
-rl_replace_line – Replaces the current input line with a new string.
-rl_redisplay – Refreshes the display of the current input line.
-add_history – Adds the current line to the command history.
+Used to read commands interactively, with history and editing support.
+readline – Reads a line from user input with editing support.
+add_history – Saves a command to the history list.
+rl_clear_history – Clears command history.
+rl_on_new_line – Tells Readline the cursor moved to a new line.
+rl_replace_line – Replaces the current input line with new text.
+rl_redisplay – Refreshes the current input line display.
 
-Standard C / System Calls
+I/O & Printing
 
-printf – Prints formatted text to standard output.
-malloc – Allocates a block of memory dynamically.
-free – Frees previously allocated memory.
-write – Writes data to a file descriptor.
+Used to print output or handle file descriptors.
+printf – Prints formatted text.
+write – Writes raw data to a file descriptor.
+dup / dup2 – Duplicates file descriptors (used for redirections).
+pipe – Creates a communication pipe between processes.
+isatty – Checks if the input/output is from a terminal.
 
-File Operations
+Memory Management
 
-access – Checks a file’s accessibility (existence, permissions).
-open – Opens a file and returns a file descriptor.
-read – Reads data from a file descriptor.
-close – Closes an open file descriptor.
-unlink – Deletes a file from the filesystem.
+Used for dynamic data handling.
+malloc – Allocates memory dynamically.
+free – Frees allocated memory.
+
+File & Directory Management
+
+Used to implement commands like cd, pwd, and handle redirections.
+access – Checks if a file exists or has certain permissions.
+open / read / close / unlink – Basic file operations (open, read, close, delete).
+getcwd – Gets the current working directory (for pwd).
+chdir – Changes the current directory (for cd).
+stat / lstat / fstat – Gets file or directory metadata.
+opendir / readdir / closedir – Handle directory streams.
 
 Process Management
 
-fork – Creates a new process (child) by duplicating the current one.
-wait / waitpid / wait3 / wait4 – Waits for child processes to finish and retrieves their status.
-execve – Executes a new program, replacing the current process.
-exit – Terminates the calling process.
+Used to execute commands and handle child processes.
+fork – Creates a new process (child).
+execve – Replaces the current process with a new program.
+wait / waitpid / wait3 / wait4 – Waits for a child process to finish.
+exit – Terminates the current process.
 
-File System & Directories
+Signals & Process Control
 
-getcwd – Gets the current working directory.
-chdir – Changes the current working directory.
-stat / lstat / fstat – Gets file information (size, permissions, type, etc.).
-opendir – Opens a directory stream.
-readdir – Reads entries (files) from an open directory.
-closedir – Closes a directory stream.
+Used to handle Ctrl+C, Ctrl+D, Ctrl+\ and other signal-based actions.
+signal / sigaction – Set custom signal handlers.
+sigemptyset / sigaddset – Manage signal sets.
+kill – Sends signals to processes.
 
-File Descriptors & I/O
+Errors & System Messages
 
-dup / dup2 – Duplicates file descriptors (used for redirection).
-pipe – Creates a unidirectional communication channel between processes.
+For error handling and debugging.
+strerror – Returns a string for a given error code.
+perror – Prints an error message describing the last system error.
 
-Errors & Terminals
+Environment Variables
 
-strerror – Returns a string describing an error code.
-perror – Prints a system error message to standard error.
-isatty – Checks if a file descriptor refers to a terminal.
-ttyname – Returns the name of the terminal associated with a file descriptor.
-ttyslot – Returns the index of the terminal slot for the current process.
-ioctl – Performs low-level device control operations.
+Used to manage and access shell environment (like PATH, HOME, etc.).
+getenv – Retrieves environment variable values.
 
-Environment & Terminal Control
+Terminal Control
 
-getenv – Retrieves the value of an environment variable.
-tcsetattr / tcgetattr – Set or get terminal attributes (like input mode, echo, etc.).
+Used for handling raw terminal modes (input, echo, etc.).
+tcsetattr / tcgetattr – Change or read terminal settings.
+ttyname / ttyslot – Get terminal device info.
+ioctl – Low-level I/O control operations.
 
 Termcap (Terminal Capabilities)
 
-tgetent – Loads terminal capabilities from the termcap database.
-tgetflag – Gets a boolean terminal capability.
-tgetnum – Gets a numeric terminal capability.
-tgetstr – Gets a string terminal capability.
-tgoto – Computes cursor movement string.
-tputs – Outputs terminal control strings with padding.
+Used for cursor control, color, and terminal behavior (mainly in readline).
+tgetent – Loads terminal capability database entry.
+tgetflag / tgetnum / tgetstr – Retrieve specific terminal capabilities.
+tgoto – Calculates cursor positioning string.
+tputs – Outputs terminal control sequences.
 
 ---------------------------------------------------------------------------------------------------------------
 

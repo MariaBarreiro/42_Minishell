@@ -1,7 +1,9 @@
 #include "built.h"
 
-void	ft_exit()
+int	ft_exit()
 {
 	//free everything;
-	exit(EXIT_SUCCESS);
+	//kill process?
+	exit (EXIT_SUCCESS);
+	return (0);
 }

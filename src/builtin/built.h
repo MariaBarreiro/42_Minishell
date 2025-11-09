@@ -13,6 +13,7 @@
 # include <stdlib.h>
 # include <termios.h>
 # include <curses.h>
+# include <signal.h>
 
 int		main(int ac, char **av, char **envp);
 void	main_loop(char **envp);
@@ -20,6 +21,8 @@ int		ft_cd(char *arg);
 int		ft_echo(char *arg);
 int		ft_pwd(void);
 int		ft_env(char **venv, char *env);
+void	ctrl_c(int sign);
+int		ft_exit();
 
 //---------------delete later -------------------------
 int		builtin_command(char **venv, char *arg);

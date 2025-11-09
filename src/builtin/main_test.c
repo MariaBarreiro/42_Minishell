@@ -26,16 +26,16 @@ int	main(int ac, char **av, char **envp)
 void	main_loop(char **envp)
 {
 	char *input;
-
 	char buffer[1024];
-
+	
+	signal(SIGINT, ctrl_c);
 	while (1)
 	{
 		printf("%s", getcwd(buffer, sizeof(buffer)));
 		input = readline("> ");
 		if (!input)
 		{
-			ft_putstr_fd(("exit"), 2);
+			ft_putstr_fd(("exit\n"), 2);
 			break ;
 		}
 		else

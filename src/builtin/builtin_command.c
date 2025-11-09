@@ -7,6 +7,7 @@ int	find_token(char *arg)
 	char *pwd = "pwd";
 	char *echo = "echo";
 	char *env = "env";
+	char *exit = "exit";
 
 	while (arg[i] == cd[i] && arg[i])
 		i++;
@@ -30,6 +31,12 @@ int	find_token(char *arg)
 		i++;
 	if (!env[i])
 		return (4);
+
+	i = 0;
+	while (arg[i] == exit[i] && arg[i])
+		i++;
+	if (!exit[i])
+		return (5);
 	return (0);
 }
 
@@ -45,5 +52,7 @@ int	builtin_command(char **venv, char *arg)
 		return (ft_echo(arg));
 	if (tk == 4)
 		return (ft_env(venv, arg));
+	if (tk == 5)
+		return (ft_exit());
 	return (0);
 }
