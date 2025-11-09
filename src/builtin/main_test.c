@@ -20,10 +20,10 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (ac != 1 || av[1])
 		return (ft_putstr_fd("[Error] Usage: ./minishell\n", 2),127);
-	main_loop();
+	main_loop(envp);
 }
 
-void	main_loop(void)
+void	main_loop(char **envp)
 {
 	char *input;
 
@@ -39,7 +39,7 @@ void	main_loop(void)
 			break ;
 		}
 		else
-			builtin_command(input);
+			builtin_command(envp, input);
 		add_history(input);
 	}
 }

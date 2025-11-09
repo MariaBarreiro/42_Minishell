@@ -1,5 +1,5 @@
 NAME = built
-SRC = main_test.c cd.c echo.c pwd.c \
+SRC = main_test.c cd.c echo.c pwd.c env.c \
 	builtin_command.c utils.c
 OBJS = $(SRC:.c=.o)
 FLAGS += -Wall -Werror -Wextra

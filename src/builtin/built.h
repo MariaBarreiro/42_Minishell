@@ -15,14 +15,15 @@
 # include <curses.h>
 
 int		main(int ac, char **av, char **envp);
-void	main_loop(void);
+void	main_loop(char **envp);
 int		ft_cd(char *arg);
 int		ft_echo(char *arg);
 int		ft_pwd(void);
+int		ft_env(char **venv, char *env);
 
 //---------------delete later -------------------------
-int	builtin_command(char *arg);
-int	find_token(char *arg);
+int		builtin_command(char **venv, char *arg);
+int		find_token(char *arg);
 size_t	ft_strlen(const char *str);
 char	*ft_strdup(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);

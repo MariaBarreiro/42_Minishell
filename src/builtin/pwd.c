@@ -9,7 +9,7 @@ int	ft_pwd(void)
 
 	if (getcwd(buffer, sizeof(buffer)) == NULL)
 	{
-		perror("PWD");
+		perror("pwd");
 		return (1);
 	}
 	else
