@@ -1,11 +1,24 @@
 #include "built.h"
 
-int	ft_env(char **venv, char *env)
+int	ft_env(char **venv, char **env)
 {
-	if (!env[3])
+	int	i;
+
+	if (!env[1])
 	{
-		for (int i = 0; venv[i]; i++)
+		i = 0;
+		while (venv[i])
+		{
 			printf("%s\n", venv[i]);
+			i++;
+		}
+		free (env);
+		return (0);
 	}
-	return (0);
+	else
+	{
+		write(2, "env: too many arguments\n", 25);
+		free (env);
+		return (1);
+	}
 }

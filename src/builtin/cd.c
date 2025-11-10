@@ -1,18 +1,24 @@
 #include "built.h"
 
-int	ft_cd(char *arg)
+int	ft_cd(char **arg)
 {
-	char *dir = ft_substr(arg, 3, ft_strlen(arg));
+	char	*path;
 
-	if (!dir[0])
+	if (!arg[1])
 	{
-		free(dir);
+		free (arg);
 		return (chdir(getenv("HOME")));
 	}
-	if (chdir(dir) == -1)
+	if (arg[2])
+	{
+		write(2, "cd: too many arguments\n", 24);
+		free (arg);
+		return (0);
+	}
+	if (chdir(arg[1]) == -1)
 	{
 		perror("cd");
-		free(dir);
+		free (arg);
 		return (1);
 	}
 	return (0);

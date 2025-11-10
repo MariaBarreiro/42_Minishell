@@ -1,9 +1,9 @@
 - Implement the following commands:
+   -> echo with -n;
    -> export with no options;
    -> unset with no options;
 
    done: 
-   -> echo with -n;
    -> pwd with no options;
    -> cd with only a relative or absolute path;
    -> env with no options or arguments;
