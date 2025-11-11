@@ -1,43 +1,23 @@
 #include "built.h"
 
+// JUST A FAKE TOKEN MAKER NEED TO BE EXCLUDED LATER //
+
 int	find_token(char **arg)
 {
-	int i = 0;
-	char *cd = "cd";
-	char *pwd = "pwd";
-	char *echo = "echo";
-	char *env = "env";
-	char *exit = "exit";
-
-	while (arg[0][i] == cd[i] && arg[0][i])
-		i++;
-	if (!cd[i])
+	if (ft_strncmp(arg[0], "cd", 3) == 0)
 		return (1);
-
-	i = 0;
-	while (arg[0][i] == pwd[i] && arg[0][i])
-		i++;
-	if (!pwd[i])
+	else if (ft_strncmp(arg[0], "pwd", 4) == 0)
 		return (2);
-
-	i = 0;
-	while (arg[0][i] == echo[i] && arg[0][i])
-		i++;
-	if (!echo[i])
+	else if (ft_strncmp(arg[0], "echo", 5) == 0)
 		return (3);
-
-	i = 0;
-	while (arg[0][i] == env[i] && arg[0][i])
-		i++;
-	if (!env[i])
+	else if (ft_strncmp(arg[0], "env", 4) == 0)
 		return (4);
-
-	i = 0;
-	while (arg[0][i] == exit[i] && arg[0][i])
-		i++;
-	if (!exit[i])
+	else if (ft_strncmp(arg[0], "exit", 5) == 0)
 		return (5);
-	return (0);
+	else if (ft_strncmp(arg[0], "unset", 6) == 0)
+		return (6);
+	else if (ft_strncmp(arg[0], "export", 7) == 0)
+		return (7);
 }
 
 int	builtin_command(char **venv, char *arg)
@@ -57,5 +37,9 @@ int	builtin_command(char **venv, char *arg)
 		return (ft_env(venv, splited_args));
 	if (tk == 5)
 		return (ft_exit());
+	if (tk == 6)
+		return (ft_unset());
+	if (tk == 7)
+		return (ft_export());
 	return (0);
 }

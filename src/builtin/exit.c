@@ -1,6 +1,6 @@
 #include "built.h"
 
-int	ft_exit()
+int	ft_exit(void)
 {
 	//free everything;
 	//kill process?

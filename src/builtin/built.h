@@ -22,7 +22,9 @@ int		ft_echo(char **arg);
 int		ft_pwd(void);
 int		ft_env(char **venv, char **env);
 void	ctrl_c(int sign);
-int		ft_exit();
+int		ft_exit(void);
+int		ft_unset(void);
+int		ft_export(void);
 
 //---------------delete later -------------------------
 int		builtin_command(char **venv, char *arg);
@@ -31,5 +33,6 @@ size_t	ft_strlen(const char *str);
 char	*ft_strdup(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	**ft_split(char const *s, char c);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif

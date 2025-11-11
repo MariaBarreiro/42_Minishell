@@ -1,5 +1,5 @@
 NAME = built
-SRC = cd.c echo.c pwd.c env.c exit.c\
+SRC = cd.c echo.c pwd.c env.c exit.c export.c unset.c\
 	signal_handle.c \
 	main_test.c ft_split.c builtin_command.c utils.c
 OBJS = $(SRC:.c=.o)
