@@ -111,9 +111,9 @@ bool			pipe_token_check(const char *token, const char *value, size_t len_value);
 bool			heredoc_token_check(const char *token, const char *value, size_t len_value);
 void			parse_blocks(t_token *token, t_shell *shell);
 int				count_ac(t_token *temp_token);
-t_block			*new_block(int ac);
-static int		fill_block(t_block *block,t_token **token, t_shell *shell, t_block *head);
-static int		pipe_error(t_block *head, t_shell *shell);\:wq
+t_command_block	*new_block(int ac);
+static int		fill_block(t_command_block *block,t_token **token, t_shell *shell, t_command_block *head);
+static int		pipe_error(t_command_block *head, t_shell *shell);
 
 
 

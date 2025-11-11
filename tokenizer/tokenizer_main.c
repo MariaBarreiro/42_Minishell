@@ -1,6 +1,7 @@
 #include "../includes/minishell.h"
 #include <readline/readline.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 /*global struct holding the state of my shell.*/
@@ -467,6 +468,57 @@ void	parse_blocks(t_token *token, t_shell *shell)
 	return (block[0]);
 }
 
+/*
+	Determine how many command-line arguments exist before the next pipe symbol.
+*/
+int	count_ac(t_token *temp_token)
+{
+	int	counter;
+
+	counter = 0;
+	while (temp_token && temp_token->type != T_PIPE)
+	{
+		if (temp_token->type == T_WORD)
+			counter += 1;
+		temp_token = temp_token->next;
+	}
+	return (counter);
+}
+
+/*
+	Allocate and initialize the new t_command_block structure to represent one command
+		in the pipeline, complete with arrays for its arguments and redirections.
+*/
+
+t_command_block *new_block(int ac)
+{
+	t_command_block	*new_block;
+
+	new_block = ft_calloc(1, sizeof(t_command_block));
+	if (!new_block)
+		return NULL;
+
+	new_block->args = ft_calloc((ac + 1), sizeof(char *));
+	new_block->limits = ft_calloc((ac + 1), sizeof(char *));
+	new_block->input = ft_calloc((ac + 1), sizeof(char *));
+	new_block->output = ft_calloc((ac + 1), sizeof(char *));
+
+	return (new_block);
+}
+
+/*
+	
+*/
+static int	fill_block(t_command_block *block, t_token **token, t_shell *shell, t_command_block *head)
+{
+}
+
+/*
+	
+*/
+static int	pipe_error(t_command_block *head, t_shell *shell)
+{
+}
 
 
 
