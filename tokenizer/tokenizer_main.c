@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "tokenizer_minishell.h"
 #include <readline/readline.h>
 #include <signal.h>
 #include <stdlib.h>
@@ -30,13 +30,13 @@ int main(int ac, char **av, char  **env)
 	main_loop(shell, env);
 }
 
-void    init_shell(t_shell *shell, char **env)
+t_shell	*init_shell(t_shell *shell, char **env)
 {
 	shell = malloc(sizeof(t_shell));
-    shell->input = NULL;
-	shell->tokens = NULL;
+    shell->args = NULL;
 	shell->exit_status = 0;
 	shell->env = cpy_env(env);
+	return (shell);
 }
 
 /*
@@ -125,7 +125,7 @@ void    main_loop(t_shell *shell, char **env)
 		Return the token created.
 */
 
-t_command_block	tokenizer(t_shell *shell, char *line)
+t_command_block	*tokenizer(t_shell *shell, char *line)
 {
 	t_token			*token;
 	t_command_block	*blocks;
@@ -149,7 +149,7 @@ t_command_block	tokenizer(t_shell *shell, char *line)
 	}
 
 	//Turn raw input into a token list.
-	token = init_token(shell, line);
+	token = tokenization(shell, line);
 	if (!token)
 	{
 		printf("Error: input incorrect\n");
@@ -187,12 +187,12 @@ bool	check_spaces(char *str)
 
 t_token	*tokenization(t_shell *shell, char *line)
 {
-	t_token	*start;				//Head to the linked list.
+	t_token	*head;				//Head to the linked list.
 	t_token	*current;			//Current variable used to walk inside the list.
 	t_token	*new;				//New node.
 	int		i;
 
-	start = NULL;
+	head = NULL;
 	current = NULL;
 	i = 0;
 	while (line[i])
@@ -201,13 +201,13 @@ t_token	*tokenization(t_shell *shell, char *line)
 			i++;
 		else
 		{
-			new = init_token(shell, start, line, &i);
+			new = init_token(shell, head, line, &i);
 			if (!new)
 				return (NULL);
-			new_token(&new, &start, &current);
+			new_token(&new, &head, &current);
 		}
 	}
-	return (start); 
+	return (head); 
 }
 
 /*
@@ -215,13 +215,13 @@ t_token	*tokenization(t_shell *shell, char *line)
 		start is the head of the linked list.
 */
 
-t_token	*init_token(t_shell *shell, t_token *start, char *line, int *i)
+t_token	*init_token(t_shell *shell, t_token *head, char *line, int *i)
 {
 	t_token	*new;
 
 	new = calloc(sizeof(t_token), 1);
 	if (!new)
-		error(start, "Error: failed in memory allocate\n", 1);
+		error(head, "Error: failed in memory allocate\n", 1);
 	if (line[*i] == '>' && line[1 + *i] == '>' 
 		|| line[*i] == '<' && line[1 + *i] == '<')
 	{
@@ -237,7 +237,7 @@ t_token	*init_token(t_shell *shell, t_token *start, char *line, int *i)
 		new->value = get_tokens(shell, line, i);
 	if (!new->value)
 	{
-		free_tokens(start);
+		free_tokens(head);
 		free(new);
 		return (NULL);
 	}
@@ -332,23 +332,68 @@ char	*variable_expansion(t_shell *shell, char *fragment, char quote_type)
 		position = ft_strchr(fragment, '$');
 		if (!position[1] || position[1] == ' ' || check_delimiter(position[1]) == true)
 			break ;
-		fragment = get_env_variable(shell->env, fragment, shell->exit_status);
+		fragment = get_variable(shell->env, fragment, shell->exit_status);
 	}
 	return (fragment);
+}
+
+/*
+    Replace the first $VARIABLE (or '$?', or ${VAR}) inside the fragment with its value 
+        from env returning a new expanded string.
+*/
+
+char    *get_variable(char **env, char *fragment, int exit_status)
+{
+	int		i;
+	char	*start;
+
+	i = 1;
+	start = ft_strchr(fragment, '$');
+	if (!start[1])
+		return (fragment);
+	if (start[1] == '?')
+		return (concat(start, fragment, ft_itoa(exit_status), (i + 1)));
+}
+
+/*
+	Reconstruct the full string after expanding one variable.
+*/
+
+char	*concat(char *start, char *fragment, char *var_exit_value, int i)
+{
+	int		prefix_len;
+	char	*prefix;
+	char	*suffix;
+	char	*temp_result;
+	char	*result;
+
+	prefix_len = start - fragment;
+	prefix = ft_substr(fragment, 0, prefix_len);
+	suffix = ft_strdup(start + i);
+	temp_result = ft_strjoin(prefix, var_exit_value);
+	result = ft_strjoin(temp_result, suffix);
+
+	free(fragment);
+	free(prefix);
+	free(suffix);
+	free(temp_result);
+	free(var_exit_value);
+
+	return(result);
 }
 
 /*
 	Get the type and update the current.
 */
 
-void	new_token(t_token **new, t_token **start, t_token **current)
+void	new_token(t_token **new, t_token **head, t_token **current)
 {
-i	(*new)->type = get_type((*new)->value);
+	(*new)->type = get_type((*new)->value);
 	(*new)->next = NULL;
 
-	if(!start)
+	if(!head)
 	{
-		*start = *new;
+		*head = *new;
 		*new = *current;
 	}
 	else
@@ -437,7 +482,7 @@ bool	heredoc_token_check(const char *token, const char *value, size_t len_value)
 		return false;
 }
 
-void	parse_blocks(t_token *token, t_shell *shell)
+t_command_block	*parse_blocks(t_token *token, t_shell *shell)
 {
 	int		total_ac;
 	t_block	*blocks[3];
