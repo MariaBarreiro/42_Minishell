@@ -353,6 +353,8 @@ char    *get_variable(char **env, char *fragment, int exit_status)
 		return (fragment);
 	if (start[1] == '?')
 		return (concat(start, fragment, ft_itoa(exit_status), (i + 1)));
+	if (start[1] == '{')
+		return(get_brace(env, fragment, start));
 }
 
 /*
@@ -383,23 +385,72 @@ char	*concat(char *start, char *fragment, char *var_exit_value, int i)
 }
 
 /*
+	Handle ${VAR} expansions safely.
+*/
+
+char	*get_brace(char **env, char *fragment, char *start)
+{
+	char	*closing_brace;
+	char	*var_name;
+	char	*var_value;
+	int		len;
+
+	closing_brace = ft_strchr((start + 2), '}');
+	if (!closing_brace)
+	{
+		free(fragment);
+		return (ft_strdup(""));
+	}
+	len = closing_brace - (start + 2);
+	if (len == 0)
+	{
+		free(fragment);
+		return (ft_strdup(""));
+	}
+	var_name = ft_substr((start + 2), 0, len);
+	var_value = get_env_value(env, var_name);
+	free(var_name);
+	return (concat(start, fragment, var_value, len + 3));
+}
+
+/*
+	Find an environment variable's value by name.
+*/
+
+char	*get_env_value(char **env, char *var_name)
+{
+	int	i;
+	int	var_len;
+
+	i = 0;
+	var_len = ft_strlen(var_name);
+	while (env[i])
+	{
+	if (ft_strncmp(env[i], var_name, var_len) == 0 && env[i][var_len] == '=')
+			return (ft_strdup(env[i] + var_len + 1));
+		i++;
+	}
+	return (ft_strdup(""));
+}
+
+/*
 	Get the type and update the current.
 */
 
-void	new_token(t_token **new, t_token **head, t_token **current)
+void	new_token(t_token **new_token, t_token **head, t_token **current)
 {
-	(*new)->type = get_type((*new)->value);
-	(*new)->next = NULL;
+	(*new_token)->type = get_type((*new_token)->value);
+	(*new_token)->next = NULL;
 
 	if(!head)
 	{
-		*head = *new;
-		*new = *current;
+		*head = *new_token;
+		*new_token = *current;
 	}
 	else
 	{
-		(*current)->next = *new;
-		*current = *new;
+		(*current)->next = *new_token;
+		*current = *new_token;
 	}
 }
 
