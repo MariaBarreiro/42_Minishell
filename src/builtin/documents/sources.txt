@@ -3,6 +3,10 @@ https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a1059
     https://en.wikipedia.org/wiki/Recursive_descent_parser
     Precedence Climbing
 
+https://www.youtube.com/watch?v=hMSByvFHOro&list=PLGU1kcPKHMKj5yA0RPb5AK4QAhexmQwrW <<<< shell
+https://www.youtube.com/watch?v=kgntmiZeO3k <<<< shell 
+https://www.youtube.com/watch?v=vgxWYYdwKLc <<<<< shell
+
 https://www.digitalocean.com/community/tutorials/export-command-linux <<<<<< export command
 https://www.ibm.com/docs/en/aix/7.2.0?topic=customization-exporting-shell-variables-export-shell-command <<<<<< export command
 

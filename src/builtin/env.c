@@ -1,19 +1,23 @@
 #include "built.h"
 
-int	ft_env(char **venv, char **env)
+int	ft_env(t_env *venv, char **env) //<<<<<<< t_env
 {
 	int	i;
 
 	if (!env[1])
 	{
-		i = 0;
-		while (venv[i])
+		while (venv->next)
 		{
-			printf("%s\n", venv[i]);
-			i++;
+			if (venv->exported)
+			{
+				if (venv->value)
+				{
+					printf("%s=", venv->name);
+					printf("%s\n", venv->value);
+				}
+			}
+			venv = venv->next;
 		}
-		free (env);
-		return (0);
 	}
 	else
 	{

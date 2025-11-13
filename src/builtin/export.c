@@ -26,9 +26,60 @@ Export PWD and HOME variables:
 	Set and export the PATH variable:
 
 	export PATH=/local/bin:$PATH
+
+export should start with a latter
+
+ex: 
+export 123aaa
+export: `123aaa': not a valid identifier
+
+export =
+export: `=': not a valid identifier
+
+only print vars if is_exported == (1) TRUE;
+
+Retorno:
+
+0 → sucesso
+1 → erro (ex: variável inválida, sintaxe errada)
+
+struct: {name, value, exported, next *}
+
+| Caso                | Exemplo            | Ação                                   | Retorno |
+| ------------------- | ------------------ | -------------------------------------- | ------- |
+| Sem argumentos      | `export`           | Imprime todas exportadas               | 0       |
+| Com `VAR=value`     | `export VAR=value` | Cria/atualiza e marca como exportada   | 0       |
+| Com `VAR` (sem `=`) | `export VAR`       | Marca como exportada (se existir)      | 0       |
+| Nome inválido       | `export 1VAR=abc`  | Mostra erro `"not a valid identifier"` | 1       |
+
 */
-int	ft_export(void)
+
+int all_variables()
 {
 	printf("under construction, be paciente!!!\n");
+	return (0);
+}
+
+
+equal ()
+{
+
+}
+
+int ft_export(char **args, t_env **env)
+{
+	
+	if (!args[1])
+		return (all_variables());
+	
+	if (equal())
+	{
+
+	}
+	else
+	{
+
+	}
+	//printf("under construction, be paciente!!!\n");
 	return (0);
 }

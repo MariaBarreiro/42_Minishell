@@ -1,6 +1,6 @@
 #include "built.h"
 
-int	ft_cd(char **arg)
+int	ft_cd(char **arg) //<<<<<<< t_env
 {
 	char	*path;
 

@@ -4,7 +4,8 @@
 	//from the shell environment, making it undefined. 
 	//This is particularly useful for freeing memory, avoiding accidental variable reuse, and managing temporary variables within scripts.
 
-int	ft_unset(void)
+int	ft_unset(void) //<<<<<<< t_env
+{
 {
 	printf("under construction, be paciente!!!\n");
 	return (0);

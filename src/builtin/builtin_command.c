@@ -1,6 +1,6 @@
 #include "built.h"
 
-// JUST A FAKE TOKEN MAKER NEED TO BE EXCLUDED LATER //
+// JUST A FAKE TOKEN MAKER NEED TO BE EXCLUDED LATER ON //
 
 int	find_token(char **arg)
 {
@@ -20,26 +20,26 @@ int	find_token(char **arg)
 		return (7);
 }
 
-int	builtin_command(char **venv, char *arg)
+int	builtin_command(t_env **my_env, char *arg)
 {
 	if (!arg[0])
-		return (0);
+	return (0);
 	char **splited_args = ft_split(arg, ' ');
 	int	tk = find_token(splited_args);
-
+	
 	if (tk == 1)
-		return (ft_cd(splited_args));
+	return (ft_cd(splited_args, &my_env));
 	if (tk == 2)
-		return (ft_pwd());
+	return (ft_pwd());
 	if (tk == 3)
-		return (ft_echo(splited_args));
+	return (ft_echo(splited_args));
 	if (tk == 4)
-		return (ft_env(venv, splited_args));
+	return (ft_env(my_env, splited_args));
 	if (tk == 5)
-		return (ft_exit());
+	return (ft_exit());
 	if (tk == 6)
-		return (ft_unset());
+	return (ft_unset(arg, &my_env));
 	if (tk == 7)
-		return (ft_export());
+		return (ft_export(splited_args, &my_env));
 	return (0);
 }
