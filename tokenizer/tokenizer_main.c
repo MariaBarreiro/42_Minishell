@@ -462,11 +462,11 @@ t_token_type get_type(char *value)
 {
 	if (redir_out_token_check("<", value, ft_strlen(value)) == true && value[0])
 		return (T_REDIR_OUT);
-	else if (redir_append_token_check(">>", value, ft_strlen(value)) == true) && value[0])
+	else if (redir_append_token_check(">>", value, ft_strlen(value)) == true && value[0])
 		return (T_REDIR_APPEND);
-	else if (redir_in_token_check("<", value, ft_strlen(value)) == true) && value[0])
+	else if (redir_in_token_check("<", value, ft_strlen(value)) == true && value[0])
 		return (T_REDIR_IN);
-	else if (pipe_token_check("|", value, ft_strlen(value)) == true) && value[0])
+	else if (pipe_token_check("|", value, ft_strlen(value)) == true && value[0])
 		return (T_PIPE);
 	else if (heredoc_token_check("<<", value, ft_strlen(value)) == true && value[0])
 		return (T_HEREDOC);
@@ -535,8 +535,8 @@ bool	heredoc_token_check(const char *token, const char *value, size_t len_value)
 
 t_command_block	*parse_blocks(t_token *token, t_shell *shell)
 {
-	int		total_ac;
-	t_block	*blocks[3];
+	int				total_ac;
+	t_command_block	*block[3];
 
 	block[0] = NULL;
 	block[1] = NULL;
@@ -627,7 +627,7 @@ bool	fill_block(t_command_block *block, t_token **token, t_shell *shell, t_comma
 		}
 	(*token) = (*token)->next;
 	}
-	block->args[i] = '\0';
+	block->args[i] = NULL;
 	return (true);
 }
 
@@ -637,13 +637,38 @@ bool	fill_block(t_command_block *block, t_token **token, t_shell *shell, t_comma
 
 bool	handle_redir(t_command_block *block, t_token **token, int type)
 {
+	char	*filename;
+	int		index;
+
+	filename = NULL;
+	index = 0;
 	(*token) = (*token)->next;
 	if (!(*token) || (*token)->type == T_PIPE || (*token)->type == T_REDIR_IN
 			|| (*token)->type == T_REDIR_OUT || (*token)->type == T_REDIR_APPEND
 			|| (*token)->type == T_HEREDOC)
 		return (false);
 	if ((*token)->type == T_REDIR_IN)
-		block->input[]
+	{
+		filename = ft_strdup((*token)->value);
+		index = block->redir_in;
+		block->input[index] = filename;
+		block->redir_in += 1;
+	}
+	else
+	{
+		if (type == T_REDIR_APPEND)
+			block->redir_append += 1;
+		filename = ft_strdup((*token)->value);
+		index = block->redir_out;
+		block->input[index] = filename;
+		block->redir_out += 1;
+	}
+	return (true);
+}
+
+bool	redir_error(t_command_block *head, t_command_block *block, t_shell *shell, t_token **token)
+{
+	
 }
 
 /*

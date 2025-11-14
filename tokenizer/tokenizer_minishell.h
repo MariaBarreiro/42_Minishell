@@ -71,10 +71,10 @@ typedef struct  s_shell
 
 typedef struct s_command_block
 {
-	int					redir_in;		//Counter or fd for '<'
-	int					redir_out;		//Counter or fd for '>'
+	int					redir_in;		//Index for '<' that tells how many input redirection have been collected so far.
+	int					redir_out;		//Index for '>' that tells how many output redirections have been collected so far.
 	int					redir_append;	//Counter for '>>'
-	int					heredoc;		//Counter for '<<'
+	int					heredoc;		//Index for '<<' that tells how many heredoc redirections have been collected so far.
 	int					heredoc_fd;		//Fd for the temporary heredoc file.
 	char				**limits;		//Delimiter words for heredocs (ex: EOF).
 	char				**args;			//The command and its arguments.
@@ -117,7 +117,10 @@ t_command_block	*parse_blocks(t_token *token, t_shell *shell);
 int				count_ac(t_token *temp_token);
 t_command_block	*new_block(int ac);
 bool			fill_block(t_command_block *block,t_token **token, t_shell *shell, t_command_block *head);
-bool			handle_redirect(t_command_block *block, t_token **token, int type);
+bool			handle_redir(t_command_block *block, t_token **token, int type);
+bool			redir_error(t_command_block *head, t_command_block *block, t_shell *shell, t_token **token);
+bool			handle_heredoc(t_command_block *block, t_token **token);
+
 static int		pipe_error(t_command_block *head, t_shell *shell);
 
 
