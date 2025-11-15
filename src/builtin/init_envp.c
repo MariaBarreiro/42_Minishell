@@ -1,18 +1,31 @@
 #include "built.h"
 
-static int	has_value(char **venv)
+/* static int	has_value(char **venv)
 {
 	int	i, j;
-	int flag;
 
 	i = 0;
 	while(venv[i])
 	{
 		j = 0;
-		while(venv[i][j] != "=" && venv[i][j])
+		while(venv[i][j] != '=' && venv[i][j])
 			j++;
-		if (venv[i][j] == "=")
+		if (venv[i][j] == '=')
 			return (1);
+		i++;
+	}
+	return (0);
+} */
+
+static int	ft_strsearch(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while(str[i])
+	{
+		if (str[i] == c)
+			return (i);
 		i++;
 	}
 	return (0);
@@ -20,51 +33,52 @@ static int	has_value(char **venv)
 
 static char *first_part(char *venv)
 {
-	int		i;
+	int	equal;
 
-	i = 0;
-	while(venv[i])
-	{
-		if (venv[i] == "=")
-			return (ft_substr(venv, 0, i));
-		i++;
-	}
-	return (NULL);
+	equal = ft_strsearch(venv, '=');
+	return (ft_substr(venv, 0, equal));
 }
 
 static char *second_part(char *venv)
 {
-	int		i;
+	size_t	len;
+	int	equal;
 
-	i = 0;
-	while(venv[i])
-	{
-		if (venv[i] == "=")
-			return (ft_strdup(venv[++i]));
-		i++;
-	}
-	return (NULL);
+	equal = ft_strsearch(venv, '=');
+	len = ft_strlen(venv);
+	return (ft_substr((const char *)venv, ++equal, len - equal));
 }
 
-t_env	*init_env(char **venv)
+t_env	*init_env(char **envp)
 {
-	int	i;
-	t_env	temp;
+	t_env	*head;
+	t_env	*new;
+	int		i;
+	char	*equal;
 
-	i = 1;
-	while(venv[i])
+	head = NULL;
+	i = 0;
+	while (envp[i])
 	{
-		if (has_value(venv[i]))
+		new = malloc(sizeof(t_env));
+		if (!new)
+			return (NULL);
+		equal = ft_strchr(envp[i], '=');
+		if (equal)
 		{
-			temp.name  = first_part(venv[i]);
-			temp.value = second_part(venv[i]);
+			new->name = ft_substr(envp[i], 0, equal - envp[i]);
+			new->value = ft_strdup(equal + 1);
 		}
 		else
 		{
-			temp.name  = first_part(venv[i]);
-			temp.value = NULL;
+			new->name = ft_strdup(envp[i]);
+			new->value = NULL;
 		}
-		temp.exported = 1;
+		new->exported = 1;
+		new->next = NULL;
+		env_add_back(&head, new);
 		i++;
 	}
+	return (head);
 }
+

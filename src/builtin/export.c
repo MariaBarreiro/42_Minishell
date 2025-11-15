@@ -59,27 +59,27 @@ int all_variables()
 	printf("under construction, be paciente!!!\n");
 	return (0);
 }
-
+/* 
 
 equal ()
 {
 
-}
+} */
 
-int ft_export(char **args, t_env **env)
+int	ft_export(t_env *my_env, char **args)
 {
-	
+	if (!my_env)
+		return (1);
 	if (!args[1])
 		return (all_variables());
-	
-	if (equal())
+/*	if (equal())
 	{
 
 	}
 	else
 	{
 
-	}
-	//printf("under construction, be paciente!!!\n");
+	} */
+	printf("under construction, be paciente!!!\n");
 	return (0);
 }

@@ -16,9 +16,8 @@ void	ft_putstr_fd(char *s, int fd)
 
 int	main(int ac, char **av, char **envp)
 {
-	t_env *my_env;
-	
-	my_env = init_env(envp);
+	t_env *my_env = init_env(envp);
+
 	(void)ac;
 	(void)av;
 	if (ac != 1 || av[1])
@@ -26,7 +25,7 @@ int	main(int ac, char **av, char **envp)
 	main_loop(my_env);
 }
 
-void	main_loop(t_env **my_env)
+void	main_loop(t_env *my_env)
 {
 	char *input;
 	char buffer[1024];

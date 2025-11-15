@@ -1,9 +1,10 @@
 NAME = built
 SRC = cd.c echo.c pwd.c env.c exit.c export.c unset.c\
 	signal_handle.c \
-	main_test.c ft_split.c builtin_command.c utils.c
+	main_test.c builtin_command.c utils.c init_envp.c
 OBJS = $(SRC:.c=.o)
 FLAGS += -Wall -Werror -Wextra
+GFLAGS = -g3 -fsanitize=address
 
 all: $(NAME)
 

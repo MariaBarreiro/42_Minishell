@@ -1,28 +1,30 @@
 #include "built.h"
 
-int	ft_env(t_env *venv, char **env) //<<<<<<< t_env
+int	ft_env(t_env *my_env, char **arg) //<<<<<<< t_env
 {
 	int	i;
 
-	if (!env[1])
+	if (!my_env)
+		return (1);
+	if (!arg[1])
 	{
-		while (venv->next)
+		while (my_env->next)
 		{
-			if (venv->exported)
+			if (my_env->exported)
 			{
-				if (venv->value)
+				if (my_env->value)
 				{
-					printf("%s=", venv->name);
-					printf("%s\n", venv->value);
+					printf("%s=", my_env->name);
+					printf("%s\n", my_env->value);
 				}
 			}
-			venv = venv->next;
+			my_env = my_env->next;
 		}
 	}
 	else
 	{
 		write(2, "env: too many arguments\n", 25);
-		free (env);
+		free (arg);
 		return (1);
 	}
 }
