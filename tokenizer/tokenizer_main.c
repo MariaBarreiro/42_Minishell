@@ -119,6 +119,12 @@ void    main_loop(t_shell *shell, char **env)
     }
 }
 
+
+
+
+
+
+
 /*
 	Fills token data with the input string.
 		Line is the input from the user.
@@ -618,12 +624,12 @@ bool	fill_block(t_command_block *block, t_token **token, t_shell *shell, t_comma
 					|| (*token)->type == T_REDIR_APPEND)
 		{
 			if (handle_redir(block, token, (*token)->type) == false)
-				return (redir_error(), false);
+				return (redir_error(head, block, shell, *token), false);
 		}
 		else if ((*token)->type == T_HEREDOC)
 		{
-			if (handle_heredoc() == false)
-				return (redir_error, false);
+			if (handle_heredoc(block, token) == false)
+				return (redir_error(head, block, shell, *token), false);
 		}
 	(*token) = (*token)->next;
 	}
@@ -666,9 +672,76 @@ bool	handle_redir(t_command_block *block, t_token **token, int type)
 	return (true);
 }
 
-bool	redir_error(t_command_block *head, t_command_block *block, t_shell *shell, t_token **token)
+bool	redir_error(t_command_block *head, t_command_block *block, t_shell *shell, t_token *token)
 {
+	write(2, "bash: syntax error near unexpected token ", 41);
+	if (!token)
+		ft_putendl_fd("`newline'", 2);
+	else if (token->type == T_REDIR_IN)
+			ft_putendl_fd("`<'", 2);
+	else if (token->type == T_REDIR_OUT)
+			ft_putendl_fd("`>'", 2);
+	else if (token->type == T_PIPE)
+			ft_putendl_fd("`|'", 2);
+	else if (token->type == T_REDIR_APPEND)
+			ft_putendl_fd("`>>'", 2);
+	else if (token->type == T_HEREDOC)
+			ft_putendl_fd("`<<'", 2);
+	free_blocks(head);
+	free_blocks(block);
+	shell->exit_status = 2;
+	return (false);
+}
+
+/*
+	Free an entire linked list of t_command_block, 
+		including all the dynamically allocated arrays inside each block.	
+*/
+
+void	free_blocks(t_command_block	*head)
+{
+	if (!head)
+		return ;
+	t_command_block *temp;
+
+	while (head)
+	{
+		temp = head->next;
+		if (head->args)
+			free_array(head->args);
+		if (head->limits)
+			free_array(head->limits);
+		if (head->input)
+			free_array(head->input);
+		if (head->output)
+			free_array(head->output);
+		free(head);
+		head = temp;
+	}
+}
+
+void	free_array(char **array)
+{
+	int	i;
+	i = 0;
+
+	if (!array)
+		return ;
+
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
+
+/*
 	
+*/
+
+bool	handle_heredoc(t_command_block *block, t_token **token)
+{
 }
 
 /*

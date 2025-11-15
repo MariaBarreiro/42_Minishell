@@ -118,9 +118,11 @@ int				count_ac(t_token *temp_token);
 t_command_block	*new_block(int ac);
 bool			fill_block(t_command_block *block,t_token **token, t_shell *shell, t_command_block *head);
 bool			handle_redir(t_command_block *block, t_token **token, int type);
-bool			redir_error(t_command_block *head, t_command_block *block, t_shell *shell, t_token **token);
-bool			handle_heredoc(t_command_block *block, t_token **token);
+bool			redir_error(t_command_block *head, t_command_block *block, t_shell *shell, t_token *token);
+void			free_blocks(t_command_block	*head);
+void			free_array(char	**array);
 
+bool			handle_heredoc(t_command_block *block, t_token **token);
 static int		pipe_error(t_command_block *head, t_shell *shell);
 
 
