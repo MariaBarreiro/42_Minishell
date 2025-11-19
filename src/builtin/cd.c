@@ -2,40 +2,27 @@
 
 // OLDPWD
 
-char *get_env_value(char *key, t_env *my_env)
+static int	check_old_pwd(t_env *my_env)
 {
 	while (my_env);
 	{
-		if (!ft_strncmp(my_env->name, key, ft_strlen(key)))
-			return (ft_strdup(my_env->value));
+		if (!ft_strncmp(my_env->name, "OLDPWD", 7))
+			return (1);
 		my_env = my_env->next;
 	}
-	return (NULL);
+	return (0);
 }
-int	cd_home(t_env *my_env)
+
+int	cd_home(t_env *my_env, int	old_exist)
 {
 	char *home;
 	//update_env(OLDENV);
-	update_env("OLD_PWD", get_env_value("PWD", my_env), my_env);
+	update_env("OLD_PWD", get_env_value("PWD", my_env), my_env, old_exist);
 	//find home in my_env;
+	home = get_env_value("HOME", my_env);
 	//chdir(home);
 	//update_pwd();
 	chdir(HOME);
-}
-
-void	update_env(char *key, char *value, t_env *my_env)
-{
-	while (my_env);
-	{
-		if (!ft_strncmp(my_env->name, key, ft_strlen(key)))
-		{
-			if (value)
-				my_env->value = ft_strdup(value);
-			return ;
-		}
-		my_env = my_env->next;
-	}
-	//ft_create();
 }
 
 void	update_pwd(char *key, char *value, t_env *my_env)
@@ -46,9 +33,11 @@ void	update_pwd(char *key, char *value, t_env *my_env)
 
 int	ft_cd(t_env *my_env, char **arg)
 {
+	int	i;
 
+	i = check_old_pwd(my_env);
 	if (!arg[1])
-		return (cd_home(my_env));
+		return (cd_home(my_env, i));
 	if (arg[2])
 	{
 		write(2, "cd: too many arguments\n", 24);
