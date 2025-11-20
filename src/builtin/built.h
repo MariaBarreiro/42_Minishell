@@ -26,7 +26,7 @@ typedef struct s_env {
 //______________________built-in commands_____________________________
 
 int		ft_echo(char **arg);
-int		ft_cd(t_env *my_env, char **arg);
+int		ft_cd(t_env **my_env, char **arg);
 int		ft_pwd(t_env *my_env, char **cmd);
 int		ft_export(t_env *my_env, char **args);
 int		ft_unset(t_env *my_env);
@@ -35,9 +35,9 @@ int		ft_exit(void);
 
 //______________________env utils_____________________________
 char	*get_env_value(char *key, t_env *my_env);
-void	update_env(char *key, char *value, t_env *my_env, int create);
+void	update_env(char *key, char *value, t_env **my_env, int create);
 t_env	*new_node(char *key, char *valuev);
-void	lst_add_back(t_env *my_env, t_env *new_node);
+void	lst_add_back(t_env **my_env, t_env *new_node);
 
 //_____________________signal handle____________________________________
 void	ctrl_c(int sign);

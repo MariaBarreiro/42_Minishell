@@ -28,7 +28,7 @@ int	builtin_command(t_env *my_env, char *arg)
 	int	tk = find_token(splited_args);
 	
 	if (tk == 1)
-	return (ft_cd(my_env, splited_args));
+	return (ft_cd(&my_env, splited_args));
 	if (tk == 2)
 	return (ft_pwd(my_env, splited_args));
 	if (tk == 3)
