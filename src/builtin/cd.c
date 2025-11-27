@@ -1,13 +1,13 @@
 #include "built.h"
 
-static int	update_pwd(char *key, t_env *my_env)
+static int	update_pwd(char *key, t_env **my_env)
 {
 	char *current;
 
 	current = getcwd(NULL, 0);
 	if (!current)
 		return (1);
-	update_env("PWD", current, &my_env, 0);
+	update_env("PWD", current, my_env, 0);
 	return (0);
 }
 
@@ -15,7 +15,7 @@ static int	check_old_pwd(t_env *my_env)
 {
 	while (my_env)
 	{
-		if (!ft_strncmp(my_env->name, "OLDPWD", 7))
+		if (!ft_strcmp(my_env->name, "OLDPWD"))
 			return (0);
 		my_env = my_env->next;
 	}
@@ -25,22 +25,18 @@ static int	check_old_pwd(t_env *my_env)
 static int	cd_home(t_env **my_env, int	create)
 {
 	char *home;
-	//update_env(OLD_ENV);
 	update_env("OLDPWD", get_env_value("PWD", *my_env), my_env, create);
-	//find home in my_env;
 	home = get_env_value("HOME", *my_env);
 	if (!home)
 	{
 		write(2, "cd: HOME not set\n", 18);
 		return (1);
 	}
-	//chdir(home);
 	if (chdir(home) == -1)
 	{
 		perror("cd");
 		return (1);
 	}
-	//update_pwd();
 	update_pwd("PWD", my_env);
 	return (0);
 }
@@ -49,7 +45,7 @@ int	ft_cd(t_env **my_env, char **arg)
 {
 	int	create;
 
-	create = check_old_pwd(my_env);
+	create = check_old_pwd(*my_env);
 	if (!arg[1])
 		return (cd_home(my_env, create));
 	if (arg[2])
@@ -64,6 +60,6 @@ int	ft_cd(t_env **my_env, char **arg)
 		free (arg);
 		return (1);
 	}
-	update_env("OLDPWD", get_env_value("PWD", *my_env), &my_env, create);
+	update_env("OLDPWD", get_env_value("PWD", *my_env), my_env, create);
 	return (update_pwd("PWD", my_env));
 }

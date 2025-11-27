@@ -4,27 +4,30 @@ char	*get_env_value(char *key, t_env *my_env)
 {
 	while (my_env)
 	{
-		if (!ft_strncmp(my_env->name, key, ft_strlen(key)))
+		if (!ft_strncmp(my_env->name, key, ft_strlen(key) + 1))
 			return (ft_strdup(my_env->value));
 		my_env = my_env->next;
 	}
 	return (NULL);
 }
 
-t_env	*new_node(char *key, char *value)
+t_env *new_node(char *key, char *value)
 {
-	t_env	*new_var;
+	t_env *new_var;
 
 	new_var = malloc(sizeof(t_env));
 	if (!new_var)
 		return (NULL);
-	new_var->name = ft_strdup(key); 
+	new_var->name = ft_strdup(key);
 	if (value)
 		new_var->value = ft_strdup(value);
+	else
+		new_var->value = ft_strdup("");
 	new_var->exported = 1;
 	new_var->next = NULL;
 	return (new_var);
 }
+
 
 void	lst_add_back(t_env **my_env, t_env *new_node)
 {
@@ -41,22 +44,29 @@ void	lst_add_back(t_env **my_env, t_env *new_node)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new_node;
+	printf("ADDED NODE!!!!!!!!!!!!!!!");
 }
 
 void update_env(char *key, char *value, t_env **my_env, int create)
 {
 	t_env *tmp = *my_env;
 
+	if (create)
+	{
+		lst_add_back(my_env, new_node(key, value));
+		return ;
+	}
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->name, key, ft_strlen(key)))
+		if (!ft_strncmp(tmp->name, key, ft_strlen(key) + 1))
 		{
 			if (value)
+			{	
+				free(tmp->value);
 				tmp->value = ft_strdup(value);
-			return;
+			}
+			return ;
 		}
 		tmp = tmp->next;
 	}
-	if (create)
-		lst_add_back(my_env, new_node(key, value));
 }

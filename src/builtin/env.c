@@ -8,7 +8,7 @@ int	ft_env(t_env *my_env, char **arg) //<<<<<<< t_env
 		return (1);
 	if (!arg[1])
 	{
-		while (my_env->next)
+		while (my_env)
 		{
 			if (my_env->exported)
 			{

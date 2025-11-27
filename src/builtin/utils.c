@@ -1,5 +1,20 @@
 #include "built.h"
 
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	unsigned char	c1;
+	unsigned char	c2;
+
+	while (*s1 && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+	c1 = *(unsigned char *)s1;
+	c2 = *(unsigned char *)s2;
+	return (c1 - c2);
+}
+
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*sub;
@@ -49,7 +64,7 @@ char	*ft_strdup(const char *s)
 	i = ft_strlen(s);
 	dup = (char *)malloc((i + 1) * sizeof(char));
 	if (!dup)
-		return (0);
+		return (NULL);
 	while (n < i)
 	{
 		dup[n] = s[n];

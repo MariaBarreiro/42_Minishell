@@ -1,11 +1,13 @@
 - Implement the following commands:
-   -> export with no options;
    -> unset with no options;
+
+In progress:
+   -> export with no options;
 
    done: 
    -> echo with -n;
    -> env with no options or arguments;
    -> pwd with no options;
-
    -> cd with only a relative or absolute path;
+
    -> exit with no options.

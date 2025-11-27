@@ -45,11 +45,11 @@ void	ctrl_c(int sign);
 //_____________________"fake_main"____________________________________
 
 int		main(int ac, char **av, char **envp);
-void	main_loop(t_env *envp);
+void	main_loop(t_env **envp);
 
 //____________________delete later ____________________________________
 
-int		builtin_command(t_env *my_env, char *arg);
+int		builtin_command(t_env **my_env, char *arg);
 int		find_token(char **arg);
 size_t	ft_strlen(const char *str);
 char	*ft_strdup(const char *s);
@@ -63,5 +63,6 @@ void	env_add_back(t_env **lst, t_env *new);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
 t_env	*init_env(char **envp);
+int		ft_strcmp(const char *s1, const char *s2); //<<<<
 
 #endif
