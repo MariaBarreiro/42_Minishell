@@ -44,7 +44,6 @@ void	lst_add_back(t_env **my_env, t_env *new_node)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new_node;
-	printf("ADDED NODE!!!!!!!!!!!!!!!");
 }
 
 void update_env(char *key, char *value, t_env **my_env, int create)

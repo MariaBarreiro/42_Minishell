@@ -295,3 +295,19 @@ void	ft_putendl_fd(char *s, int fd)
 	}
 	write (fd, "\n", 1);
 }
+
+
+int	ft_lstsize(t_env *lst)
+{
+	int		i;
+	t_env	*list;
+
+	i = 0;
+	list = lst;
+	while (list)
+	{
+		list = list->next;
+		i++;
+	}
+	return (i);
+}

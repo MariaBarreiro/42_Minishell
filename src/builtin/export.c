@@ -13,7 +13,7 @@ declare -x FT_HOOK_NAME="login-user"
 export — set the export attribute for variables
 
 The shell shall give the export attribute to the variables
-	corresponding to the specified names, which shall cause them to be
+	corresponding to the specified names, w01hich shall cause them to be
 	in the environment of subsequently executed commands. If the name
 	of a variable is followed by =word, then the value of that
 	variable shall be set to word.
@@ -54,24 +54,19 @@ struct: {name, value, exported, next *}
 
 */
 
-int all_variables()
-{
-	printf("under construction, be paciente!!!\n");
-	return (0);
-}
 /* 
-
 equal ()
 {
 
-} */
+}
+*/
 
-int	ft_export(t_env *my_env, char **args)
+int	ft_export(t_env **my_env, char **args)
 {
 	if (!my_env)
 		return (1);
 	if (!args[1])
-		return (all_variables());
+		return (print_variables(*my_env));
 /*	if (equal())
 	{
 

@@ -28,7 +28,7 @@ typedef struct s_env {
 int		ft_echo(char **arg);
 int		ft_cd(t_env **my_env, char **arg);
 int		ft_pwd(t_env *my_env, char **cmd);
-int		ft_export(t_env *my_env, char **args);
+int		ft_export(t_env **my_env, char **args);
 int		ft_unset(t_env *my_env);
 int		ft_env(t_env *my_env, char **arg);
 int		ft_exit(void);
@@ -38,6 +38,7 @@ char	*get_env_value(char *key, t_env *my_env);
 void	update_env(char *key, char *value, t_env **my_env, int create);
 t_env	*new_node(char *key, char *valuev);
 void	lst_add_back(t_env **my_env, t_env *new_node);
+int		print_variables(t_env *my_env);
 
 //_____________________signal handle____________________________________
 void	ctrl_c(int sign);
@@ -64,5 +65,6 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
 t_env	*init_env(char **envp);
 int		ft_strcmp(const char *s1, const char *s2); //<<<<
+int		ft_lstsize(t_env *lst); //<<<< add to libft
 
 #endif

@@ -40,6 +40,6 @@ int	builtin_command(t_env **my_env, char *arg)
 	if (tk == 6)
 	return (ft_unset(*my_env));
 	if (tk == 7)
-		return (ft_export(*my_env, splited_args));
+		return (ft_export(my_env, splited_args));
 	return (0);
 }
