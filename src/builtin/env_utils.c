@@ -11,6 +11,17 @@ char	*get_env_value(char *key, t_env *my_env)
 	return (NULL);
 }
 
+int	env_key_exists(char *key, t_env *my_env)
+{
+	while (my_env)
+	{
+		if (!ft_strncmp(my_env->name, key, ft_strlen(key) + 1))
+			return (1);
+		my_env = my_env->next;
+	}
+	return (0);
+}
+
 t_env *new_node(char *key, char *value)
 {
 	t_env *new_var;
@@ -22,7 +33,7 @@ t_env *new_node(char *key, char *value)
 	if (value)
 		new_var->value = ft_strdup(value);
 	else
-		new_var->value = ft_strdup("");
+		new_var->value = NULL;
 	new_var->exported = 1;
 	new_var->next = NULL;
 	return (new_var);

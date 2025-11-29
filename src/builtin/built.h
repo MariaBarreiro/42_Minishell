@@ -39,6 +39,7 @@ void	update_env(char *key, char *value, t_env **my_env, int create);
 t_env	*new_node(char *key, char *valuev);
 void	lst_add_back(t_env **my_env, t_env *new_node);
 int		print_variables(t_env *my_env);
+int		env_key_exists(char *key, t_env *my_env);
 
 //_____________________signal handle____________________________________
 void	ctrl_c(int sign);
@@ -63,7 +64,10 @@ char	*ft_strchr(const char *s, int c);
 void	env_add_back(t_env **lst, t_env *new);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
+void	ft_putstr_fd(char *s, int fd);
 t_env	*init_env(char **envp);
+int		ft_isalnum(int c);
+int		ft_isalpha(int c);
 int		ft_strcmp(const char *s1, const char *s2); //<<<<
 int		ft_lstsize(t_env *lst); //<<<< add to libft
 

@@ -129,12 +129,6 @@ static char		**ft_alloc_split(const char *s, char c);
 static size_t	ft_count(char const *s, int *start, size_t i, char c);
 static int		free_split(char **split, size_t filled);
 
-///ft_split: Splits a str into an array of substrs based on a given delimiter;
-///s: String to be split;
-///c: Delimiter character/substrings NOT equal to c but separated by it;
-///RETURN: SUCCESS: Array of new strings resulting from the split;
-///RETURN: FAILURE: Null;
-
 char	**ft_split(char const *s, char c)
 {
 	int			start;
@@ -185,12 +179,6 @@ static size_t	ft_count(char const *s, int *start, size_t i, char c)
 	return (i);
 }
 
-///ft_alloc_split: Allocs memory for the result array;
-///Const char *s: Input str to split;
-///Char c: Delimiter;
-///RETURN: SUCCESS: Allocated array of pointers;
-///RETURN: FAILURE: Null;
-
 static char	**ft_alloc_split(const char *s, char c)
 {
 	char	**split;
@@ -200,11 +188,6 @@ static char	**ft_alloc_split(const char *s, char c)
 	split = (char **)malloc((count + 1) * sizeof(char *));
 	return (split);
 }
-
-///ft_counter: Counts how many strs will be created;
-///const char *s: Str to count words in;
-///char c: Delimiter char;
-///RETURN: SUCCESS: Word count;
 
 static size_t	ft_counter(const char *s, char c)
 {
@@ -224,10 +207,6 @@ static size_t	ft_counter(const char *s, char c)
 	}
 	return (word_count);
 }
-
-///free_split: Frees all substrs in the array if allocation fails;
-///char **split: Array of substrs;
-///size_t filled: How many substrs were successfully allocated;
 
 static int	free_split(char **split, size_t filled)
 {
@@ -296,7 +275,6 @@ void	ft_putendl_fd(char *s, int fd)
 	write (fd, "\n", 1);
 }
 
-
 int	ft_lstsize(t_env *lst)
 {
 	int		i;
@@ -310,4 +288,20 @@ int	ft_lstsize(t_env *lst)
 		i++;
 	}
 	return (i);
+}
+
+int	ft_isalpha(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return (1024);
+	return (0);
+}
+
+int	ft_isalnum(int c)
+{
+	if ((c >= 'a' && c <= 'z')
+		|| (c >= 'A' && c <= 'Z')
+		|| (c >= '0' && c <= '9'))
+		return (8);
+	return (0);
 }

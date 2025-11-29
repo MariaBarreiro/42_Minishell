@@ -58,10 +58,10 @@ int print_variables(t_env *my_env)
 	i = 0;
 	tmp = my_env;
 	if (size == 0)
-		return (0);
+		return (1);
 	arr = malloc(sizeof(t_env *) * size);
 	if (!arr)
-		return (0);
+		return (1);
 	while (tmp)
 	{
 		arr[i++] = tmp;
@@ -72,5 +72,5 @@ int print_variables(t_env *my_env)
 		if (arr[i]->exported == 1)
 			print_export_line(arr[i]);
 	free(arr);
-	return (1);
+	return (0);
 }
