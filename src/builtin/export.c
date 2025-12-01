@@ -56,7 +56,7 @@ struct: {name, value, exported, next *}
 
 int	valid_identifier(char *s)
 {
-	int i = 0;
+	int	i;
 
 	i = 0;
 	if (!ft_isalpha(s[0]) && s[0] != '_')
@@ -93,15 +93,15 @@ static int	ft_strsearch(char *str, char c)
 	return (-1);
 }
 
-static char *get_key(char *venv)
+char *get_key(char *args)
 {
 	int	equal;
 
-	equal = ft_strsearch(venv, '=');
+	equal = ft_strsearch(args, '=');
 	if (equal == -1)
-		return (ft_strdup(venv));
-	return (ft_substr(venv, 0, equal));
-	}
+		return (ft_strdup(args));
+	return (ft_substr(args, 0, equal));
+}
 
 static char *get_value(char *venv)
 {

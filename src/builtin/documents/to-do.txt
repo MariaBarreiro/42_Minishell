@@ -1,10 +1,10 @@
 - Implement the following commands:
-   -> unset with no options;
 
 In progress:
-   -> export with no options;
+   -> unset with no options;
 
    done: 
+   -> export with no options;
    -> echo with -n;
    -> env with no options or arguments;
    -> pwd with no options;

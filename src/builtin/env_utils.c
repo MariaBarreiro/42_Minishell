@@ -15,7 +15,7 @@ int	env_key_exists(char *key, t_env *my_env)
 {
 	while (my_env)
 	{
-		if (!ft_strncmp(my_env->name, key, ft_strlen(key) + 1))
+		if (!ft_strcmp(my_env->name, key))
 			return (1);
 		my_env = my_env->next;
 	}

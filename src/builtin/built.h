@@ -29,7 +29,7 @@ int		ft_echo(char **arg);
 int		ft_cd(t_env **my_env, char **arg);
 int		ft_pwd(t_env *my_env, char **cmd);
 int		ft_export(t_env **my_env, char **args);
-int		ft_unset(t_env *my_env);
+int	ft_unset(t_env **my_env, char **args);
 int		ft_env(t_env *my_env, char **arg);
 int		ft_exit(void);
 
@@ -40,6 +40,9 @@ t_env	*new_node(char *key, char *valuev);
 void	lst_add_back(t_env **my_env, t_env *new_node);
 int		print_variables(t_env *my_env);
 int		env_key_exists(char *key, t_env *my_env);
+char	*get_key(char *args);
+int		ft_strcmp(const char *s1, const char *s2); //<<<< add to libft
+int		ft_lstsize(t_env *lst); //<<<< add to libft
 
 //_____________________signal handle____________________________________
 void	ctrl_c(int sign);
@@ -68,7 +71,5 @@ void	ft_putstr_fd(char *s, int fd);
 t_env	*init_env(char **envp);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
-int		ft_strcmp(const char *s1, const char *s2); //<<<<
-int		ft_lstsize(t_env *lst); //<<<< add to libft
 
 #endif
