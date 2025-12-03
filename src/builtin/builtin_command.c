@@ -36,7 +36,7 @@ int	builtin_command(t_env **my_env, char *arg)
 	if (tk == 4)
 	return (ft_env(*my_env, splited_args));
 	if (tk == 5)
-	return (ft_exit());
+	return (ft_exit(splited_args));
 	if (tk == 6)
 	return (ft_unset(my_env, splited_args));
 	if (tk == 7)

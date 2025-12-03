@@ -1,7 +1,10 @@
 #include "built.h"
 
-void	ctrl_c(int sign)
+void ctrl_c(int sign)
 {
-	char buffer[1024];
-	printf("%s", getcwd(buffer, sizeof(buffer)));//3(C), 4(D) e 28(\);
+	(void)sign;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }

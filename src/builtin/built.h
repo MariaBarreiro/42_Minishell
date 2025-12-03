@@ -15,6 +15,8 @@
 # include <curses.h>
 # include <signal.h>
 
+extern int g_exit_status;
+
 typedef struct s_env {
 	char			*name;
 	char			*value;
@@ -29,9 +31,9 @@ int		ft_echo(char **arg);
 int		ft_cd(t_env **my_env, char **arg);
 int		ft_pwd(t_env *my_env, char **cmd);
 int		ft_export(t_env **my_env, char **args);
-int	ft_unset(t_env **my_env, char **args);
+int		ft_unset(t_env **my_env, char **args);
 int		ft_env(t_env *my_env, char **arg);
-int		ft_exit(void);
+int		ft_exit(char **args);
 
 //______________________env utils_____________________________
 char	*get_env_value(char *key, t_env *my_env);
@@ -71,5 +73,7 @@ void	ft_putstr_fd(char *s, int fd);
 t_env	*init_env(char **envp);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
+int		ft_isdigit(int c);
+int		ft_atoll(const char *nptr);
 
 #endif
