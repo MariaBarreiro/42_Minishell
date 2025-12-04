@@ -720,6 +720,10 @@ void	free_blocks(t_command_block	*head)
 	}
 }
 
+/*
+	Free all the arrays.
+*/
+
 void	free_array(char **array)
 {
 	int	i;
@@ -737,18 +741,46 @@ void	free_array(char **array)
 }
 
 /*
-	
+	Consume the << token.
+	Validate the next token as a valid heredoc delimiter.
 */
 
 bool	handle_heredoc(t_command_block *block, t_token **token)
 {
+	(*token) = (*token)->next;
+	if (!(*token) || (*token)->type == T_PIPE || (*token)->type == T_REDIR_IN
+			|| (*token)->type == T_REDIR_OUT || (*token)->type == T_REDIR_APPEND
+			||(*token)->type == T_HEREDOC)
+		return (false);
+	block->limits[block->heredoc++] = ft_strdup((*token)->value);
+	return (true);
 }
 
 /*
-	
+	Handle pipe syntax errors like | ls, ls | ls || wc.
+		It cleans up any already-allocated blocks.
+		Prints a bash-style error message.
+		Sets the shell's exit status to indicate a syntax error
+		Returns an error code for the parser to stop.
 */
 static int	pipe_error(t_command_block *head, t_shell *shell)
 {
+	free_blocks(head);
+	ft_putendl_fd("bash: syntax error near unexpected token `|'", 2);
+	shell->exit_status = 1;
+	return (-1);
+}
+
+/*
+
+*/
+
+void	free_blocks(t_command_block *head)
+{
+	t_command_block *temp;
+	if (!head)
+		return ;
+
 }
 
 
