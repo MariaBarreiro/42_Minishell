@@ -29,17 +29,17 @@ int	ft_exit(char **args)
 	int	exit_code;
 
 	printf("exit\n");
-	if (!args[1]);
+	if (!args[1])
 		exit (g_exit_status);
-	if (!is_valid_number(args[1]))
-	{
-		write(2, "exit: numeric argument required \n", 34);
-		exit (2);
-	}
 	if (args[2])
 	{
 		printf("exit: too many arguments\n");
 		return (1);
+	}
+	if (!is_valid_number(args[1]))
+	{
+		write(2, "exit: numeric argument required \n", 34);
+		exit (2);
 	}
 	exit_code = (unsigned char)ft_atoll(args[1]);
 	exit (exit_code);

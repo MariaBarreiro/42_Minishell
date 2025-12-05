@@ -28,17 +28,17 @@ int	builtin_command(t_env **my_env, char *arg)
 	int	tk = find_token(splited_args);
 	
 	if (tk == 1)
-	return (ft_cd(my_env, splited_args));
+		return (ft_cd(my_env, splited_args));
 	if (tk == 2)
-	return (ft_pwd(*my_env, splited_args));
+		return (ft_pwd(*my_env, splited_args));
 	if (tk == 3)
-	return (ft_echo(splited_args));
+		return (ft_echo(splited_args));
 	if (tk == 4)
-	return (ft_env(*my_env, splited_args));
+		return (ft_env(*my_env, splited_args));
 	if (tk == 5)
-	return (ft_exit(splited_args));
+		return (ft_exit(splited_args));
 	if (tk == 6)
-	return (ft_unset(my_env, splited_args));
+		return (ft_unset(my_env, splited_args));
 	if (tk == 7)
 		return (ft_export(my_env, splited_args));
 	return (0);
