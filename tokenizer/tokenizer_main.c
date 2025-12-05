@@ -352,6 +352,9 @@ char    *get_variable(char **env, char *fragment, int exit_status)
 {
 	int		i;
 	char	*start;
+	char	*var_name;
+	char	*var_value;
+	char	*return_var;
 
 	i = 1;
 	start = ft_strchr(fragment, '$');
@@ -361,6 +364,13 @@ char    *get_variable(char **env, char *fragment, int exit_status)
 		return (concat(start, fragment, ft_itoa(exit_status), (i + 1)));
 	if (start[1] == '{')
 		return(get_brace(env, fragment, start));
+	while (start[i] && (ft_isalnum(start[i]) || start[i] == '_'))
+		i++;
+	var_name = ft_substr(start, 1, i - 1);
+	var_value = get_env_value(env, var_name);
+	free(var_name);
+	return_var = concat(start, fragment, var_value, i);
+	return (return_var);
 }
 
 /*
@@ -708,13 +718,13 @@ void	free_blocks(t_command_block	*head)
 	{
 		temp = head->next;
 		if (head->args)
-			free_array(head->args);
+			free_arrays(head->args);
 		if (head->limits)
-			free_array(head->limits);
+			free_arrays(head->limits);
 		if (head->input)
-			free_array(head->input);
+			free_arrays(head->input);
 		if (head->output)
-			free_array(head->output);
+			free_arrays(head->output);
 		free(head);
 		head = temp;
 	}
@@ -724,7 +734,7 @@ void	free_blocks(t_command_block	*head)
 	Free all the arrays.
 */
 
-void	free_array(char **array)
+void	free_arrays(char **array)
 {
 	int	i;
 	i = 0;
@@ -772,16 +782,8 @@ static int	pipe_error(t_command_block *head, t_shell *shell)
 }
 
 /*
-
+	Free an entire linked list of structures, including all 
+		dynamically allocated arrays inside of each t_command_block.
 */
-
-void	free_blocks(t_command_block *head)
-{
-	t_command_block *temp;
-	if (!head)
-		return ;
-
-}
-
 
 
