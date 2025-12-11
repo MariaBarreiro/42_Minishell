@@ -102,28 +102,38 @@ void	sighandler(int signal)
 
 void    main_loop(t_shell *shell, char **env)
 {
-    char			*input;
+	char	*input_line;
 	t_command_block	*blocks;
 
-    while (1)
-    {
-        /*input = readline("minishell");
-		if (!input)
+	while (1)
+	{
+		if (check_interactive() == true)
+			input_line = readline("minishell");
+		else
+			input_line = get_next_line(STDIN_FILENO);
+		if (!input_line)
 		{
-			ft_putstr_fd(("exit"), 2);
+			if (check_interactive() == true)
+				ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}
-		add_history(input);*/
-		blocks = tokenizer(shell, input);
-
-    }
+		if (*input_line)
+			add_history(input_line);
+		blocks = tokenizer(shell, input_line);
+		free(input_line);
+	}
 }
 
+/*
+	Determine if its a terminal or not.
+*/
 
-
-
-
-
+bool	check_interactive(void)
+{
+	if (isatty(STDIN_FILENO))
+		return (true);
+	return (false);
+}
 
 /*
 	Fills token data with the input string.
@@ -780,10 +790,5 @@ static int	pipe_error(t_command_block *head, t_shell *shell)
 	shell->exit_status = 1;
 	return (-1);
 }
-
-/*
-	Free an entire linked list of structures, including all 
-		dynamically allocated arrays inside of each t_command_block.
-*/
 
 
