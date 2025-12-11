@@ -60,7 +60,6 @@ typedef struct  s_shell
 	char	**env;						//Current environment variables.
 	char	**export_variables;			//List of variables marked for export.
 	int		exit_status;				//Last command exit status ($?).
-	char	**history;					//Command history.
 } t_shell;
 
 /*
@@ -124,7 +123,5 @@ void			free_arrays(char **array);
 bool			handle_heredoc(t_command_block *block, t_token **token);
 static int		pipe_error(t_command_block *head, t_shell *shell);
 void			free_blocks(t_command_block *head);
-
-
 
 #endif

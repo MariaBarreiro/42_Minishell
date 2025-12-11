@@ -38,10 +38,10 @@ t_shell	*init_shell(t_shell *shell, char **env)
 	shell->env = cpy_env(env);
 	return (shell);
 }
-
+ 
 /*
-	Create a copy of env with allocation of memory.
-*/
+//
+	Create a copy of env with allocation of memory.//
 
 char	**cpy_env(char **env)
 {
@@ -62,7 +62,7 @@ char	**cpy_env(char **env)
 	new_env[i] = NULL;
 	return (new_env);
 }
-
+*/
 /*
 	Initializes signal handlers for the shell. 
 	Handles SIGINT (Ctrl-C) for interactive mode.
@@ -120,6 +120,7 @@ void    main_loop(t_shell *shell, char **env)
 		if (*input_line)
 			add_history(input_line);
 		blocks = tokenizer(shell, input_line);
+	////Acrescentar execucao
 		free(input_line);
 	}
 }
