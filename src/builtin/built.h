@@ -53,6 +53,7 @@ void	ctrl_c(int sign);
 
 int		main(int ac, char **av, char **envp);
 void	main_loop(t_env **envp);
+int		builtin_type(char **arg);
 
 //____________________delete later ____________________________________
 

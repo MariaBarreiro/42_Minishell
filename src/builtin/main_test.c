@@ -58,7 +58,7 @@ void	main_loop(t_env **my_env)
 			break ;
 		}
 		else
-			g_exit_status = builtin_command(my_env, input);
+			g_exit_status = exec_builtin(my_env, input);
 		add_history(input);
 		free(input);
 	}

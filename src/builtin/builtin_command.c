@@ -2,7 +2,7 @@
 
 // JUST A FAKE TOKEN MAKER NEED TO BE EXCLUDED LATER ON //
 
-int	find_token(char **arg)
+int	builtin_type(char **arg)
 {
 	if (ft_strncmp(arg[0], "cd", 3) == 0)
 		return (1);
@@ -18,6 +18,8 @@ int	find_token(char **arg)
 		return (6);
 	else if (ft_strncmp(arg[0], "export", 7) == 0)
 		return (7);
+	else 
+		return(0);
 }
 
 int	builtin_command(t_env **my_env, char *arg)
@@ -25,7 +27,7 @@ int	builtin_command(t_env **my_env, char *arg)
 	if (!arg[0])
 	return (0);
 	char **splited_args = ft_split(arg, ' ');
-	int	tk = find_token(splited_args);
+	int	tk = builtin_type(splited_args);
 	
 	if (tk == 1)
 		return (ft_cd(my_env, splited_args));
