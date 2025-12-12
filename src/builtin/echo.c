@@ -1,4 +1,4 @@
-#include "built.h"
+#include "../header.h"
 
 /*
 Prints arguments to standard output.

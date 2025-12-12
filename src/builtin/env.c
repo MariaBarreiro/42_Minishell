@@ -1,9 +1,7 @@
-#include "built.h"
+#include "../header.h"
 
-int	ft_env(t_env *my_env, char **arg) //<<<<<<< t_env
+int	ft_env(t_env *my_env, char **arg)
 {
-	int	i;
-
 	if (!my_env)
 		return (1);
 	if (!arg[1])
@@ -14,12 +12,12 @@ int	ft_env(t_env *my_env, char **arg) //<<<<<<< t_env
 			{
 				if (my_env->value)
 				{
-					printf("%s=", my_env->name);
-					printf("%s\n", my_env->value);
+					printf("%s=%s\n", my_env->name, my_env->value);
 				}
 			}
 			my_env = my_env->next;
 		}
+		return (0);
 	}
 	else
 	{

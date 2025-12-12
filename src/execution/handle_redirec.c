@@ -1,5 +1,4 @@
-#include "header.h"
-
+#include "../header.h"
 
 void handle_pipes(t_command_block *cmd, int pipes[][2], int i, int total)
 {

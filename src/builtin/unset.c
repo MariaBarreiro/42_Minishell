@@ -1,4 +1,4 @@
-#include "built.h"
+#include "../header.h"
 
 	//unset values and attributes of variables and functions >> When you use unset on a variable, it removes the variable 
 	//from the shell environment, making it undefined. 
@@ -60,7 +60,6 @@ static int	valid_identifier(char *s)
 int	ft_unset(t_env **my_env, char **args)
 {
 	int	i;
-	char *key;
 
 	if (!args[1])
 		return (1);

@@ -3,6 +3,7 @@
 
 //Includes
 # include <stdio.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <unistd.h>
@@ -14,9 +15,9 @@
 # include <stdlib.h>
 # include <termios.h>
 # include <curses.h>
+# include <signal.h>
 # include "../libs/42_Libft/42_Gnl/get_next_line.h"			
 # include "../libs/42_Libft/Inc/libft.h"
-#include "../builtin/built.h" //<<<< del
 
 //Defines
 
@@ -55,14 +56,12 @@ typedef struct s_token
 	The shell state. The "session". The "short-term memory".
 */
 
-typedef struct  s_shell
-{
-	char    **args;						//Temporary storage when executing a command.
-	char	**env;						//Current environment variables.
-	char	**export_variables;			//List of variables marked for export.
-	int		exit_status;				//Last command exit status ($?).
-	char	**history;					//Command history.
-} t_shell;
+typedef struct s_env {
+	char			*name;
+	char			*value;
+	int				exported;
+	struct s_env	*next;
+}	t_env;
 
 /*
 	Parsed representation. What comes after lexing and parsing.
@@ -84,8 +83,14 @@ typedef struct s_command_block
 	struct s_command_block	*next;		//Pointer to the next command in the pipeline.
 } t_command_block;
 
+typedef struct s_minishell
+{
+	int					exit_stts;
+	t_command_block		*cmd;
+	t_env				*my_env;
+} t_minishell;
+
 //
-extern  t_shell *global_sh;
 
 //Prototypes
 /* t_shell			*init_shell(t_shell *shell, char	**env);
@@ -126,9 +131,65 @@ static int		pipe_error(t_command_block *head, t_shell *shell);
 void			free_blocks(t_command_block *head); */
 
 /* ------------------------------------------------------------------------------------------- */
-int		exec_builtin(char **arg, t_shell *node);
-int		execute_pipeline(t_command_block **cmd);
+int		exec_builtin(char **arg, t_minishell *mini);
+int		exec_line(t_minishell *mini);
 void	apply_redirections(t_command_block *cmd);
 int		is_builtin(char **arg);
+
+
+
+//______________________built-in commands_____________________________
+
+int		ft_echo(char **arg);
+int		ft_cd(t_env **my_env, char **arg);
+int		ft_pwd(void); //t_env *my_env, char **cmd
+int		ft_export(t_env **my_env, char **args);
+int		ft_unset(t_env **my_env, char **args);
+int		ft_env(t_env *my_env, char **arg);
+int		ft_exit(char **args, int exit_stts);
+
+//______________________env utils_____________________________
+char	*get_env_value(char *key, t_env *my_env);
+void	update_env(char *key, char *value, t_env **my_env, int create);
+t_env	*new_node(char *key, char *valuev);
+void	lst_add_back(t_env **my_env, t_env *new_node);
+int		print_variables(t_env *my_env);
+int		env_key_exists(char *key, t_env *my_env);
+char	*get_key(char *args);
+int		ft_strcmp(const char *s1, const char *s2); //<<<< add to libft
+int		ft_lstsize(t_env *lst); //<<<< add to libft
+
+//_____________________signal handle____________________________________
+void	ctrl_c(int sign);
+
+//_____________________"fake_main"____________________________________
+
+int		main(int ac, char **av, char **envp);
+void	main_loop(t_env **envp);
+int		builtin_type(char **arg);
+
+//____________________delete later ____________________________________
+
+int		builtin_command(t_env **my_env, char *arg);
+int		find_token(char **arg);
+size_t	ft_strlen(const char *str);
+char	*ft_strdup(const char *s);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	**ft_split(char const *s, char c);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_substr_split(char const *s, unsigned int start, size_t len);
+char	*ft_strchr(const char *s, int c);
+void	env_add_back(t_env **lst, t_env *new);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putendl_fd(char *s, int fd);
+void	ft_putstr_fd(char *s, int fd);
+t_env	*init_env(char **envp);
+int		ft_isalnum(int c);
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
+int		ft_atoll(const char *nptr);
+int	ft_strsearch(char *str, char c); //<< add to libft
+
 
 #endif

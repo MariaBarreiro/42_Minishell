@@ -1,4 +1,4 @@
-#include "built.h"
+#include "../header.h"
 
 /*
 Without any arguments, the command will generate or display all exported variables. Below is an example of the expected output.
@@ -77,20 +77,6 @@ static int	error_identifier(char *arg)
 	ft_putstr_fd(arg, 2);
 	ft_putendl_fd(" : not a valid identifier", 2);
 	return (1);
-}
-
-static int	ft_strsearch(char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while(str[i])
-	{
-		if (str[i] == c)
-			return (i);
-		i++;
-	}
-	return (-1);
 }
 
 char *get_key(char *args)

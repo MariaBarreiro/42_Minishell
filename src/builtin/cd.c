@@ -1,4 +1,4 @@
-#include "built.h"
+#include "../header.h"
 
 static int	update_pwd(char *key, t_env **my_env)
 {
@@ -7,7 +7,7 @@ static int	update_pwd(char *key, t_env **my_env)
 	current = getcwd(NULL, 0);
 	if (!current)
 		return (1);
-	update_env("PWD", current, my_env, 0);
+	update_env(key, current, my_env, 0);
 	return (0);
 }
 

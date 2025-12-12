@@ -1,4 +1,4 @@
-#include "built.h"
+#include "../header.h"
 
 char	*get_env_value(char *key, t_env *my_env)
 {

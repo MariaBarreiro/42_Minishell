@@ -1,4 +1,4 @@
-#include "built.h"
+#include "../header.h"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -357,4 +357,18 @@ int	ft_atoll(const char *nptr)
 		i++;
 	}
 	return (sign * result);
+}
+
+int	ft_strsearch(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while(str[i])
+	{
+		if (str[i] == c)
+			return (i);
+		i++;
+	}
+	return (-1);
 }

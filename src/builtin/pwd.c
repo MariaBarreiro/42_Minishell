@@ -1,9 +1,9 @@
-#include "built.h"
+#include "../header.h"
 
 //The pwd command executes a program that prints the current working directory, while "echo $PWD" prints the value of the PWD environment variable, 
 // which stores the current working directory. Typically, both will give you the same result.
 
-int	ft_pwd(t_env *my_env, char **cmd)
+int	ft_pwd(void)
 {
 	char	buffer[1024];
 

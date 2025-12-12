@@ -1,4 +1,4 @@
-#include "built.h"
+#include "../header.h"
 
 void ctrl_c(int sign)
 {

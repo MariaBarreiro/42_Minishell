@@ -13,6 +13,8 @@ delimiter is seen. However, it doesn’t have to update the history!
 - Handle $?.
 - Handle ctrl+C, ctrl+D and ctrl+\.
 
+--------------------------------------------------------------------------------------------
+DONE : 
 
 - Implement the following commands:
    -> echo with -n;

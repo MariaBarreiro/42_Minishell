@@ -1,4 +1,5 @@
-#include "built.h"
+#include "../header.h"
+
 /* 	| Caso         | Comportamento                                     |
 	| ------------ | ------------------------------------------------- |
 	| `exit`       | imprime `exit`, termina com último status         | ok
@@ -24,13 +25,13 @@ int	is_valid_number(char *arg)
 	return (1);
 }
 
-int	ft_exit(char **args)
+int	ft_exit(char **args, int exit_stts)
 {
 	int	exit_code;
 
 	printf("exit\n");
 	if (!args[1])
-		exit (g_exit_status);
+		exit (exit_stts);
 	if (args[2])
 	{
 		printf("exit: too many arguments\n");

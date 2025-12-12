@@ -1,5 +1,5 @@
-#include "header.h"
-
+#include "../header.h"
+/* 
 int execute_multiple(t_command_block **cmd_list) //(2)
 {
 	t_command_block *cmd = *cmd_list;
@@ -31,11 +31,14 @@ int execute_multiple(t_command_block **cmd_list) //(2)
 	return (0);
 }
 
-void execute_child(t_command_block *cmd)
+void execute_child(t_minishell *mini)
 {
+	t_command_block *cmd;
+
+	cmd = mini->cmd;
 	if (is_builtin(cmd->args))
-		exit(execute_builtin_child(cmd)); // builtin no filho
-	execve(resolve_path(cmd->args[0]), cmd->args, global_sh->env);
+		exit(execute_builtin_child(cmd));
+	execve(resolve_path(cmd->args[0]), cmd->args, mini);
 	perror("execve");
 	exit(1);
 }
@@ -53,23 +56,22 @@ int	count_commands(t_command_block *cmd) //(3)
 	}
 	return i;
 }
-
-void apply_redirections(t_command_block *cmd)
+ */
+/* void apply_redirections(t_command_block *cmd)
 {
 	// 1) input redirections
 	// 2) output redirections
 	// 3) heredoc (se existir)
-}
+} */
 
-
-int execute_pipeline(t_command_block **cmd) //(1)
+int exec_line(t_minishell *mini) //(1)
 {
 	t_command_block	*node;
 
-	node = *cmd;
+	node = mini->cmd;
 	if (node->next)
-		return (execute_multiple(cmd));
+		return (0); //execute_multiple(mini->cmd)
 	if (is_builtin(node->args))
-		return (exec_builtin(node->args, node));
-	return (execute_external(node));
+		return (exec_builtin(node->args, mini));
+	return (0);
 }
