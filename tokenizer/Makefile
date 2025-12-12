@@ -24,8 +24,19 @@ INC_PATH						= ./includes/
 SRC_PATH						= ./src/
 
 SRC_FILES						= main.c
+SRC_FILES						+= main_loop.c
+SRC_FILES						+= bool_utils.c
+
+TOKEN_SRC_PATH			= $(SRC_PATH)tokens/
+
+TOKEN_SRC_FILES						+= tokenizer.c
+TOKEN_SRC_FILES						+= init_tokens.c
+TOKEN_SRC_FILES						+= new_token.c
+TOKEN_SRC_FILES						+= utils_type_check.c
 
 SRC								= $(addprefix $(SRC_PATH), $(SRC_FILES))
+SRC								+= $(addprefix $(TOKEN_SRC_PATH), $(TOKEN_SRC_FILES))
+
 
 OBJS_DIR						= obj
 OBJS							= $(patsubst %.c, $(OBJS_DIR)/%.o, $(SRC))

@@ -49,10 +49,10 @@ typedef struct s_token
     t_token_type    type;
     struct s_token  *next;
 } t_token;
-
 /*
+
 	The shell state. The "session". The "short-term memory".
-*/
+
 
 typedef struct  s_shell
 {
@@ -61,7 +61,7 @@ typedef struct  s_shell
 	char	**export_variables;			//List of variables marked for export.
 	int		exit_status;				//Last command exit status ($?).
 } t_shell;
-
+*/
 /*
 	Parsed representation. What comes after lexing and parsing.
 	Each t_command_block corresponds to one command in the pipeline.
@@ -74,13 +74,14 @@ typedef struct s_command_block
 	int					redir_out;		//Index for '>' that tells how many output redirections have been collected so far.
 	int					redir_append;	//Counter for '>>'
 	int					heredoc;		//Index for '<<' that tells how many heredoc redirections have been collected so far.
-	int					heredoc_fd;		//Fd for the temporary heredoc file.
 	char				**limits;		//Delimiter words for heredocs (ex: EOF).
 	char				**args;			//The command and its arguments.
 	char				**input;		//Filenames for '<' redirections.
 	char				**output;		//Filenames for '>' and '>>' redirections.
 	struct s_command_block	*next;		//Pointer to the next command in the pipeline.
 } t_command_block;
+
+
 
 //
 extern  t_shell *global_sh;
