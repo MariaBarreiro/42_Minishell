@@ -40,7 +40,7 @@ t_env	*init_env(char **envp)
 	return (head);
 }
 
-static char	*build_prompt(char *cwd)
+/* static char	*build_prompt(char *cwd)
 {
 	int		len;
 	char	*prompt;
@@ -60,7 +60,7 @@ static char	*build_prompt(char *cwd)
 	prompt[i++] = ' ';
 	prompt[i] = '\0';
 	return (prompt);
-}
+} */
 
 /* int	main(int ac, char **av, char **envp)
 {
@@ -102,43 +102,54 @@ void	main_loop(t_env **my_env)
 	}
 } */
 
-t_command_block	*init_cmd(t_command_block *cmd)
+t_cmd_block	*init_cmd_pwd(void)
 {
-	cmd->redir_in = 1;
-	cmd->redir_out = 1;
+	t_cmd_block	*cmd;
+
+	cmd = malloc(sizeof(t_cmd_block));
+	if (!cmd)
+		return (NULL);
+	cmd->redir_in = 0;
+	cmd->redir_out = 0;
 	cmd->redir_append = 0;
 	cmd->heredoc = 0;
-	cmd->heredoc_fd = 0;
-	cmd->limits = ft_strdup("");
-	cmd->args[0] = ft_strdup("pwd");
-/* 	cmd->args[1] = ft_strdup("");
-	cmd->args[2] = ft_strdup(""); */
+	cmd->heredoc_fd = -1;
+	cmd->limits = NULL;
+	cmd->input = NULL;
 	cmd->output = NULL;
-	cmd->output = NULL;
+
+	cmd->args = malloc(sizeof(char *) * 2);
+	cmd->args[0] = ft_strdup("export");
+	cmd->args[1] = NULL;
+
 	cmd->next = NULL;
+	return (cmd);
 }
-t_minishell	*init_nimi(t_minishell *my_shell, t_command_block *cmd,t_minishell *my_env)
+
+t_mini	*init_minishell(t_cmd_block *cmd, char **envp)
 {
-	my_shell->cmd = cmd;
-	my_shell->my_env = my_env;
+	t_mini	*mini;
+
+	mini = malloc(sizeof(t_mini));
+	if (!mini)
+		return (NULL);
+	mini->exit_stts = 0;
+	mini->cmd = cmd;
+	mini->my_env = init_env(envp);
+	return (mini);
 }
+
 
 int	main(int ac, char **av, char **envp)
 {
-	t_minishell *mini;
-	t_env *my_env;
-	t_command_block *cmd;
+	t_mini		*mini;
+	t_cmd_block	*cmd;
 
-	my_env = init_env(envp);
-	cmd = init_cmd(cmd);
-	mini = init_nimi(mini, cmd, my_env);
-
-	int g_exit_status = 0;
-	(void)ac;
 	(void)av;
-	if (ac != 1 || av[1])
-		return (ft_putstr_fd("[Error] Usage: ./minishell\n", 2),127);
-	exec_line(mini);
-	return (g_exit_status);
+	if (ac != 1)
+		return (1);
+	cmd = init_cmd_pwd();
+	mini = init_minishell(cmd, envp);
+	execute_pipeline(mini);
+	return (mini->exit_stts);
 }
-

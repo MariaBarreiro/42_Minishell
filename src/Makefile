@@ -17,12 +17,15 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@cc $(FLAGS) $(OBJS) -o $(NAME) -lreadline
+	@echo COMPILED
 
 clean:
 	@rm -f $(OBJS)
+	@echo OBJS removeds
 
 fclean: clean 
 	@rm $(NAME)
+	@echo EXECUTABLE removed
 
 re: fclean all
 

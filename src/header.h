@@ -69,7 +69,7 @@ typedef struct s_env {
 		For example: cat < file | grep hello are 2 command_block linked together.
 */
 
-typedef struct s_command_block
+typedef struct s_cmd_block
 {
 	int					redir_in;		//Index for '<' that tells how many input redirection have been collected so far.
 	int					redir_out;		//Index for '>' that tells how many output redirections have been collected so far.
@@ -80,15 +80,15 @@ typedef struct s_command_block
 	char				**args;			//The command and its arguments.
 	char				**input;		//Filenames for '<' redirections.
 	char				**output;		//Filenames for '>' and '>>' redirections.
-	struct s_command_block	*next;		//Pointer to the next command in the pipeline.
-} t_command_block;
+	struct s_cmd_block	*next;		//Pointer to the next command in the pipeline.
+} t_cmd_block;
 
-typedef struct s_minishell
+typedef struct s_mini
 {
 	int					exit_stts;
-	t_command_block		*cmd;
+	t_cmd_block		*cmd;
 	t_env				*my_env;
-} t_minishell;
+} t_mini;
 
 //
 
@@ -131,11 +131,12 @@ static int		pipe_error(t_command_block *head, t_shell *shell);
 void			free_blocks(t_command_block *head); */
 
 /* ------------------------------------------------------------------------------------------- */
-int		exec_builtin(char **arg, t_minishell *mini);
-int		exec_line(t_minishell *mini);
-void	apply_redirections(t_command_block *cmd);
+int		exec_builtin(char **arg, t_mini *mini);
+int		execute_pipeline(t_mini *mini);
+//void	apply_redirections(t_command_block *cmd);
 int		is_builtin(char **arg);
-
+int		count_cmds(t_cmd_block *cmd);
+void	close_all_pipes(int	*pipes, int n);
 
 
 //______________________built-in commands_____________________________
