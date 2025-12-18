@@ -130,13 +130,25 @@ bool			handle_heredoc(t_command_block *block, t_token **token);
 static int		pipe_error(t_command_block *head, t_shell *shell);
 void			free_blocks(t_command_block *head); */
 
-/* ------------------------------------------------------------------------------------------- */
+
+/* -------------------------------execute------------------------------------------------------- */
 int		exec_builtin(char **arg, t_mini *mini);
 int		execute_pipeline(t_mini *mini);
 //void	apply_redirections(t_command_block *cmd);
 int		is_builtin(char **arg);
+/* -------------------------------execute mutiple-------------------------------------------------- */
+int		execute_multiple(t_cmd_block **list);
+void	child_process(t_cmd_block *cmd, int (*p)[2], int i, int n);
+void	setup_child_pipes(int i, int total, int (*p)[2]);
+void	setup_redirections(t_cmd_block *cmd); ///////////// (HERE_DOC)
+void	execute_cmd(t_cmd_block *cmd); ////////////
+int		execute_builtin_child( t_cmd_block *cmd); ////////////////
+
+//----------------------execute utils------------------------------------------
+int		(*create_pipes(int n))[2];
+void	wait_all_children(pid_t *pids, int n);
+void	close_all_pipes(int	*pipes, int n); ////////////
 int		count_cmds(t_cmd_block *cmd);
-void	close_all_pipes(int	*pipes, int n);
 
 
 //______________________built-in commands_____________________________
