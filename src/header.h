@@ -68,6 +68,11 @@ typedef struct s_env {
 	Each t_command_block corresponds to one command in the pipeline.
 		For example: cat < file | grep hello are 2 command_block linked together.
 */
+typedef	struct s_output
+{
+	char	*file;
+	int		append;
+} t_output;
 
 typedef struct s_cmd_block
 {
@@ -80,6 +85,8 @@ typedef struct s_cmd_block
 	char				**args;			//The command and its arguments.
 	char				**input;		//Filenames for '<' redirections.
 	char				**output;		//Filenames for '>' and '>>' redirections.
+	int					n_outputs;
+	t_output			*outputs;		
 	struct s_cmd_block	*next;		//Pointer to the next command in the pipeline.
 } t_cmd_block;
 
@@ -132,10 +139,10 @@ void			free_blocks(t_command_block *head); */
 
 
 /* -------------------------------execute------------------------------------------------------- */
-int		exec_builtin(char **arg, t_mini *mini);
 int		execute_pipeline(t_mini *mini);
-//void	apply_redirections(t_command_block *cmd);
 int		is_builtin(char **arg);
+int		exec_builtin(char **arg, t_mini *mini);
+//void	apply_redirections(t_command_block *cmd);
 /* -------------------------------execute mutiple-------------------------------------------------- */
 int		execute_multiple(t_cmd_block **list);
 void	child_process(t_cmd_block *cmd, int (*p)[2], int i, int n);

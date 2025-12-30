@@ -1,56 +1,98 @@
 #include "../header.h"
 
-void    setup_redirections(t_cmd_block *cmd)
+void	handle_heredoc(t_cmd_block *cmd)
 {
 	int		i;
 	char	*line;
 	int		fd[2];
 
-	if (cmd->heredoc > 0)
+	i = 0;
+	pipe(fd);
+	while (cmd->limits && cmd->limits[i])
 	{
-		i = 0;
-		pipe(fd);
-		close(fd[0]);
-		while (cmd->limits[i])
+		while(1)
 		{
-			line = readline(">");
-			if (ft_strcmp(line, cmd->limits[i]))
-			{
-				free(line);
-				return ;
-			}
-			ft_putstr_fd(line, fd[1]);
+			line = readline("> ");
+			if (!line || !ft_strcmp(line, cmd->limits[i]))
+				break;
+			write(fd[1], line, ft_strlen(line));
+			write(fd[1], "\n", 1);
 			free(line);
 		}
+		i++;
 	}
-	// ===== HEREDOC =====
-	se cmd.heredoc > 0:
-		para cada delimitador em cmd.limits:
-			ler linha do usuário
-			parar quando linha == delimitador
-			escrever conteúdo em um pipe ou arquivo temporário
-		guardar fd de leitura final em cmd.heredoc_fd
-		redirecionar STDIN para cmd.heredoc_fd
-		fechar cmd.heredoc_fd
+	close(fd[1]);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+}
 
-	// ===== INPUT REDIRECTION (<) =====
-	se cmd.input existe:
-		para cada arquivo em cmd.input:
-			abrir arquivo em modo leitura
-			redirecionar STDIN para esse fd
-			fechar fd
-		// apenas o último arquivo fica ativo
+void	handle_input(t_cmd_block *cmd)
+{
+	int	i;
+	int	fd;
 
-	// ===== OUTPUT REDIRECTION (>, >>) =====
-	se cmd.output existe:
-		para cada arquivo em cmd.output:
-			se for append:
-				abrir com APPEND
-			senão:
-				abrir com TRUNC
-			redirecionar STDOUT para esse fd
-			fechar fd
-		// apenas o último arquivo fica ativo
+	i = 0;
+	while(cmd->input[i])
+	{
+		fd = open(cmd->input[i], O_RDONLY);
+		if (fd < 0)
+			exit(1);
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+		i++;
+	}
+}
 
-	retornar
+void	handle_output(t_cmd_block *cmd)
+{
+	int	i;
+	int	fd;
+
+	i = 0;
+	while(cmd->output[i])
+	{
+		fd = open(cmd->output[i], O_RDONLY);
+		if (fd < 0)
+			exit(1);
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+		i++;
+	}
+}
+
+void	setup_redirections(t_cmd_block *cmd)
+{
+	if (cmd->heredoc > 0)
+		handle_heredoc(cmd);
+	if (cmd->input)
+		handle_input(cmd);
+	if (cmd->output)
+		handle_output(cmd);
+}
+//----------------------------------------------------------------------------
+static int	open_output_file(t_output *out)
+{
+	if (out->append)
+		return (open(out->file, O_WRONLY | O_CREAT | O_APPEND, 0644));
+	return (open(out->file, O_WRONLY | O_CREAT | O_TRUNC, 0644));
+}
+
+int	handle_output_redir(t_cmd_block *cmd)
+{
+	int	fd;
+	int	i;
+
+	if (!cmd->outputs || cmd->n_outputs == 0)
+		return (0);
+	i = 0;
+	while (i < cmd->n_outputs)
+	{
+		fd = open_output_file(&cmd->outputs[i]);
+		if (fd < 0)
+			return (perror(cmd->outputs[i].file), 1);
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
+		i++;
+	}
+	return (0);
 }
