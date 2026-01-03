@@ -13,6 +13,7 @@
 # include <sys/ioctl.h>
 # include <stdlib.h>
 # include <termios.h>
+#include <signal.h>
 # include <curses.h>
 # include "../libs/42_Libft/42_Gnl/get_next_line.h"			
 # include "../libs/42_Libft/Inc/libft.h"
@@ -106,6 +107,7 @@ typedef struct s_mini
 
 //Main//
 void	set_signals(void);
+void	sighandler(int signal);
 void	init_minishell(t_mini *mini, char **envp);
 
 

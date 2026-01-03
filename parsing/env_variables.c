@@ -1,41 +1,6 @@
 #include "tokenizer_minishell.h"
 
 /*
-	Fragment extractor.
-*/
-
-char	*get_single_token(t_shell *shell, const char *line, int *i)
-{
-	int		start_word;
-	char	quote_type;
-	char	*fragment;
-
-	quote_type = 0;
-	if (line[*i] == '\'' || line[*i] == '"')
-	{
-		quote_type = line[*i];
-		(*i) += 1;
-		start_word = *i;
-		while (line[*i] && line[*i] != quote_type)
-			(*i)++;
-		if (line[*i] != quote_type)
-			return (NULL);
-		fragment = ft_substr(line, start_word, (*i - start_word));
-		(*i) += 1;
-	}
-	else
-	{
-		start_word = *i;
-		while (line[*i] && check_delimiter(line[*i]) == false && line[*i] != '"'
-				&& line[*i] != ' ' && line[*i] != '\t' && line[*i] != '\'')
-			(*i)++;
-		fragment = ft_substr(line, start_word, (*i - start_word));
-	}
-	fragment = var_expan(shell, fragment, quote_type);
-	return (fragment);
-}
-
-/*
 	Expand variables.
 		Doesn't happen with single quotes!!
 */

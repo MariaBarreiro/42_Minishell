@@ -16,15 +16,15 @@ int	count_ac(t_token *temp_token)
 }
 
 /*
-	Free an entire linked list of t_command_block, 
+	Free an entire linked list of t_cmd_block, 
 		including all the dynamically allocated arrays inside each block.	
 */
 
-void	free_blocks(t_command_block	*head)
+void	free_blocks(t_cmd_block	*head)
 {
 	if (!head)
 		return ;
-	t_command_block *temp;
+	t_cmd_block *temp;
 
 	while (head)
 	{

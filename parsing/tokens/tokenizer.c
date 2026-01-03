@@ -6,10 +6,10 @@
 		Return the token created.
 */
 
-t_command_block	*tokenizer(t_shell *shell, char *line)
+t_cmd_block	*tokenizer(t_shell *shell, char *line)
 {
 	t_token			*token;
-	t_command_block	*blocks;
+	t_cmd_block	*blocks;
 
 	blocks = NULL;
 

@@ -1,11 +1,9 @@
 #include "../parsing_header.h"
 #include <readline/readline.h>
-#include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-/*global struct holding the state of my shell.*/
-t_shell	*global_sh;
+int g_exit_status;
 
 /*
 	Read line.
@@ -26,8 +24,10 @@ int main(int ac, char **av, char  **envp)
 	set_signals();
 	init_minishell(&mini, envp);
 	//
-	//
-	main_loop(shell, env);
+	main_loop(&mini);
+	//Missing free_all();
+	rl_clear_history();
+	//Missing exit();
 }
 
 void	init_minishell(t_mini *mini, char **envp)
@@ -38,6 +38,7 @@ void	init_minishell(t_mini *mini, char **envp)
 		return (NULL);
 	mini->token = NULL;	
 	mini->input = NULL;
+	//missing.
 
 }
 /* 
@@ -85,32 +86,3 @@ char	**cpy_env(char **env)
 	return (new_env);
 }
 */
-/*
-	Initializes signal handlers for the shell. 
-	Handles SIGINT (Ctrl-C) for interactive mode.
-	Ignores SIGQUIT (Ctrl-\) in the main shell process.
-*/
-
-void	set_signals(void)
-{
-	signal(SIGINT, sighandler);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-/*
-	Signal handler. 
-	Clears the current input line and redisplays the 
-		prompt without exiting the shell.
-*/
-
-void	sighandler(int signal)
-{
-	(void)signal;
-	if(global_sh)
-		global_sh->exit_status = 130;
-	rl_replace_line("", 0);
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_redisplay();
-}
-

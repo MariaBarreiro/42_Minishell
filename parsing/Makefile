@@ -19,7 +19,7 @@ LIB_PATH							= ../libs/42_Libft/
 LIB_NAME							= libft.a
 LIB										= $(LIB_PATH)$(LIB_NAME)
 
-INC_PATH							= structs_parsing/
+INC_PATH							= headers/
 
 SRC_PATH							= .
 
@@ -30,6 +30,7 @@ MAIN_SRC_PATH					= main/
 MAIN_SRC_FILES							= bool_utils.c
 MAIN_SRC_FILES							+= main_loop.c
 MAIN_SRC_FILES							+= parsing_main.c
+MAIN_SRC_FILES							+= signals.c
 
 TOKEN_SRC_PATH				= tokens/
 

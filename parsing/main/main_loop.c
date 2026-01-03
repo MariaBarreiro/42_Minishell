@@ -8,10 +8,10 @@
 		Manages exit conditions.
 */
 
-void    main_loop(t_shell *shell, char **env)
+void	main_loop(t_shell *shell, char **env)
 {
-	char	*input_line;
-	t_command_block	*blocks;
+	char		*input_line;
+	t_cmd_block	*blocks;
 
 	while (1)
 	{

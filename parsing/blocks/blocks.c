@@ -1,7 +1,7 @@
-t_command_block	*parse_blocks(t_token *token, t_shell *shell)
+t_cmd_block	*parse_blocks(t_token *token, t_shell *shell)
 {
 	int				total_ac;
-	t_command_block	*block[3];
+	t_cmd_block	*block[3];
 
 	block[0] = NULL;
 	block[1] = NULL;
@@ -30,15 +30,15 @@ t_command_block	*parse_blocks(t_token *token, t_shell *shell)
 }
 
 /*
-	Allocate and initialize the new t_command_block structure to represent one command
+	Allocate and initialize the new t_cmd_block structure to represent one command
 		in the pipeline, complete with arrays for its arguments and redirections.
 */
 
-t_command_block *new_block(int ac)
+t_cmd_block *new_block(int ac)
 {
-	t_command_block	*new_block;
+	t_cmd_block	*new_block;
 
-	new_block = ft_calloc(1, sizeof(t_command_block));
+	new_block = ft_calloc(1, sizeof(t_cmd_block));
 	if (!new_block)
 		return NULL;
 
@@ -51,9 +51,9 @@ t_command_block *new_block(int ac)
 }
 
 /*
-	Consume tokens up to the next pipe and populate a single t_command_block.	
+	Consume tokens up to the next pipe and populate a single t_cmd_block.	
 */
-bool	fill_block(t_command_block *block, t_token **token, t_shell *shell, t_command_block *head)
+bool	fill_block(t_cmd_block *block, t_token **token, t_shell *shell, t_cmd_block *head)
 {
 	int	i;
 

@@ -2,7 +2,7 @@
 	Validate and record an input or output for the current command block.
 */
 
-bool	handle_redir(t_command_block *block, t_token **token, int type)
+bool	handle_redir(t_cmd_block *block, t_token **token, int type)
 {
 	char	*filename;
 	int		index;
@@ -32,7 +32,7 @@ bool	handle_redir(t_command_block *block, t_token **token, int type)
 	}
 	return (true);
 }
-bool	redir_error(t_command_block *head, t_command_block *block, t_shell *shell, t_token *token)
+bool	redir_error(t_cmd_block *head, t_cmd_block *block, t_shell *shell, t_token *token)
 {
 	write(2, "bash: syntax error near unexpected token ", 41);
 	if (!token)
@@ -58,7 +58,7 @@ bool	redir_error(t_command_block *head, t_command_block *block, t_shell *shell, 
 	Validate the next token as a valid heredoc delimiter.
 */
 
-bool	handle_heredoc(t_command_block *block, t_token **token)
+bool	handle_heredoc(t_cmd_block *block, t_token **token)
 {
 	(*token) = (*token)->next;
 	if (!(*token) || (*token)->type == T_PIPE || (*token)->type == T_REDIR_IN
@@ -76,7 +76,7 @@ bool	handle_heredoc(t_command_block *block, t_token **token)
 		Sets the shell's exit status to indicate a syntax error
 		Returns an error code for the parser to stop.
 */
-static int	pipe_error(t_command_block *head, t_shell *shell)
+static int	pipe_error(t_cmd_block *head, t_shell *shell)
 {
 	free_blocks(head);
 	ft_putendl_fd("bash: syntax error near unexpected token `|'", 2);
