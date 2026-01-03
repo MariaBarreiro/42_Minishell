@@ -1,4 +1,4 @@
-#include "tokenizer_minishell.h"
+#include "../parsing_header.h"
 #include <readline/readline.h>
 #include <signal.h>
 #include <stdlib.h>
@@ -15,30 +15,52 @@ t_shell	*global_sh;
 	Return exit value.
 */
 
-int main(int ac, char **av, char  **env)
+int main(int ac, char **av, char  **envp)
 {
-	t_shell	*shell;
+	t_mini	mini;
 
     if (ac != 1 || av[1])
         return (ft_putstr_fd("[Error] Usage: ./minishell\n", 2),127);
     (void)ac;
     (void)av;
-    shell = NULL;
-	shell = init_shell(shell, env);
-	global_sh = shell;
 	set_signals();
+	init_minishell(&mini, envp);
+	//
+	//
 	main_loop(shell, env);
 }
 
-t_shell	*init_shell(t_shell *shell, char **env)
+void	init_minishell(t_mini *mini, char **envp)
 {
-	shell = malloc(sizeof(t_shell));
-    shell->args = NULL;
-	shell->exit_status = 0;
-	shell->env = cpy_env(env);
-	return (shell);
+
+	mini = malloc(sizeof(t_mini));
+	if (!mini)
+		return (NULL);
+	mini->token = NULL;	
+	mini->input = NULL;
+
 }
- 
+/* 
+t_env	*init_env(char **envp)
+{
+	t_env	*head;
+	int		i;
+	char	*equal;
+
+	head = NULL;
+	i = 0;
+	while (envp[i])
+	{
+		equal = ft_strchr(envp[i], '=');
+		if (equal)
+			env_add_back(&head, new_node
+				(ft_substr(envp[i], 0, equal - envp[i]), ft_strdup(equal + 1)));
+		else
+			env_add_back(&head, new_node(ft_strdup(envp[i]), NULL));
+		i++;
+	}
+	return (head);
+}*/
 /*
 //
 	Create a copy of env with allocation of memory.//
