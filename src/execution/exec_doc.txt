@@ -65,3 +65,4 @@ execve(cmd->args[0], cmd->args, global_sh->env);
 Se não tiver / no comando, resolva com PATH:
 
 char *path = find_in_path(cmd->args[0], global_sh->env);
+

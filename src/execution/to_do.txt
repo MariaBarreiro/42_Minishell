@@ -14,18 +14,21 @@ delimiter is seen. However, it doesn’t have to update the history!
 - Handle ctrl+C, ctrl+D and ctrl+\.
 
 --------------------------------------------------------------------------------------------
+TO-DO:
+init_envp with SHELLVL;
+
 --------------------------------------------------------------------------------------------
 IN PROGRESS: 
 
 execute_multiple
  ├── count_cmds
  ├── create_pipes
- ├── loop_commands   ← sem for
+ ├── loop_commands 
  │     ├── fork()
- │     ├── child_process
+ │     ├── child_process <------------------------------
  │     └── next comando
- ├── close_all_pipes
- └── wait_all_children
+ ├── close_all_pipes 	<------------------------------
+ └── wait_all_children 	<------------------------------
 
 ---------------------------------------------------------------------
 	// ===== HEREDOC =====

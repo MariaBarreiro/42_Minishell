@@ -1,6 +1,6 @@
 #include "../header.h"
 
-int	execute_multiple(t_cmd_block **list)
+int	execute_multiple(t_mini *mini)
 {
 	t_cmd_block		*cmd;
 	int				n;
@@ -8,7 +8,7 @@ int	execute_multiple(t_cmd_block **list)
 	pid_t			*pids;
 	int				i;
 
-	cmd = *list;
+	cmd = mini->cmd;
 	n = count_cmds(cmd);
 	pipes = create_pipes(n);
 	pids = malloc(sizeof(pid_t) * n);
@@ -17,7 +17,7 @@ int	execute_multiple(t_cmd_block **list)
 	{
 		pids[i] = fork();
 		if (pids[i] == 0)
-			child_process(cmd, pipes, i, n);
+			child_process(mini, pipes, i, n);
 		cmd = cmd->next;
 		i++;
 	}
@@ -34,17 +34,17 @@ void	execute_child(t_mini *mini)
 
 	cmd = mini->cmd;
 	if (is_builtin(cmd->args))
-		exit(execute_builtin_child(cmd)); /////////////////////////
-	execve(resolve_path(cmd->args[0]), cmd->args, mini); ////////////////////
+		exit(execute_builtin_child(cmd));
+	execve(resolve_path(cmd->args[0]), cmd->args, mini);
 	perror("execve");
 	exit(1);
 }
 
-void	child_process(t_cmd_block *cmd, int (*p)[2], int i, int n)
+void	child_process(t_mini *mini, int (*p)[2], int i, int n)
 {
 	setup_child_pipes(i, n, p);
-	setup_redirections(cmd);
-	execute_cmd(cmd);
+	setup_redirections(mini->cmd);
+	execute_cmd(mini->cmd, mini->my_env);
 }
 
 void	setup_child_pipes(int i, int total, int (*p)[2])
@@ -67,5 +67,4 @@ void	setup_child_pipes(int i, int total, int (*p)[2])
 		j++;
 	}
 }
-
 

@@ -70,8 +70,9 @@ typedef struct s_env {
 */
 typedef	struct s_output
 {
-	char	*file;
-	int		append;
+	char			*file;
+	int				append;
+	struct s_output	*next;
 } t_output;
 
 typedef struct s_cmd_block
@@ -82,7 +83,7 @@ typedef struct s_cmd_block
 	int					heredoc;		//Index for '<<' that tells how many heredoc redirections have been collected so far.
 	int					heredoc_fd;		//Fd for the temporary heredoc file.
 	char				**limits;		//Delimiter words for heredocs (ex: EOF).
-	char				**args;			//The command and its arguments.
+	char				**args;			//The command and its arguments.	
 	char				**input;		//Filenames for '<' redirections.
 	char				**output;		//Filenames for '>' and '>>' redirections.
 	int					n_outputs;
@@ -93,7 +94,7 @@ typedef struct s_cmd_block
 typedef struct s_mini
 {
 	int					exit_stts;
-	t_cmd_block		*cmd;
+	t_cmd_block			*cmd;
 	t_env				*my_env;
 } t_mini;
 
@@ -142,13 +143,14 @@ void			free_blocks(t_command_block *head); */
 int		execute_pipeline(t_mini *mini);
 int		is_builtin(char **arg);
 int		exec_builtin(char **arg, t_mini *mini);
+
 //void	apply_redirections(t_command_block *cmd);
 /* -------------------------------execute mutiple-------------------------------------------------- */
 int		execute_multiple(t_cmd_block **list);
 void	child_process(t_cmd_block *cmd, int (*p)[2], int i, int n);
 void	setup_child_pipes(int i, int total, int (*p)[2]);
 void	setup_redirections(t_cmd_block *cmd); ///////////// (HERE_DOC)
-void	execute_cmd(t_cmd_block *cmd); ////////////
+int		execute_cmd(t_cmd_block *cmd, t_env *envp); ////////////
 int		execute_builtin_child( t_cmd_block *cmd); ////////////////
 
 //----------------------execute utils------------------------------------------

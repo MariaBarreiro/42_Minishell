@@ -43,33 +43,6 @@ void	handle_input(t_cmd_block *cmd)
 	}
 }
 
-void	handle_output(t_cmd_block *cmd)
-{
-	int	i;
-	int	fd;
-
-	i = 0;
-	while(cmd->output[i])
-	{
-		fd = open(cmd->output[i], O_RDONLY);
-		if (fd < 0)
-			exit(1);
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-		i++;
-	}
-}
-
-void	setup_redirections(t_cmd_block *cmd)
-{
-	if (cmd->heredoc > 0)
-		handle_heredoc(cmd);
-	if (cmd->input)
-		handle_input(cmd);
-	if (cmd->output)
-		handle_output(cmd);
-}
-//----------------------------------------------------------------------------
 static int	open_output_file(t_output *out)
 {
 	if (out->append)
@@ -85,14 +58,24 @@ int	handle_output_redir(t_cmd_block *cmd)
 	if (!cmd->outputs || cmd->n_outputs == 0)
 		return (0);
 	i = 0;
-	while (i < cmd->n_outputs)
+	while (cmd->outputs)
 	{
-		fd = open_output_file(&cmd->outputs[i]);
+		fd = open_output_file(&cmd->outputs);
 		if (fd < 0)
-			return (perror(cmd->outputs[i].file), 1);
+			return (perror(cmd->outputs.file), 1);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
-		i++;
+		cmd->outputs = cmd->outputs.next;
 	}
 	return (0);
+}
+
+void	setup_redirections(t_cmd_block *cmd, t_env *envp)
+{
+	if (cmd->heredoc > 0)
+		handle_heredoc(cmd);
+	if (cmd->input)
+		handle_input(cmd);
+	if (cmd->output)
+		handle_output(cmd, envp);
 }
