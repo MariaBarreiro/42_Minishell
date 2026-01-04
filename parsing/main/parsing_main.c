@@ -34,8 +34,6 @@ void	init_minishell(t_mini *mini, char **envp)
 {
 
 	mini = malloc(sizeof(t_mini));
-	if (!mini)
-		return (NULL);
 	mini->token = NULL;	
 	mini->input = NULL;
 	//missing.

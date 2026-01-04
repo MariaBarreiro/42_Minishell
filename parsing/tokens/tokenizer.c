@@ -1,4 +1,4 @@
-#include "tokenizer_minishell.h"
+#include "../parsing_header.h"
 
 /*
 	Fills token data with the input string.
@@ -6,41 +6,30 @@
 		Return the token created.
 */
 
-t_cmd_block	*tokenizer(t_shell *shell, char *line)
+t_cmd_block	*tokenizer(t_mini *mini, char *line)
 {
 	t_token			*token;
 	t_cmd_block	*blocks;
 
 	blocks = NULL;
 
-	//Check if there's something there.
-	if (!line[0] || !ft_strcmp(line, "$NOTHING") ||check_spaces(line) == false)
+	if (!line[0] || !ft_strcmp(line, "$NOTHING") ||check_spaces(line) == 0)
 		return NULL;
-	
-	//Check for the $EMPTY marker and skip it.
 	if (!ft_strncmp(line, "$NOTHING", 8))
-		line += 6;
-	
-	//Check if line is "" (or "" followed by a space).
+		line += 8;
 	if (!ft_strncmp(line, "\"\"", 2) && (!line[2] || line[2] == ' '))
 	{
 		ft_putendl_fd(":command not found", STDERR_FILENO);
-		shell->exit_status = 127;
+		mini->exit_stts = 127;
 		return (NULL);
 	}
-
-	//Turn raw input into a token list.
-	token = tokenization(shell, line);
+	token = tokenization(mini, line);
 	if (!token)
 	{
 		printf("Error: input incorrect\n");
 		return NULL;
 	}
-
-	//Turn tokens into executable blocks.
-	blocks = parse_blocks(token, shell);
-
-	//Free the tokens and keep the parsed struct.
+	blocks = parse_blocks(token, mini);
 	free_tokens(token);
 	return (blocks);
 }
@@ -49,11 +38,11 @@ t_cmd_block	*tokenizer(t_shell *shell, char *line)
 	Alloc memory and call functions for value and type.
 */
 
-t_token	*tokenization(t_shell *shell, char *line)
+t_token	*tokenization(t_mini *mini, char *line)
 {
-	t_token	*head;				//Head to the linked list.
-	t_token	*current;			//Current variable used to walk inside the list.
-	t_token	*new;				//New node.
+	t_token	*head;
+	t_token	*current;
+	t_token	*new;
 	int		i;
 
 	head = NULL;
@@ -65,9 +54,12 @@ t_token	*tokenization(t_shell *shell, char *line)
 			i++;
 		else
 		{
-			new = init_token(shell, head, line, &i);
+			new = init_token(mini, head, line, &i);
 			if (!new)
+			{
+				free_tokens(head);
 				return (NULL);
+			}
 			new_token(&new, &head, &current);
 		}
 	}

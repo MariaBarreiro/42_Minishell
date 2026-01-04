@@ -1,4 +1,4 @@
-#include "tokenizer_minishell.h"
+#include "../parsing_header.h"
 
 /*
 	Main interactive loop for minishell.
@@ -8,7 +8,7 @@
 		Manages exit conditions.
 */
 
-void	main_loop(t_shell *shell, char **env)
+void	main_loop(t_mini *mini)
 {
 	char		*input_line;
 	t_cmd_block	*blocks;
@@ -27,7 +27,7 @@ void	main_loop(t_shell *shell, char **env)
 		}
 		if (*input_line)
 			add_history(input_line);
-		blocks = tokenizer(shell, input_line);
+		blocks = tokenizer(mini, input_line);
 	////Acrescentar execucao
 		free(input_line);
 	}

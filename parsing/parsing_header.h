@@ -46,6 +46,7 @@ typedef enum e_token_type
 typedef struct s_token
 {
     char            *value;
+	int				quoted;
     t_token_type    type;
     struct s_token  *next;
 } t_token;
@@ -106,9 +107,41 @@ typedef struct s_mini
 //Prototypes
 
 //Main//
+void	init_minishell(t_mini *mini, char **envp);
+void	main_loop(t_mini *mini);
+//Signals//
 void	set_signals(void);
 void	sighandler(int signal);
-void	init_minishell(t_mini *mini, char **envp);
+//Main utils//
+int	check_interactive(void);
+int	check_delimiter(char c);
+int	check_spaces(char *str);
+
+//Tokens//
+
+//Tokenizer//
+t_cmd_block *tokenizer(t_mini *mini, char *line);
+t_token		*tokenization(t_mini *mini, char *line);
+
+//Init token//
+t_token *init_token(t_mini *mini, t_token *head, char *line, int *i);
+char	*get_tokens(t_mini *mini, const char *line, int *i);
+char	*get_single_token(t_mini *mini, const char *line, int *i);
+
+//Token Utils//
+t_token_type	get_type(char *value);
+int				redir_out_check(const char *token, const char *value, long len);
+int				redir_append_check(const char *token, const char *value, long len);
+int				redir_in_check(const char *token, const char *value, long len);
+int				pipe_check(const char *token, const char *value, long len);
+int				heredoc_check(const char *token, const char *value, long len);
+
+//Error//
+void	error(t_token *token, char *message, int exit_code);
+
+//Free//
+void	free_tokens(t_token *token);
+
 
 
 #endif

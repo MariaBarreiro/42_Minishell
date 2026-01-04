@@ -5,7 +5,7 @@
 		Doesn't happen with single quotes!!
 */
 
-char	*var_expan(t_shell *shell, char *fragment, char quote_type)
+char	*var_expansion(t_shell *shell, char *fragment, char quote_type)
 {
 	char	*position;
 

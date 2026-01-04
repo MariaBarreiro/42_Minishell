@@ -1,60 +1,60 @@
-#include "tokenizer_minishell.h"
+#include "../parsing_header.h"
 
 /*
 	Boolean check for redir_out token using strncmp.
 */
-bool	redir_out_token_check(const char *token, const char *value, size_t len_value)
+int	redir_out_check(const char *token, const char *value, long len)
 {
 	if (ft_strncmp("<", value, ft_strlen(value)))
-		return true;
+		return 1;
 	else
-		return false;
+		return 0;
 }
 
 /*
 	Boolean check for redir_append token using strncmp.
 */
 
-bool	redir_append_token_check(const char *token, const char *value, size_t len_value)
+int	redir_append_check(const char *token, const char *value, long len)
 {
 	if (ft_strncmp(">>", value, ft_strlen(value)))
-		return true;
+		return 1;
 	else
-		return false;
+		return 0;
 }
 
 /*
 	Boolean check for redir_in token using strncmp.
 */
 
-bool	redir_in_token_check(const char *token, const char *value, size_t len_value)
+int	redir_in_check(const char *token, const char *value, long len)
 {
 	if (ft_strncmp("<", value, ft_strlen(value)))
-		return true;
+		return 1;
 	else
-		return false;
+		return 0;
 }
 
 /*
 	Boolean check for pipe token using strncmp.
 */
 
-bool	pipe_token_check(const char *token, const char *value, size_t len_value)
+int	pipe_check(const char *token, const char *value, long len)
 {
 	if (ft_strncmp("|", value, ft_strlen(value)))
-		return true;
+		return 1;
 	else
-		return false;
+		return 0;
 }
 
 /*
 	Boolean check for heredoc token using strncmp.
 */
 
-bool	heredoc_token_check(const char *token, const char *value, size_t len_value)
+int	heredoc_check(const char *token, const char *value, long len)
 {
 	if (ft_strncmp(">>", value, ft_strlen(value)))
-		return true;
+		return 1;
 	else
-		return false;
+		return 0;
 }
