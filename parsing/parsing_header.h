@@ -96,37 +96,37 @@ typedef struct s_cmd_block
 //"Shell state" struct.//
 typedef struct s_mini
 {
-	t_token				*token;
-	char				*input;
 	int					exit_stts;
-	t_cmd_block			*cmd;
+	char				*input;
+	t_token				*token;
 	t_env				*env;
+	t_cmd_block			*cmd;
 } t_mini;
 
 
 //Prototypes
 
 //Main//
-void	init_minishell(t_mini *mini, char **envp);
-void	main_loop(t_mini *mini);
+void			init_minishell(t_mini *mini, char **envp);
+void			main_loop(t_mini *mini);
 //Signals//
 void	set_signals(void);
 void	sighandler(int signal);
 //Main utils//
-int	check_interactive(void);
-int	check_delimiter(char c);
-int	check_spaces(char *str);
+int				check_interactive(void);
+int				check_delimiter(char c);
+int				check_spaces(char *str);
 
 //Tokens//
 
 //Tokenizer//
-t_cmd_block *tokenizer(t_mini *mini, char *line);
-t_token		*tokenization(t_mini *mini, char *line);
+t_cmd_block		*tokenizer(t_mini *mini, char *line);
+t_token			*tokenization(t_mini *mini, char *line);
 
 //Init token//
-t_token *init_token(t_mini *mini, t_token *head, char *line, int *i);
-char	*get_tokens(t_mini *mini, const char *line, int *i);
-char	*get_single_token(t_mini *mini, const char *line, int *i);
+t_token			*init_token(t_mini *mini, t_token *head, char *line, int *i);
+char			*get_tokens(t_mini *mini, const char *line, int *i);
+char			*get_single_token(t_mini *mini, const char *line, int *i);
 
 //Token Utils//
 t_token_type	get_type(char *value);
@@ -136,11 +136,20 @@ int				redir_in_check(const char *token, const char *value, long len);
 int				pipe_check(const char *token, const char *value, long len);
 int				heredoc_check(const char *token, const char *value, long len);
 
+//Env variables//
+char			*var_expansion(t_mini *mini, char *fragment, char quote_type);
+char			*get_variable(t_env *env, char *fragment, int exit_status);
+char			*get_brace(t_env *env, char *fragment, char *start);
+char			*get_env_value(t_env *env, char *var_name);
+
+//Env Utils//
+char			*concat(char *start, char *fragment, char *var_exit_value, int i);
+
 //Error//
-void	error(t_token *token, char *message, int exit_code);
+void			error(t_token *token, char *message, int exit_code);
 
 //Free//
-void	free_tokens(t_token *token);
+void			free_tokens(t_token *token);
 
 
 

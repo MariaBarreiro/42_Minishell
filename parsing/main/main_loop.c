@@ -15,13 +15,13 @@ void	main_loop(t_mini *mini)
 
 	while (1)
 	{
-		if (check_interactive() == true)
+		if (check_interactive() == 1)
 			input_line = readline("minishell");
 		else
 			input_line = get_next_line(STDIN_FILENO);
 		if (!input_line)
 		{
-			if (check_interactive() == true)
+			if (check_interactive() == 1)
 				ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}

@@ -1,20 +1,20 @@
-#include "tokenizer_minishell.h"
+#include "parsing_header.h"
 
 /*
 	Expand variables.
 		Doesn't happen with single quotes!!
 */
 
-char	*var_expansion(t_shell *shell, char *fragment, char quote_type)
+char	*var_expansion(t_mini *mini, char *fragment, char quote_type)
 {
 	char	*position;
 
 	while(quote_type != '\'' && ft_strchr(fragment, '$'))
 	{
 		position = ft_strchr(fragment, '$');
-		if (!position[1] || position[1] == ' ' || check_delimiter(position[1]) == true)
+		if (!position[1] || position[1] == ' ' || check_delimiter(position[1]) == 1)
 			break ;
-		fragment = get_variable(shell->env, fragment, shell->exit_status);
+		fragment = get_variable(mini->env, fragment, mini->exit_stts);
 	}
 	return (fragment);
 }
@@ -24,7 +24,7 @@ char	*var_expansion(t_shell *shell, char *fragment, char quote_type)
         from env returning a new expanded string.
 */
 
-char    *get_variable(char **env, char *fragment, int exit_status)
+char    *get_variable(t_env *env, char *fragment, int exit_status)
 {
 	int		i;
 	char	*start;
@@ -80,7 +80,7 @@ char	*concat(char *start, char *fragment, char *var_exit_value, int i)
 	Handle ${VAR} expansions safely.
 */
 
-char	*get_brace(char **env, char *fragment, char *start)
+char	*get_brace(t_env *env, char *fragment, char *start)
 {
 	char	*closing_brace;
 	char	*var_name;
@@ -109,19 +109,18 @@ char	*get_brace(char **env, char *fragment, char *start)
 	Find an environment variable's value by name.
 */
 
-char	*get_env_value(char **env, char *var_name)
+char	*get_env_value(t_env *env, char *var_name)
 {
-	int	i;
-	int	var_len;
-
-	i = 0;
-	var_len = ft_strlen(var_name);
-	while (env[i])
-	{
-	if (ft_strncmp(env[i], var_name, var_len) == 0 && env[i][var_len] == '=')
-			return (ft_strdup(env[i] + var_len + 1));
-		i++;
-	}
-	return (ft_strdup(""));
+	while (env)
+    {
+        if (env->name && ft_strcmp(env->name, var_name) == 0)
+        {
+            if (env->value)
+                return (ft_strdup(env->value));
+            return (ft_strdup(""));
+        }
+        env = env->next;
+    }
+    return (ft_strdup(""));
 }
 

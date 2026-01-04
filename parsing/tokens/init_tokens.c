@@ -99,24 +99,22 @@ char	*get_single_token(t_mini *mini, const char *line, int *i)
 	quote_type = 0;
 	if (line[*i] == '\'' || line[*i] == '"')
 	{
-		quote_type = line[*i];
-		(*i) += 1;
-		start_word = *i;
+		quote_type = line[(*i)++];
+		start_word = (*i);
 		while (line[*i] && line[*i] != quote_type)
 			(*i)++;
 		if (line[*i] != quote_type)
 			return (NULL);
 		fragment = ft_substr(line, start_word, (*i - start_word));
-		(*i) += 1;
+		(*i)++;
 	}
 	else
 	{
-		start_word = *i;
+		start_word = (*i);
 		while (line[*i] && check_delimiter(line[*i]) == 0 && line[*i] != '"'
 				&& line[*i] != ' ' && line[*i] != '\t' && line[*i] != '\'')
 			(*i)++;
 		fragment = ft_substr(line, start_word, (*i - start_word));
 	}
-	fragment = variable_expansion(mini, fragment, quote_type);
-	return (fragment);
+	return (var_expansion(mini, fragment, quote_type));
 }
