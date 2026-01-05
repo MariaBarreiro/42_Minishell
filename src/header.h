@@ -9,6 +9,7 @@
 # include <unistd.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <sys/wait.h> //<<<<<<<<<<<<< add for waitpid
 # include <dirent.h>
 # include <string.h>
 # include <sys/ioctl.h>
@@ -20,7 +21,7 @@
 # include "../libs/42_Libft/Inc/libft.h"
 
 //Defines
-
+int	g_exit_status;
 
 //Structs
 
@@ -87,7 +88,7 @@ typedef struct s_cmd_block
 	char				**input;		//Filenames for '<' redirections.
 	char				**output;		//Filenames for '>' and '>>' redirections.
 	int					n_outputs;
-	t_output			*outputs;		
+	t_output			*outputs;
 	struct s_cmd_block	*next;		//Pointer to the next command in the pipeline.
 } t_cmd_block;
 
@@ -146,12 +147,12 @@ int		exec_builtin(char **arg, t_mini *mini);
 
 //void	apply_redirections(t_command_block *cmd);
 /* -------------------------------execute mutiple-------------------------------------------------- */
-int		execute_multiple(t_cmd_block **list);
-void	child_process(t_cmd_block *cmd, int (*p)[2], int i, int n);
-void	setup_child_pipes(int i, int total, int (*p)[2]);
+int		execute_multiple(t_mini *mini);
 void	setup_redirections(t_cmd_block *cmd); ///////////// (HERE_DOC)
 int		execute_cmd(t_cmd_block *cmd, t_env *envp); ////////////
 int		execute_builtin_child( t_cmd_block *cmd); ////////////////
+void	free_array(char **str);
+void	error_not_found(char **cmd, char **paths);
 
 //----------------------execute utils------------------------------------------
 int		(*create_pipes(int n))[2];

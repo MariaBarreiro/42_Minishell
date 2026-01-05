@@ -52,20 +52,20 @@ static int	open_output_file(t_output *out)
 
 int	handle_output_redir(t_cmd_block *cmd)
 {
-	int	fd;
-	int	i;
+	int			fd;
+	t_output	*current;
 
-	if (!cmd->outputs || cmd->n_outputs == 0)
+	if (!cmd->outputs)
 		return (0);
-	i = 0;
-	while (cmd->outputs)
+	current = cmd->outputs;
+	while (current)
 	{
-		fd = open_output_file(&cmd->outputs);
+		fd = open_output_file(current);
 		if (fd < 0)
-			return (perror(cmd->outputs.file), 1);
+			return (perror(current->file), 1);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
-		cmd->outputs = cmd->outputs.next;
+		current = current->next;
 	}
 	return (0);
 }
@@ -77,5 +77,5 @@ void	setup_redirections(t_cmd_block *cmd, t_env *envp)
 	if (cmd->input)
 		handle_input(cmd);
 	if (cmd->output)
-		handle_output(cmd, envp);
+		handle_output_redir(cmd);
 }

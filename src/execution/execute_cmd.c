@@ -2,21 +2,45 @@
 
 char	**find_path(t_env *env)
 {
-	char	*available_paths;
-	char	**my_paths;
-
-	if (!env)
-		exit(1);
-	while (env && !ft_strnstr(env->name, "PATH=", 5))
+	while (env)
+	{
+		if (!ft_strcmp(env->name, "PATH"))
+			return (ft_split(env->value, ':'));
 		env = env->next;
-	if (!env)
+	}
+	return (NULL);
+}
+
+char	**env_list_to_array(t_env *env)
+{
+	int		i;
+	int		count;
+	char	**envp;
+	char	*tmp;
+
+	count = 0;
+	i = 0;
+	while (env)
+	{
+		if (env->exported)
+			count++;
+		env = env->next;
+	}
+	envp = malloc(sizeof(char *) * (count + 1));
+	if (!envp)
 		return (NULL);
-	available_paths = ft_strdup(env->value);
-	if (!available_paths)
-		return (NULL);
-	my_paths = ft_split(available_paths, ':');
-	free (available_paths);
-	return (my_paths);
+	while (env)
+	{
+		if (env->exported)
+		{
+			tmp = ft_strjoin(env->name, "=");
+			envp[i++] = ft_strjoin(tmp, env->value);
+			free(tmp);
+		}
+		env = env->next;
+	}
+	envp[i] = NULL;
+	return (envp);
 }
 
 char	*verify_commands(char *cmd, char **paths)
@@ -43,52 +67,25 @@ char	*verify_commands(char *cmd, char **paths)
 	return (NULL);
 }
 
-void	error_not_found(char **cmd, char **paths)
-{
-	ft_putstr_fd("pipex: command not found: ", 2);
-	ft_putstr_fd(cmd[0], 2);
-	ft_putstr_fd("\n", 2);
-	free_array(cmd);
-	free_array(paths);
-}
-void	free_array(char **str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-		free(str[i]);
-	free(str);
-}
-
-char	env_list_to_array(t_env *envp)
-{
-
-}
 int	execute_cmd(t_cmd_block *cmd, t_env *envp)
 {
-	char	*plain_path;
-	char	*splited_cmd;
+	char	*path;
 	char	**paths;
 	char	**env_array;
 
-	splited_cmd = ft_strdup(cmd->args[0]);
+	if (!cmd->args || !cmd->args[0])
+		exit(0);
 	paths = find_path(envp);
-	if (!paths)
-		exit(1);
-	plain_path = verify_commands(splited_cmd, paths);
-	if (!plain_path)
+	path = verify_commands(cmd->args[0], paths);
+	if (!path)
 	{
-		error_not_found(splited_cmd, paths);
+		ft_putstr_fd("minishell: command not found: ", 2);
+		ft_putstr_fd(cmd->args[0], 2);
+		ft_putstr_fd("\n", 2);
 		exit(127);
 	}
 	env_array = env_list_to_array(envp);
-	if (execve(plain_path, splited_cmd, envp) == -1)
-	{
-		perror("pipex");
-		free_array(splited_cmd);
-		free_array(paths);
-		free(plain_path);
-		exit(126);
-	}
+	execve(path, cmd->args, env_array);
+	perror("minishell");
+	exit(126);
 }

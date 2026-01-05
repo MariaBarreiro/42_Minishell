@@ -28,26 +28,15 @@ int	execute_multiple(t_mini *mini)
 	return (0);
 }
 
-void	execute_child(t_mini *mini)
-{
-	t_cmd_block	*cmd;
-
-	cmd = mini->cmd;
-	if (is_builtin(cmd->args))
-		exit(execute_builtin_child(cmd));
-	execve(resolve_path(cmd->args[0]), cmd->args, mini);
-	perror("execve");
-	exit(1);
-}
-
-void	child_process(t_mini *mini, int (*p)[2], int i, int n)
+static void	child_process(t_mini *mini, int (*p)[2], int i, int n)
 {
 	setup_child_pipes(i, n, p);
 	setup_redirections(mini->cmd);
 	execute_cmd(mini->cmd, mini->my_env);
 }
 
-void	setup_child_pipes(int i, int total, int (*p)[2])
+
+static void	setup_child_pipes(int i, int total, int (*p)[2])
 {
 	int	j = 0;
 
@@ -68,3 +57,14 @@ void	setup_child_pipes(int i, int total, int (*p)[2])
 	}
 }
 
+void	execute_child(t_mini *mini)
+{
+	t_cmd_block	*cmd;
+
+	cmd = mini->cmd;
+	if (is_builtin(cmd->args))
+		exit(execute_builtin_child(cmd));
+	execve(resolve_path(cmd->args[0]), cmd->args, mini);
+	perror("execve");
+	exit(1);
+}
