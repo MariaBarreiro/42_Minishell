@@ -70,7 +70,7 @@ int	handle_output_redir(t_cmd_block *cmd)
 	return (0);
 }
 
-void	setup_redirections(t_cmd_block *cmd, t_env *envp)
+void	setup_redirections(t_cmd_block *cmd)
 {
 	if (cmd->heredoc > 0)
 		handle_heredoc(cmd);

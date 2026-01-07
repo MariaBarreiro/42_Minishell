@@ -20,6 +20,7 @@ int	exec_builtin(char **arg, t_mini *mini)
 {
 	t_env	*my_env;
 
+	setup_redirections(mini->cmd);
 	my_env = mini->my_env;
 	if (ft_strcmp(arg[0], "cd") == 0)
 		return (ft_cd(&my_env, arg));

@@ -1,6 +1,6 @@
-#include "../header.h"
+/* #include "../header.h"
 
-void	handle_pipes(t_cmd_block *cmd, int pipes[][2], int i, int total)
+void	handle_pipes(int pipes[][2], int i, int total)
 {
 	int	j;
 
@@ -47,3 +47,4 @@ void	handle_redirs(t_cmd_block *cmd)
 		i++;
 	}
 }
+ */

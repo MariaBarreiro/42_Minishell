@@ -56,7 +56,7 @@ void	wait_all_children(pid_t *pids, int n)
 		i++;
 	}
 }
-void	wait_all_children(pid_t *pids, int n)
+/* void	wait_all_children(pid_t *pids, int n)
 {
 	int	i;
 	int	status;
@@ -71,4 +71,4 @@ void	wait_all_children(pid_t *pids, int n)
 			g_exit_status = 128 + WTERMSIG(status);
 		i++;
 	}
-}
+} */

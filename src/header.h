@@ -21,7 +21,6 @@
 # include "../libs/42_Libft/Inc/libft.h"
 
 //Defines
-int	g_exit_status;
 
 //Structs
 
@@ -148,16 +147,16 @@ int		exec_builtin(char **arg, t_mini *mini);
 //void	apply_redirections(t_command_block *cmd);
 /* -------------------------------execute mutiple-------------------------------------------------- */
 int		execute_multiple(t_mini *mini);
-void	setup_redirections(t_cmd_block *cmd); ///////////// (HERE_DOC)
-int		execute_cmd(t_cmd_block *cmd, t_env *envp); ////////////
-int		execute_builtin_child( t_cmd_block *cmd); ////////////////
+void	setup_redirections(t_cmd_block *cmd);
+int		execute_cmd(t_cmd_block *cmd, t_env *envp);
 void	free_array(char **str);
 void	error_not_found(char **cmd, char **paths);
+int		execute_cmd(t_cmd_block *cmd, t_env *envp);
 
 //----------------------execute utils------------------------------------------
 int		(*create_pipes(int n))[2];
 void	wait_all_children(pid_t *pids, int n);
-void	close_all_pipes(int	*pipes, int n); ////////////
+void	close_all_pipes(int (*pipes)[2], int n);
 int		count_cmds(t_cmd_block *cmd);
 
 
@@ -188,7 +187,7 @@ void	ctrl_c(int sign);
 //_____________________"fake_main"____________________________________
 
 int		main(int ac, char **av, char **envp);
-void	main_loop(t_env **envp);
+//void	main_loop(t_env **envp);
 int		builtin_type(char **arg);
 
 //____________________delete later ____________________________________
@@ -212,7 +211,8 @@ int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_atoll(const char *nptr);
-int	ft_strsearch(char *str, char c); //<< add to libft
+char	*ft_strjoin(char const *s1, char const *s2);
+int		ft_strsearch(char *str, char c); //<< add to libft
 
 
 #endif

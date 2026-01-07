@@ -372,3 +372,29 @@ int	ft_strsearch(char *str, char c)
 	}
 	return (-1);
 }
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t		k;
+	size_t		l;
+	size_t		i;
+	size_t		j;
+	char		*join;
+
+	if (!s1 || !s2)
+		return (0);
+	k = ft_strlen(s1);
+	l = ft_strlen(s2);
+	i = 0;
+	j = 0;
+	join = (char *)malloc((k + l + 1) * sizeof(char));
+	if (!join)
+		return (0);
+	while (i < k)
+		join[j++] = s1[i++];
+	i = 0;
+	while (i < l)
+		join[j++] = s2[i++];
+	join[j] = '\0';
+	return (join);
+}

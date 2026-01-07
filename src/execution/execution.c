@@ -3,7 +3,7 @@
 static int	execute_external(t_mini *mini)
 {
 	setup_redirections(mini->cmd);
-	execute_cmd(mini->cmd, mini->my_env);
+	return (execute_cmd(mini->cmd, mini->my_env));
 }
 
 int	execute_pipeline(t_mini *mini)
