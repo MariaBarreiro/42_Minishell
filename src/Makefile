@@ -12,7 +12,7 @@ FLAGS = -Wall -Werror -Wextra
 GFLAGS = -g3 -fsanitize=address
 
 %.o: %.c
-	@cc -c $(FLAGS)-c $< -o $@
+	@cc -c $(FLAGS) -g -c $< -o $@
 
 all: $(NAME)
 

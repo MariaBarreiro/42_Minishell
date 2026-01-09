@@ -114,18 +114,24 @@ t_cmd_block	*init_cmd_pwd(void)
 	if (!cmd)
 		return (NULL);
 	cmd->redir_in = 0;
-	cmd->redir_out = 0;
-	cmd->redir_append = 0;
+	//cmd->redir_out = 0;
+	//cmd->redir_append = 0;
 	cmd->heredoc = 0;
 	cmd->heredoc_fd = -1;
 	cmd->limits = NULL;
 	cmd->input = NULL;
-	cmd->output = NULL;
+	//cmd->output = NULL;
+	cmd->n_outputs = 1;
 
 	cmd->args = malloc(sizeof(char *) * 2);
-	cmd->args[0] = ft_strdup("export");
+	cmd->args[0] = ft_strdup("env");
 	cmd->args[1] = NULL;
-
+	cmd->outputs = malloc(sizeof(t_output));
+	if (!cmd->outputs)
+		return (NULL);
+	cmd->outputs->file = ft_strdup("testando.txt");
+	cmd->outputs->append = 1;
+	cmd->outputs->next = NULL;
 	cmd->next = NULL;
 	return (cmd);
 }
@@ -155,5 +161,5 @@ int	main(int ac, char **av, char **envp)
 	cmd = init_cmd_pwd();
 	mini = init_minishell(cmd, envp);
 	execute_pipeline(mini);
-	return (mini->exit_stts);
+	return (0);
 }

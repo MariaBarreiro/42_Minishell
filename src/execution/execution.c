@@ -8,12 +8,12 @@ static int	execute_external(t_mini *mini)
 
 int	execute_pipeline(t_mini *mini)
 {
-	t_cmd_block	*node;
+	t_cmd_block	*cmd;
 
-	node = mini->cmd;
-	if (node->next)
+	cmd = mini->cmd;
+	if (cmd->next)
 		return (execute_multiple(mini));
-	if (is_builtin(node->args))
-		return (exec_builtin(node->args, mini));
+	if (is_builtin(cmd->args))
+		return (exec_builtin(cmd->args, mini));
 	return (execute_external(mini));
 }

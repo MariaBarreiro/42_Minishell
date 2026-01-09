@@ -78,14 +78,14 @@ typedef	struct s_output
 typedef struct s_cmd_block
 {
 	int					redir_in;		//Index for '<' that tells how many input redirection have been collected so far.
-	int					redir_out;		//Index for '>' that tells how many output redirections have been collected so far.
-	int					redir_append;	//Counter for '>>'
+	//int					redir_out;		//Index for '>' that tells how many output redirections have been collected so far.
+	//int					redir_append;	//Counter for '>>'
 	int					heredoc;		//Index for '<<' that tells how many heredoc redirections have been collected so far.
 	int					heredoc_fd;		//Fd for the temporary heredoc file.
 	char				**limits;		//Delimiter words for heredocs (ex: EOF).
 	char				**args;			//The command and its arguments.	
 	char				**input;		//Filenames for '<' redirections.
-	char				**output;		//Filenames for '>' and '>>' redirections.
+	//char				**output;		//Filenames for '>' and '>>' redirections.
 	int					n_outputs;
 	t_output			*outputs;
 	struct s_cmd_block	*next;		//Pointer to the next command in the pipeline.

@@ -74,8 +74,8 @@ void	setup_redirections(t_cmd_block *cmd)
 {
 	if (cmd->heredoc > 0)
 		handle_heredoc(cmd);
-	if (cmd->input)
+	if (cmd->redir_in > 0)
 		handle_input(cmd);
-	if (cmd->output)
+	if (cmd->n_outputs > 0)
 		handle_output_redir(cmd);
 }
