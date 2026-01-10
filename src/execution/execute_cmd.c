@@ -4,7 +4,7 @@ char	**find_path(t_env *env)
 {
 	while (env)
 	{
-		if (!ft_strcmp(env->name, "PATH"))
+		if (env->name && env->value && !ft_strcmp(env->name, "PATH"))
 			return (ft_split(env->value, ':'));
 		env = env->next;
 	}

@@ -105,6 +105,26 @@ void	main_loop(t_env **my_env)
 		free(input);
 	}
 } */
+t_output	*populate_output()
+{
+	t_output	*head;
+	//t_output	*second;
+
+	head = malloc(sizeof(t_output));
+	if (!head)
+		return (NULL);
+	head->file = ft_strdup("a.txt");
+	head->append = 1;
+
+/* 	second = malloc(sizeof(t_output));
+	if (!second)
+		return (NULL);
+	second->file = ft_strdup("testando.txt");
+	second->append = 1;
+	second->next = NULL; */
+	head->next = NULL;
+	return (head);
+}
 
 t_cmd_block	*init_cmd_pwd(void)
 {
@@ -120,19 +140,41 @@ t_cmd_block	*init_cmd_pwd(void)
 	cmd->heredoc_fd = -1;
 	cmd->limits = NULL;
 	cmd->input = NULL;
+/* 	cmd->input = malloc(sizeof(char *) * 2);
+	cmd->input[0] = ft_strdup("b.txt");
+	cmd->input[1] = NULL; */
 	//cmd->output = NULL;
 	cmd->n_outputs = 1;
+	cmd->outputs = populate_output();
+	cmd->args = malloc(sizeof(char *) * 3);
+	cmd->args[0] = ft_strdup("echo");
+	cmd->args[1] = ft_strdup("MARCIO");
+	cmd->args[2] = NULL;
 
-	cmd->args = malloc(sizeof(char *) * 2);
-	cmd->args[0] = ft_strdup("env");
-	cmd->args[1] = NULL;
-	cmd->outputs = malloc(sizeof(t_output));
-	if (!cmd->outputs)
+	t_cmd_block	*second;
+
+	second = malloc(sizeof(t_cmd_block));
+	if (!second)
 		return (NULL);
-	cmd->outputs->file = ft_strdup("testando.txt");
-	cmd->outputs->append = 1;
-	cmd->outputs->next = NULL;
-	cmd->next = NULL;
+	second->redir_in = 0;
+	//cmd->redir_out = 0;
+	//cmd->redir_append = 0;
+	second->heredoc = 0;
+	second->heredoc_fd = -1;
+	second->limits = NULL;
+	second->input = NULL;
+/* 	second->input = malloc(sizeof(char *) * 2);
+	second->input[0] = ft_strdup("b.txt");
+	second->input[1] = NULL; */
+	//cmd->output = NULL;
+	second->n_outputs = 0;
+	second->outputs = NULL; //populate_output();
+	second->args = malloc(sizeof(char *) * 3);
+	second->args[0] = ft_strdup("cat");
+	second->args[1] = ft_strdup("a.txt");
+	second->args[2] = NULL;
+	second->next = NULL;
+	cmd->next = second;
 	return (cmd);
 }
 
