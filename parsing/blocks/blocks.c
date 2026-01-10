@@ -1,7 +1,9 @@
-t_cmd_block	*parse_blocks(t_token *token, t_shell *shell)
+#include "../parsing_header.h"
+
+t_cmd_block	*parse_blocks(t_token *token, t_mini *mini)
 {
 	int				total_ac;
-	t_cmd_block	*block[3];
+	t_cmd_block		*block[3];
 
 	block[0] = NULL;
 	block[1] = NULL;
@@ -12,7 +14,7 @@ t_cmd_block	*parse_blocks(t_token *token, t_shell *shell)
 		block[2] = new_block(total_ac);
 		if (!block[2])
 			return (NULL);
-		if (fill_block(block[2], &token, shell, block[0]) != true)
+		if (fill_block(block[2], &token, mini, block[0]) != true)
 			return (NULL);
 		if (!block[0])
 			block[0] = block[2];
@@ -23,7 +25,7 @@ t_cmd_block	*parse_blocks(t_token *token, t_shell *shell)
 		{
 			token = token->next;
 			if (!token || token->type == T_PIPE)
-				return (pipe_error(block[0], shell), NULL);
+				return (pipe_error(block[0], mini), NULL);
 		}
 	}
 	return (block[0]);
@@ -53,7 +55,7 @@ t_cmd_block *new_block(int ac)
 /*
 	Consume tokens up to the next pipe and populate a single t_cmd_block.	
 */
-bool	fill_block(t_cmd_block *block, t_token **token, t_shell *shell, t_cmd_block *head)
+int	fill_block(t_cmd_block *block, t_token **token, t_mini *mini, t_cmd_block *head)
 {
 	int	i;
 
@@ -65,13 +67,13 @@ bool	fill_block(t_cmd_block *block, t_token **token, t_shell *shell, t_cmd_block
 		else if ((*token)->type == T_REDIR_IN || (*token)->type == T_REDIR_OUT 
 					|| (*token)->type == T_REDIR_APPEND)
 		{
-			if (handle_redir(block, token, (*token)->type) == false)
-				return (redir_error(head, block, shell, *token), false);
+			if (handle_redir(block, token, (*token)->type) == 0)
+				return (redir_error(head, block, mini, *token), false);
 		}
 		else if ((*token)->type == T_HEREDOC)
 		{
 			if (handle_heredoc(block, token) == false)
-				return (redir_error(head, block, shell, *token), false);
+				return (redir_error(head, block, mini, *token), false);
 		}
 	(*token) = (*token)->next;
 	}

@@ -128,6 +128,9 @@ t_token			*init_token(t_mini *mini, t_token *head, char *line, int *i);
 char			*get_tokens(t_mini *mini, const char *line, int *i);
 char			*get_single_token(t_mini *mini, const char *line, int *i);
 
+//New Token//
+void			new_token(t_token **new_node, t_token **head, t_token **current);
+
 //Token Utils//
 t_token_type	get_type(char *value);
 int				redir_out_check(const char *token, const char *value, long len);
@@ -145,11 +148,27 @@ char			*get_env_value(t_env *env, char *var_name);
 //Env Utils//
 char			*concat(char *start, char *fragment, char *var_exit_value, int i);
 
+//Blocks//
+t_cmd_block		*parse_blocks(t_token *token, t_mini *mini);
+t_cmd_block		*new_block(int ac);
+int				fill_block(t_cmd_block *block, t_token **token,, t_mini *mini, t_cmd_block *head);
+
+//Block Utils//
+int				count_ac(t_token *temp_token);
+
+//Handle Redirections//
+int				handle_redir(t_cmd_block *block, t_token **token, int type);
+int				handle_heredoc(t_cmd_block *block);
+
 //Error//
 void			error(t_token *token, char *message, int exit_code);
+int				redir_error(t_cmd_block *head, t_cmd_block *block, t_mini *mini, t_token *token);
+static int		pipe_error(t_cmd_block *head, t_mini *mini);
 
 //Free//
 void			free_tokens(t_token *token);
+void			free_blocks(t_cmd_block *head);
+void			free_arrays(char **array);
 
 
 

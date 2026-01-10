@@ -1,8 +1,10 @@
+#include "../parsing_header.h"
+
 /*
 	Validate and record an input or output for the current command block.
 */
 
-bool	handle_redir(t_cmd_block *block, t_token **token, int type)
+int	handle_redir(t_cmd_block *block, t_token **token, int type)
 {
 	char	*filename;
 	int		index;
@@ -13,7 +15,7 @@ bool	handle_redir(t_cmd_block *block, t_token **token, int type)
 	if (!(*token) || (*token)->type == T_PIPE || (*token)->type == T_REDIR_IN
 			|| (*token)->type == T_REDIR_OUT || (*token)->type == T_REDIR_APPEND
 			|| (*token)->type == T_HEREDOC)
-		return (false);
+		return (0);
 	if ((*token)->type == T_REDIR_IN)
 	{
 		filename = ft_strdup((*token)->value);
@@ -30,9 +32,9 @@ bool	handle_redir(t_cmd_block *block, t_token **token, int type)
 		block->input[index] = filename;
 		block->redir_out += 1;
 	}
-	return (true);
+	return (1);
 }
-bool	redir_error(t_cmd_block *head, t_cmd_block *block, t_shell *shell, t_token *token)
+int	redir_error(t_cmd_block *head, t_cmd_block *block, t_mini *mini, t_token *token)
 {
 	write(2, "bash: syntax error near unexpected token ", 41);
 	if (!token)
@@ -49,8 +51,8 @@ bool	redir_error(t_cmd_block *head, t_cmd_block *block, t_shell *shell, t_token 
 			ft_putendl_fd("`<<'", 2);
 	free_blocks(head);
 	free_blocks(block);
-	shell->exit_status = 2;
-	return (false);
+	mini->exit_stts = 2;
+	return (0);
 }
 
 /*
@@ -58,15 +60,15 @@ bool	redir_error(t_cmd_block *head, t_cmd_block *block, t_shell *shell, t_token 
 	Validate the next token as a valid heredoc delimiter.
 */
 
-bool	handle_heredoc(t_cmd_block *block, t_token **token)
+int	handle_heredoc(t_cmd_block *block, t_token **token)
 {
 	(*token) = (*token)->next;
 	if (!(*token) || (*token)->type == T_PIPE || (*token)->type == T_REDIR_IN
 			|| (*token)->type == T_REDIR_OUT || (*token)->type == T_REDIR_APPEND
 			||(*token)->type == T_HEREDOC)
-		return (false);
+		return (0);
 	block->limits[block->heredoc++] = ft_strdup((*token)->value);
-	return (true);
+	return (1);
 }
 
 /*
@@ -76,10 +78,10 @@ bool	handle_heredoc(t_cmd_block *block, t_token **token)
 		Sets the shell's exit status to indicate a syntax error
 		Returns an error code for the parser to stop.
 */
-static int	pipe_error(t_cmd_block *head, t_shell *shell)
+static int	pipe_error(t_cmd_block *head, t_mini *mini)
 {
 	free_blocks(head);
 	ft_putendl_fd("bash: syntax error near unexpected token `|'", 2);
-	shell->exit_status = 1;
+	mini->exit_stts = 1;
 	return (-1);
 }
