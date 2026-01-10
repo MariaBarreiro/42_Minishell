@@ -34,3 +34,17 @@ int	check_spaces(char *str)
 		return (1);
 	return (0);
 }
+
+int	is_exact_token(const char *token, const char *value, long len)
+{
+	int	match;
+
+	if (!token || !value)
+
+	if (len != ft_strlen(token))
+		return 0;
+	match = ft_strcmp(token, value);
+	if (match == 0)
+		return 1;
+	return 0;
+}

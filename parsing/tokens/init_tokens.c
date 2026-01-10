@@ -41,15 +41,18 @@ t_token	*init_token(t_mini *mini, t_token *head, char *line, int *i)
 
 t_token_type get_type(char *value)
 {
-	if (redir_append_check(">>", value, ft_strlen(value)) == 1 && value[0])
+	if (!value || !value[0])
+		return (T_WORD);
+
+	if (is_exact_token(">>", value))
 		return (T_REDIR_APPEND);
-	else if (heredoc_check("<<", value, ft_strlen(value)) == 1 && value[0])
+	else if (is_exact_token("<<", value))
 		return (T_HEREDOC);
-	else if (redir_in_check("<", value, ft_strlen(value)) == 1 && value[0])
+	else if (is_exact_token("<", value))
 		return (T_REDIR_IN);
-	else if (redir_out_check(">", value, ft_strlen(value)) == 1 && value[0])
+	else if (is_exact_token(">", value))
 		return (T_REDIR_OUT);
-	else if (pipe_check("|", value, ft_strlen(value)) == 1 && value[0])
+	else if (is_exact_token("|", value))
 		return (T_PIPE);
 	else
 		return (T_WORD);

@@ -1,4 +1,3 @@
-#include "../parsing_header.h"
 
 /*
 	Boolean check for redir_out token using strncmp.
@@ -17,10 +16,14 @@ int	redir_out_check(const char *token, const char *value, long len)
 
 int	redir_append_check(const char *token, const char *value, long len)
 {
-	if (ft_strncmp(">>", value, ft_strlen(value)))
-		return 1;
-	else
+	int	match;
+
+	if (len != ft_strlen(token))
 		return 0;
+	match = ft_strcmp(token, value);
+	if (match == 0)
+		return 1;
+	return 0;
 }
 
 /*
@@ -29,6 +32,14 @@ int	redir_append_check(const char *token, const char *value, long len)
 
 int	redir_in_check(const char *token, const char *value, long len)
 {
+	int	match;
+
+	if (len != ft_strlen(token))
+		return 0;
+	match = ft_strcmp(token, value);
+	if (match == 0)
+		return 1;
+	return 0;
 	if (ft_strncmp("<", value, ft_strlen(value)))
 		return 1;
 	else

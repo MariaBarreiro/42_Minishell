@@ -16,7 +16,7 @@ int	handle_redir(t_cmd_block *block, t_token **token, int type)
 			|| (*token)->type == T_REDIR_OUT || (*token)->type == T_REDIR_APPEND
 			|| (*token)->type == T_HEREDOC)
 		return (0);
-	if ((*token)->type == T_REDIR_IN)
+	if (type == T_REDIR_IN)
 	{
 		filename = ft_strdup((*token)->value);
 		index = block->redir_in;
@@ -29,7 +29,7 @@ int	handle_redir(t_cmd_block *block, t_token **token, int type)
 			block->redir_append += 1;
 		filename = ft_strdup((*token)->value);
 		index = block->redir_out;
-		block->input[index] = filename;
+		block->output[index] = filename;
 		block->redir_out += 1;
 	}
 	return (1);

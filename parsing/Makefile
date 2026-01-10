@@ -39,7 +39,7 @@ TOKEN_SRC_PATH				= tokens/
 TOKEN_SRC_FILES							= tokenizer.c
 TOKEN_SRC_FILES							+= init_tokens.c
 TOKEN_SRC_FILES							+= new_token.c
-TOKEN_SRC_FILES							+= utils_type_check.c
+# TOKEN_SRC_FILES							+= utils_type_check.c
 
 BLOCKS_SRC_PATH				= blocks/
 
