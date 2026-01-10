@@ -42,6 +42,8 @@ char    *get_variable(t_env *env, char *fragment, int exit_status)
 		return(get_brace(env, fragment, start));
 	while (start[i] && (ft_isalnum(start[i]) || start[i] == '_'))
 		i++;
+	if (i == 1)
+		return (fragment);
 	var_name = ft_substr(start, 1, i - 1);
 	var_value = get_env_value(env, var_name);
 	free(var_name);
