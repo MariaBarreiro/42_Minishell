@@ -24,29 +24,13 @@ int	count_ac(t_token *temp_token)
 
 void	free_blocks(t_cmd_block	*head)
 {
-	if (!head)
-		return ;
 	t_cmd_block *temp;
-	t_output	*output;
-	t_output	*output_next;
 
 	while (head)
 	{
 		temp = head->next;
-		if (head->args)
-			free_arrays(head->args);
-		if (head->limits)
-			free_arrays(head->limits);
-		if (head->input)
-			free_arrays(head->input);
-		output = head->outputs;
-		while (output)
-		{
-			output_next = output->next;
-			free(output->file);
-			free(output);
-			output = output_next;
-		}
+		free_block_arrays(head);
+		free_output_list(head->outputs);
 		free(head);
 		head = temp;
 	}
@@ -69,4 +53,27 @@ void	free_arrays(char **array)
 		i++;
 	}
 	free(array);
+}
+
+void	free_output_list(t_output *output)
+{
+	t_output	*next;
+
+	while (output)
+	{
+		next = output->next;
+		free(output->file);
+		free(output);
+		output = next;
+	}
+}
+
+void	free_block_arrays(t_cmd_block *block)
+{
+	if (block->args)
+		free_arrays(block->args);
+	if (block->limits)
+		free_arrays(block->limits);
+	if (block->input)
+		free_arrays(block->input);
 }

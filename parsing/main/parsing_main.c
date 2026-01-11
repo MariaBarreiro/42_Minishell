@@ -35,7 +35,7 @@ void	init_minishell(t_mini *mini, char **envp)
 
 	mini = malloc(sizeof(t_mini));
 	mini->cmd = NULL;
-	mini->env = NULL;
+	mini->env = init_env(envp);
 	mini->exit_stts = 0;
 	//missing.
 

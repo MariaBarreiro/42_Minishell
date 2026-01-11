@@ -6,45 +6,55 @@
 
 int	handle_redir(t_cmd_block *block, t_token **token, int type)
 {
-	char		*filename;
-	t_output	*new_output;
-	t_output	*tail;
-	filename = NULL;
 	(*token) = (*token)->next;
 	if (!(*token) || (*token)->type == T_PIPE || (*token)->type == T_REDIR_IN
 			|| (*token)->type == T_REDIR_OUT || (*token)->type == T_REDIR_APPEND
 			|| (*token)->type == T_HEREDOC)
 		return (0);
 	if (type == T_REDIR_IN)
-	{
-		filename = ft_strdup((*token)->value);
-		block->input[block->redir_in] = filename;
-		block->redir_in += 1;
-	}
-	else
-	{
-		filename = ft_strdup((*token)->value);
-		if (!filename)
-			return 0;
-		new_output = malloc(sizeof(t_output));
-		if (!new_output)
-			return (free(filename), 0);
-		new_output->file = filename;
-		new_output->append = (type == T_REDIR_APPEND);
-		new_output->next = NULL;
-		if (!block->outputs)
-			block->outputs = new_output;
-		else
-		{
-			tail = block->outputs;
-			while(tail->next)
-				tail = tail->next;
-			tail->next = new_output;
-		}
-		block->n_outputs += 1;
-	}
+		return (add_input_redir(block, *token));
+	if (type == T_REDIR_APPEND)
+		return (add_output_redir(block, *token, type));
+	return (0);
+}
+
+int	add_input_redir(t_cmd_block *block, t_token *token)
+{
+	char *filename;
+
+	filename = ft_strdup(token->value);
+	if (!filename)
+		return (0);
+	block->input[block->redir_in++] = filename;
 	return (1);
 }
+
+int	add_output_redir(t_cmd_block *block, t_token *token, int append)
+{
+	t_output	*new_output;
+	t_output	*tail;
+
+	new_output = malloc(sizeof(t_output));
+	if (!new_output)
+		return (0);
+	new_output->file = ft_strdup(token->value);
+	if (!new_output->file)
+		return (free(new_output), 0);
+	new_output->append = append;
+	new_output->next = NULL;
+	if (!block->outputs)
+		block->outputs= new_output;
+	else
+	{
+		tail = block->outputs;
+		while (tail->next)
+			tail = tail->next;
+		tail->next = new_output;
+	}
+	block->n_outputs += 1;
+	return (1);
+}
+
 int	redir_error(t_cmd_block *head, t_cmd_block *block, t_mini *mini, t_token *token)
 {
 	write(2, "bash: syntax error near unexpected token ", 41);

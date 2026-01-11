@@ -24,9 +24,10 @@ INC_PATH							= headers/
 SRC_PATH							= .
 
 SRC_FILES							= env_variables.c
-SRC_FILES							= utils_free.c
-SRC_FILES							= utils_error.c
-SRC_FILES							= utils_booleans.c
+SRC_FILES							+= utils_free.c
+SRC_FILES							+= utils_error.c
+SRC_FILES							+= utils_booleans.c
+SRC_FILES							+= env_list.c
 
 MAIN_SRC_PATH					= main/
 

@@ -141,6 +141,13 @@ char			*get_variable(t_env *env, char *fragment, int exit_status);
 char			*get_brace(t_env *env, char *fragment, char *start);
 char			*get_env_value(t_env *env, char *var_name);
 
+//Env List//
+t_env			*build_env_node(const char *entry);
+t_env			*new_node(char *key, char *value);
+void			list_add_back(t_env **env, t_env *new_node);
+t_env			*init_env(char **envp);
+
+
 //Env Utils//
 char			*concat(char *start, char *fragment, char *var_exit_value, int i);
 
@@ -154,6 +161,8 @@ int				count_ac(t_token *temp_token);
 
 //Handle Redirections//
 int				handle_redir(t_cmd_block *block, t_token **token, int type);
+int				add_input_redir(t_cmd_block *block, t_token *token);
+int				add_output_redir(t_cmd_block *block, t_token *token, int append);
 int				handle_heredoc(t_cmd_block *block, t_token **token);
 
 //Error//
