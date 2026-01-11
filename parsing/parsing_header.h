@@ -104,9 +104,12 @@ typedef struct s_mini
 //Main//
 void			init_minishell(t_mini *mini, char **envp);
 void			main_loop(t_mini *mini);
+char			*read_input_line(void);
+
 //Signals//
 void	set_signals(void);
 void	sighandler(int signal);
+
 //Main utils//
 int				check_interactive(void);
 int				check_delimiter(char c);
@@ -168,12 +171,12 @@ int				handle_heredoc(t_cmd_block *block, t_token **token);
 //Error//
 void			error(t_token *token, char *message, int exit_code);
 int				redir_error(t_cmd_block *head, t_cmd_block *block, t_mini *mini, t_token *token);
+int				pipe_error(t_cmd_block *head, t_mini *mini);
 
 //Free//
 void			free_tokens(t_token *token);
 void			free_blocks(t_cmd_block *head);
 void			free_arrays(char **array);
-
 
 
 #endif

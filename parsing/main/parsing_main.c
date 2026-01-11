@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int g_exit_status;
-
 /*
 	Read line.
 	Create history.

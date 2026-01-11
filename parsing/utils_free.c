@@ -1,6 +1,6 @@
 #include "parsing_header.h"
 
-void	free_token(t_token *token)
+void	free_tokens(t_token *token)
 {
 	t_token *temp;
 

@@ -21,7 +21,7 @@ LIB										= $(LIB_PATH)$(LIB_NAME)
 
 INC_PATH							= headers/
 
-SRC_PATH							= .
+SRC_PATH							= ./
 
 SRC_FILES							= env_variables.c
 SRC_FILES							+= utils_free.c

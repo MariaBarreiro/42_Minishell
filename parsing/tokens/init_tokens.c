@@ -12,8 +12,8 @@ t_token	*init_token(t_mini *mini, t_token *head, char *line, int *i)
 	new = calloc(sizeof(t_token), 1);
 	if (!new)
 		error(head, "Error: failed in memory allocate\n", 1);
-	if (line[*i] == '>' && line[1 + *i] == '>'
-		|| line[*i] == '<' && line[1 + *i] == '<')
+	if ((line[*i] == '>' && line[1 + *i] == '>')
+		|| (line[*i] == '<' && line[1 + *i] == '<'))
 	{
 		new->value = ft_substr(line, *i, 2);
 		*i += 2;
