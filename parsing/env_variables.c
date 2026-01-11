@@ -125,4 +125,3 @@ char	*get_env_value(t_env *env, char *var_name)
     }
     return (ft_strdup(""));
 }
-

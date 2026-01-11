@@ -6,11 +6,10 @@
 
 int	handle_redir(t_cmd_block *block, t_token **token, int type)
 {
-	char	*filename;
-	int		index;
-
+	char		*filename;
+	t_output	*new_output;
+	t_output	*tail;
 	filename = NULL;
-	index = 0;
 	(*token) = (*token)->next;
 	if (!(*token) || (*token)->type == T_PIPE || (*token)->type == T_REDIR_IN
 			|| (*token)->type == T_REDIR_OUT || (*token)->type == T_REDIR_APPEND
@@ -19,18 +18,30 @@ int	handle_redir(t_cmd_block *block, t_token **token, int type)
 	if (type == T_REDIR_IN)
 	{
 		filename = ft_strdup((*token)->value);
-		index = block->redir_in;
-		block->input[index] = filename;
+		block->input[block->redir_in] = filename;
 		block->redir_in += 1;
 	}
 	else
 	{
-		if (type == T_REDIR_APPEND)
-			block->redir_append += 1;
 		filename = ft_strdup((*token)->value);
-		index = block->redir_out;
-		block->output[index] = filename;
-		block->redir_out += 1;
+		if (!filename)
+			return 0;
+		new_output = malloc(sizeof(t_output));
+		if (!new_output)
+			return (free(filename), 0);
+		new_output->file = filename;
+		new_output->append = (type == T_REDIR_APPEND);
+		new_output->next = NULL;
+		if (!block->outputs)
+			block->outputs = new_output;
+		else
+		{
+			tail = block->outputs;
+			while(tail->next)
+				tail = tail->next;
+			tail->next = new_output;
+		}
+		block->n_outputs += 1;
 	}
 	return (1);
 }

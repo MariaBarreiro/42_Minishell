@@ -66,8 +66,9 @@ typedef struct s_env
 //Revise!!!//
 typedef	struct s_output
 {
-	char	*file;
-	int		append;
+	char			*file;
+	int				append;
+	struct s_output	*next;
 } t_output;
 
 /*
@@ -79,16 +80,12 @@ typedef	struct s_output
 typedef struct s_cmd_block
 {
 	int					redir_in;		//Index for '<' that tells how many input redirection have been collected so far.
-	int					redir_out;		//Index for '>' that tells how many output redirections have been collected so far.
-	int					redir_append;	//Counter for '>>'
 	int					heredoc;		//Index for '<<' that tells how many heredoc redirections have been collected so far.
-	int					heredoc_fd;		//Fd for the temporary heredoc file.
 	char				**limits;		//Delimiter words for heredocs (ex: EOF).
 	char				**args;			//The command and its arguments.
 	char				**input;		//Filenames for '<' redirections.
-	char				**output;		//Filenames for '>' and '>>' redirections.
 	int					n_outputs;
-	t_output			*outputs;		
+	t_output			*outputs;	
 	struct s_cmd_block	*next;		//Pointer to the next command in the pipeline.
 } t_cmd_block;
 
@@ -97,8 +94,6 @@ typedef struct s_cmd_block
 typedef struct s_mini
 {
 	int					exit_stts;
-	char				*input;
-	t_token				*token;
 	t_env				*env;
 	t_cmd_block			*cmd;
 } t_mini;
@@ -132,8 +127,8 @@ char			*get_single_token(t_mini *mini, const char *line, int *i);
 void			new_token(t_token **new_node, t_token **head, t_token **current);
 
 //Token Utils//
-t_token_type	get_type(char *value);
-int				is_exact_token(const char *token, const char *value);
+t_token_type		get_type(char *value);
+int					is_exact_token(const char *token, const char *value);
 // int				redir_out_check(const char *token, const char *value, long len);
 // int				redir_append_check(const char *token, const char *value, long len);
 // int				redir_in_check(const char *token, const char *value, long len);
@@ -164,7 +159,6 @@ int				handle_heredoc(t_cmd_block *block, t_token **token);
 //Error//
 void			error(t_token *token, char *message, int exit_code);
 int				redir_error(t_cmd_block *head, t_cmd_block *block, t_mini *mini, t_token *token);
-// static int		pipe_error(t_cmd_block *head, t_mini *mini);
 
 //Free//
 void			free_tokens(t_token *token);

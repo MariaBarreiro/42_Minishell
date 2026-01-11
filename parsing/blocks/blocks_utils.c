@@ -27,6 +27,8 @@ void	free_blocks(t_cmd_block	*head)
 	if (!head)
 		return ;
 	t_cmd_block *temp;
+	t_output	*output;
+	t_output	*output_next;
 
 	while (head)
 	{
@@ -37,8 +39,14 @@ void	free_blocks(t_cmd_block	*head)
 			free_arrays(head->limits);
 		if (head->input)
 			free_arrays(head->input);
-		if (head->output)
-			free_arrays(head->output);
+		output = head->outputs;
+		while (output)
+		{
+			output_next = output->next;
+			free(output->file);
+			free(output);
+			output = output_next;
+		}
 		free(head);
 		head = temp;
 	}
