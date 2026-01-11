@@ -41,21 +41,20 @@ t_token	*init_token(t_mini *mini, t_token *head, char *line, int *i)
 
 t_token_type get_type(char *value)
 {
-	if (!value || !value[0])
-		return (T_WORD);
+	long len;
 
-	if (is_exact_token(">>", value))
+	len = ft_strlen(value);
+	if (is_exact_token(">>", value, len) == 1 && value[0])
 		return (T_REDIR_APPEND);
-	else if (is_exact_token("<<", value))
+	if (is_exact_token("<<", value, len) == 1 && value[0])
 		return (T_HEREDOC);
-	else if (is_exact_token("<", value))
+	if (is_exact_token("<", value, len) == 1 && value[0])
 		return (T_REDIR_IN);
-	else if (is_exact_token(">", value))
+	if (is_exact_token(">", value, len) == 1 && value[0])
 		return (T_REDIR_OUT);
-	else if (is_exact_token("|", value))
+	if (is_exact_token("|", value, len) == 1 && value[0])
 		return (T_PIPE);
-	else
-		return (T_WORD);
+	return (T_WORD);
 }
 
 /*

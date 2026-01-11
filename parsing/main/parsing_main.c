@@ -16,7 +16,7 @@ int main(int ac, char **av, char  **envp)
 	t_mini	mini;
 
     if (ac != 1 || av[1])
-        return (ft_putstr_fd("[Error] Usage: ./minishell\n", 2),127);
+        return (ft_putstr_fd("[Error] Usage: ./minishell\n", 2), 127);
     (void)ac;
     (void)av;
 	set_signals();
@@ -25,7 +25,7 @@ int main(int ac, char **av, char  **envp)
 	main_loop(&mini);
 	//Missing free_all();
 	rl_clear_history();
-	//Missing exit();
+	return (0);
 }
 
 void	init_minishell(t_mini *mini, char **envp)

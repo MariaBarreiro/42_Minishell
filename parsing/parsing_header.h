@@ -131,12 +131,7 @@ void			new_token(t_token **new_node, t_token **head, t_token **current);
 
 //Token Utils//
 t_token_type		get_type(char *value);
-int					is_exact_token(const char *token, const char *value);
-// int				redir_out_check(const char *token, const char *value, long len);
-// int				redir_append_check(const char *token, const char *value, long len);
-// int				redir_in_check(const char *token, const char *value, long len);
-// int				pipe_check(const char *token, const char *value, long len);
-// int				heredoc_check(const char *token, const char *value, long len);
+int					is_exact_token(const char *token, const char *value, long len);
 
 //Env variables//
 char			*var_expansion(t_mini *mini, char *fragment, char quote_type);
