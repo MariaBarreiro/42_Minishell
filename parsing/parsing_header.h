@@ -172,6 +172,8 @@ int				pipe_error(t_cmd_block *head, t_mini *mini);
 void			free_tokens(t_token *token);
 void			free_blocks(t_cmd_block *head);
 void			free_arrays(char **array);
+void			free_output_list(t_output *output);
+void			free_block_arrays(t_cmd_block *block);
 
 
 #endif

@@ -2,7 +2,7 @@
 
 void	free_tokens(t_token *token)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	while (token)
 	{

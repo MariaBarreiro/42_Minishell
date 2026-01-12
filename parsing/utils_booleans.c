@@ -43,6 +43,6 @@ int	is_exact_token(const char *token, const char *value, long len)
 		return (0);
 	match = ft_strncmp(token, value, len);
 	if (match == 0)
-		return 1;
-	return 0;
+		return (1);
+	return (0);
 }

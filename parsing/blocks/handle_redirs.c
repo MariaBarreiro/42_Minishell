@@ -8,8 +8,8 @@ int	handle_redir(t_cmd_block *block, t_token **token, int type)
 {
 	(*token) = (*token)->next;
 	if (!(*token) || (*token)->type == T_PIPE || (*token)->type == T_REDIR_IN
-			|| (*token)->type == T_REDIR_OUT || (*token)->type == T_REDIR_APPEND
-			|| (*token)->type == T_HEREDOC)
+		|| (*token)->type == T_REDIR_OUT || (*token)->type == T_REDIR_APPEND
+		|| (*token)->type == T_HEREDOC)
 		return (0);
 	if (type == T_REDIR_IN)
 		return (add_input_redir(block, *token));
@@ -99,7 +99,7 @@ int	handle_heredoc(t_cmd_block *block, t_token **token)
 		Sets the shell's exit status to indicate a syntax error
 		Returns an error code for the parser to stop.
 */
-static int	pipe_error(t_cmd_block *head, t_mini *mini)
+int	pipe_error(t_cmd_block *head, t_mini *mini)
 {
 	free_blocks(head);
 	ft_putendl_fd("bash: syntax error near unexpected token `|'", 2);

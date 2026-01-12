@@ -39,7 +39,7 @@ void	list_add_back(t_env **env, t_env *new_node)
 	t_env	*tail;
 
 	if (!env || !new_node)
-		return ; 
+		return ;
 	if (!*env)
 	{
 		*env = new_node;

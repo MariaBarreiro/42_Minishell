@@ -9,10 +9,11 @@ char	*var_expansion(t_mini *mini, char *fragment, char quote_type)
 {
 	char	*position;
 
-	while(quote_type != '\'' && ft_strchr(fragment, '$'))
+	while (quote_type != '\'' && ft_strchr(fragment, '$'))
 	{
 		position = ft_strchr(fragment, '$');
-		if (!position[1] || position[1] == ' ' || check_delimiter(position[1]) == 1)
+		if (!position[1] || position[1] == ' '
+			|| check_delimiter(position[1]) == 1)
 			break ;
 		fragment = get_variable(mini->env, fragment, mini->exit_stts);
 	}
@@ -20,11 +21,11 @@ char	*var_expansion(t_mini *mini, char *fragment, char quote_type)
 }
 
 /*
-    Replace the first $VARIABLE (or '$?', or ${VAR}) inside the fragment with its value 
-        from env returning a new expanded string.
+    Replace the first $VARIABLE (or '$?', or ${VAR}) inside the fragment 
+		with its value from env returning a new expanded string.
 */
 
-char    *get_variable(t_env *env, char *fragment, int exit_status)
+char	*get_variable(t_env *env, char *fragment, int exit_status)
 {
 	int		i;
 	char	*start;
@@ -39,7 +40,7 @@ char    *get_variable(t_env *env, char *fragment, int exit_status)
 	if (start[1] == '?')
 		return (concat(start, fragment, ft_itoa(exit_status), (i + 1)));
 	if (start[1] == '{')
-		return(get_brace(env, fragment, start));
+		return (get_brace(env, fragment, start));
 	while (start[i] && (ft_isalnum(start[i]) || start[i] == '_'))
 		i++;
 	if (i == 1)
@@ -68,14 +69,12 @@ char	*concat(char *start, char *fragment, char *var_exit_value, int i)
 	suffix = ft_strdup(start + i);
 	temp_result = ft_strjoin(prefix, var_exit_value);
 	result = ft_strjoin(temp_result, suffix);
-
 	free(fragment);
 	free(prefix);
 	free(suffix);
 	free(temp_result);
 	free(var_exit_value);
-
-	return(result);
+	return (result);
 }
 
 /*
@@ -114,14 +113,14 @@ char	*get_brace(t_env *env, char *fragment, char *start)
 char	*get_env_value(t_env *env, char *var_name)
 {
 	while (env)
-    {
-        if (env->name && ft_strcmp(env->name, var_name) == 0)
-        {
-            if (env->value)
-                return (ft_strdup(env->value));
-            return (ft_strdup(""));
-        }
-        env = env->next;
-    }
-    return (ft_strdup(""));
+	{
+		if (env->name && ft_strcmp(env->name, var_name) == 0)
+		{
+			if (env->value)
+				return (ft_strdup(env->value));
+			return (ft_strdup(""));
+		}
+		env = env->next;
+	}
+	return (ft_strdup(""));
 }
