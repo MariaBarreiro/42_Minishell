@@ -19,31 +19,6 @@ int g_exit_status;
 	return (0);
 } */
 
-t_env	*init_env(char **envp)
-{
-	t_env	*head;
-	int		i;
-	char	*equal;
-
-	head = NULL;
-	i = 0;
-	if (envp && envp[i])
-	{
-		head = malloc(sizeof(t_env));
-		while (envp[i])
-		{
-			equal = ft_strchr(envp[i], '=');
-			if (equal)
-				env_add_back(&head, new_node
-					(ft_substr(envp[i], 0, equal - envp[i]), ft_strdup(equal + 1)));
-			else
-				env_add_back(&head, new_node(ft_strdup(envp[i]), NULL));
-			i++;
-		}
-	}
-	return (head);
-}
-
 /* static char	*build_prompt(char *cwd)
 {
 	int		len;
@@ -126,57 +101,55 @@ t_output	*populate_output()
 	return (head);
 }
 
-t_cmd_block	*init_cmd_pwd(void)
+t_cmd_block	*fake_cmd_echo_redir(void)
 {
 	t_cmd_block	*cmd;
+	t_output	*out;
 
 	cmd = malloc(sizeof(t_cmd_block));
-	if (!cmd)
-		return (NULL);
-	cmd->redir_in = 0;
-	//cmd->redir_out = 0;
-	//cmd->redir_append = 0;
-	cmd->heredoc = 0;
-	cmd->heredoc_fd = -1;
-	cmd->limits = NULL;
-	cmd->input = NULL;
-/* 	cmd->input = malloc(sizeof(char *) * 2);
-	cmd->input[0] = ft_strdup("b.txt");
-	cmd->input[1] = NULL; */
-	//cmd->output = NULL;
-	cmd->n_outputs = 1;
-	cmd->outputs = populate_output();
 	cmd->args = malloc(sizeof(char *) * 3);
 	cmd->args[0] = ft_strdup("echo");
 	cmd->args[1] = ft_strdup("MARCIO");
 	cmd->args[2] = NULL;
 
-	t_cmd_block	*second;
+	out = malloc(sizeof(t_output));
+	out->file = ft_strdup("a.txt");
+	out->append = 1;
+	out->next = NULL;
 
-	second = malloc(sizeof(t_cmd_block));
-	if (!second)
-		return (NULL);
-	second->redir_in = 0;
-	//cmd->redir_out = 0;
-	//cmd->redir_append = 0;
-	second->heredoc = 0;
-	second->heredoc_fd = -1;
-	second->limits = NULL;
-	second->input = NULL;
-/* 	second->input = malloc(sizeof(char *) * 2);
-	second->input[0] = ft_strdup("b.txt");
-	second->input[1] = NULL; */
-	//cmd->output = NULL;
-	second->n_outputs = 0;
-	second->outputs = NULL; //populate_output();
-	second->args = malloc(sizeof(char *) * 3);
-	second->args[0] = ft_strdup("cat");
-	second->args[1] = ft_strdup("a.txt");
-	second->args[2] = NULL;
-	second->next = NULL;
-	cmd->next = second;
+	cmd->outputs = out;
+	cmd->n_outputs = 1;
+
+	cmd->input = NULL;
+	cmd->heredoc = 0;
+	cmd->heredoc_fd = -1;
+	cmd->limits = NULL;
+	cmd->next = NULL;
+
 	return (cmd);
 }
+
+t_cmd_block	*fake_cmd_echo(void)
+{
+	t_cmd_block	*cmd;
+
+	cmd = malloc(sizeof(t_cmd_block));
+	cmd->args = malloc(sizeof(char *) * 3);
+	cmd->args[0] = ft_strdup("echo");
+	cmd->args[1] = ft_strdup("AAAAAAAA");
+	cmd->args[2] = NULL;
+
+	cmd->outputs = NULL;
+	cmd->n_outputs = 0;
+	cmd->input = NULL;
+	cmd->heredoc = 0;
+	cmd->heredoc_fd = -1;
+	cmd->limits = NULL;
+	cmd->next = NULL;
+
+	return (cmd);
+}
+
 
 t_mini	*init_minishell(t_cmd_block *cmd, char **envp)
 {
@@ -188,11 +161,32 @@ t_mini	*init_minishell(t_cmd_block *cmd, char **envp)
 	mini->exit_stts = 0;
 	mini->cmd = cmd;
 	mini->my_env = init_env(envp);
+	if (init_minimal_env(&mini->my_env)) // <<<<<<<<<<<<<<<<<<iniciar SHSLVL
+		exit(1);
 	return (mini);
 }
 
-
 int	main(int ac, char **av, char **envp)
+{
+	t_mini		mini;
+	t_cmd_block	*cmd1;
+	t_cmd_block	*cmd2;
+
+	(void)av;
+	if (ac != 1)
+		return (1);
+	cmd1 = fake_cmd_echo_redir();
+	cmd2 = fake_cmd_echo();
+	cmd1->next = cmd2;
+	mini.cmd = cmd1;
+	mini.my_env = init_env(envp);
+	mini.exit_stts = 0;
+	execute_pipeline(&mini);
+	return (0);
+}
+
+
+/* int	main(int ac, char **av, char **envp)
 {
 	t_mini		*mini;
 	t_cmd_block	*cmd;
@@ -204,4 +198,4 @@ int	main(int ac, char **av, char **envp)
 	mini = init_minishell(cmd, envp);
 	execute_pipeline(mini);
 	return (0);
-}
+} */

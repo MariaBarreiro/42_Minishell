@@ -155,7 +155,7 @@ int		execute_cmd(t_cmd_block *cmd, t_env *envp);
 
 //----------------------execute utils------------------------------------------
 int		(*create_pipes(int n))[2];
-void	wait_all_children(pid_t *pids, int n);
+void	wait_all_children(pid_t *pids, int n, t_mini *mini);
 void	close_all_pipes(int (*pipes)[2], int n);
 int		count_cmds(t_cmd_block *cmd);
 
@@ -172,6 +172,7 @@ int		ft_exit(char **args, int exit_stts);
 
 //______________________env utils_____________________________
 char	*get_env_value(char *key, t_env *my_env);
+int	init_minimal_env(t_env **env);
 void	update_env(char *key, char *value, t_env **my_env, int create);
 t_env	*new_node(char *key, char *valuev);
 void	lst_add_back(t_env **my_env, t_env *new_node);
@@ -212,7 +213,8 @@ int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_atoll(const char *nptr);
 char	*ft_strjoin(char const *s1, char const *s2);
+int		ft_atoi(const char *nptr);
+char	*ft_itoa(int n); //<< add to libft
 int		ft_strsearch(char *str, char c); //<< add to libft
-
 
 #endif

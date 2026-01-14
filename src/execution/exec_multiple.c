@@ -1,19 +1,15 @@
 #include "../header.h"
 
 
-static void	setup_child_pipes(int i, int total, int (*p)[2])
+static void	setup_child_pipes( t_cmd_block *cmd, int i, int total, int (*p)[2])
 {
-	int	j = 0;
+	int	j;
 
-	if (i == 0)
-		dup2(p[0][1], 1);
-	else if (i == total - 1)
-		dup2(p[i - 1][0], 0);
-	else
-	{
-		dup2(p[i - 1][0], 0);
-		dup2(p[i][1], 1);
-	}
+	j = 0;
+	if (i > 0)
+		dup2(p[i - 1][0], STDIN_FILENO);
+	if (i < total - 1 && cmd->outputs == NULL)
+		dup2(p[i][1], STDOUT_FILENO);
 	while (j < total - 1)
 	{
 		close(p[j][0]);
@@ -22,12 +18,18 @@ static void	setup_child_pipes(int i, int total, int (*p)[2])
 	}
 }
 
-static void	child_process(t_mini *mini, int (*p)[2], int i, int n)
+static void	child_process(t_mini *mini, t_cmd_block *cmd, int (*p)[2], int i, int n)
 {
-	setup_child_pipes(i, n, p);
-	setup_redirections(mini->cmd);
-	execute_cmd(mini->cmd, mini->my_env);
+	setup_child_pipes(cmd, i, n, p);
+	setup_redirections(cmd);
+
+	if (is_builtin(cmd->args))
+		exit(exec_builtin(cmd->args, mini));
+
+	execute_cmd(cmd, mini->my_env);
+	exit(126);
 }
+
 
 /* void	execute_child(t_mini *mini)
 {
@@ -58,13 +60,13 @@ int	execute_multiple(t_mini *mini)
 	{
 		pids[i] = fork();
 		if (pids[i] == 0)
-			child_process(mini, pipes, i, n);
+			child_process(mini, cmd, pipes, i, n);
 		cmd = cmd->next;
 		i++;
 	}
 	close_all_pipes(pipes, n);
-	wait_all_children(pids, n);
+	wait_all_children(pids, n, mini);
 	free(pipes);
 	free(pids);
-	return (0);
+	return (mini->exit_stts);
 }
