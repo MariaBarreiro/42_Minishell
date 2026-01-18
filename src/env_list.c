@@ -8,7 +8,7 @@ t_env	*build_env_node(const char *entry)
 
 	equal = ft_strchr(entry, '=');
 	if (!equal)
-		return (new_node(ft_strdup(entry), NULL));
+		return (add_new_node(ft_strdup(entry), NULL));
 	key = ft_substr(entry, 0, equal - entry);
 	value = ft_strdup(equal + 1);
 	if (!key || !value)
@@ -17,10 +17,10 @@ t_env	*build_env_node(const char *entry)
 		free(value);
 		return (NULL);
 	}
-	return (new_node(key, value));
+	return (add_new_node(key, value));
 }
 
-t_env	*new_node(char *key, char *value)
+t_env	*add_new_node(char *key, char *value)
 {
 	t_env	*node;
 
@@ -51,7 +51,7 @@ void	list_add_back(t_env **env, t_env *new_node)
 	tail->next = new_node;
 }
 
-t_env	*init_env(char **envp)
+/* t_env	*init_env(char **envp)
 {
 	t_env	*head;
 	t_env	*node;
@@ -66,4 +66,4 @@ t_env	*init_env(char **envp)
 			list_add_back(&head, node);
 	}
 	return (head);
-}
+} */

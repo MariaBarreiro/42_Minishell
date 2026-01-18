@@ -42,7 +42,7 @@ char			*env_value(t_env *env, char *var_name);
 
 //Env List//
 t_env			*build_env_node(const char *entry);
-t_env			*new_node(char *key, char *value);
+t_env			*add_new_node(char *key, char *value);
 void			list_add_back(t_env **env, t_env *new_node);
 t_env			*init_env(char **envp);
 
@@ -120,8 +120,10 @@ int		ft_strcmp(const char *s1, const char *s2); //<<<< add to libft
 int		ft_lstsize(t_env *lst); //<<<< add to libft
 
 
-int	ft_strcmp(const char *s1, const char *s2);
+int	    ft_strcmp(const char *s1, const char *s2);
 void	env_add_back(t_env **lst, t_env *new);
 char	*ft_itoa(int n);
+int	    ft_atoll(const char *nptr);
+int	    ft_strsearch(char *str, char c);
 
 #endif

@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	handle_heredoc(t_cmd_block *cmd)
+static void	handle_heredocs(t_cmd_block *cmd)
 {
 	int		fd[2];
 	int		i;
@@ -79,7 +79,7 @@ int	handle_output_redir(t_cmd_block *cmd)
 void	setup_redirections(t_cmd_block *cmd)
 {
 	if (cmd->heredoc > 0)
-		handle_heredoc(cmd);
+		handle_heredocs(cmd);
 	if (cmd->redir_in > 0)
 		handle_input(cmd);
 	if (cmd->n_outputs > 0)
