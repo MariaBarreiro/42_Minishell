@@ -58,12 +58,10 @@ t_env	*init_env(char **envp)
 	{
 		equal = ft_strchr(envp[i], '=');
 		if (equal)
-			env_add_back(&head,
-				new_node(ft_substr(envp[i], 0, equal - envp[i]),
+			env_add_back(&head, new_node(ft_substr(envp[i], 0, equal - envp[i]),
 					ft_strdup(equal + 1)));
 		else
-			env_add_back(&head,
-				new_node(ft_strdup(envp[i]), NULL));
+			env_add_back(&head, new_node(ft_strdup(envp[i]), NULL));
 		i++;
 	}
 	return (head);

@@ -2,24 +2,28 @@
 
 void	handle_heredoc(t_cmd_block *cmd)
 {
+	int		fd[2];
 	int		i;
 	char	*line;
-	int		fd[2];
 
+	if (!cmd->limits)
+		return ;
 	i = 0;
-	pipe(fd);
-	while (cmd->limits && cmd->limits[i])
-	{
-		while(1)
-		{
-			line = readline("> ");
-			if (!line || !ft_strcmp(line, cmd->limits[i]))
-				break;
-			write(fd[1], line, ft_strlen(line));
-			write(fd[1], "\n", 1);
-			free(line);
-		}
+	while (cmd->limits[i + 1])
 		i++;
+	if (pipe(fd) < 0)
+		exit(1);
+	while (1)
+	{
+		line = readline("> ");
+		if (!line || !ft_strcmp(line, cmd->limits[i]))
+		{
+			free(line);
+			break ;
+		}
+		write(fd[1], line, ft_strlen(line));
+		write(fd[1], "\n", 1);
+		free(line);
 	}
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
@@ -31,8 +35,10 @@ void	handle_input(t_cmd_block *cmd)
 	int	i;
 	int	fd;
 
+	if (!cmd->input)
+		return ;
 	i = 0;
-	while(cmd->input[i])
+	while (cmd->input[i])
 	{
 		fd = open(cmd->input[i], O_RDONLY);
 		if (fd < 0)

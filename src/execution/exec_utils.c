@@ -15,22 +15,6 @@ int		count_cmds(t_cmd_block *cmd)
 	return (i);
 }
 
-int	(*create_pipes(int n))[2]
-{
-	int	(*p)[2];
-	int	i;
-
-	p = malloc(sizeof(int [2]) * (n - 1));
-	i = 0;
-	while (i < n - 1)
-	{
-		if (pipe(p[i]) == -1)
-			exit(1);
-		i++;
-	}
-	return (p);
-}
-
 void	close_all_pipes(int (*pipes)[2], int n)
 {
 	int	i;

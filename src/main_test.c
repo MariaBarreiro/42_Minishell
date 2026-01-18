@@ -80,32 +80,10 @@ void	main_loop(t_env **my_env)
 		free(input);
 	}
 } */
-t_output	*populate_output()
-{
-	t_output	*head;
-	//t_output	*second;
-
-	head = malloc(sizeof(t_output));
-	if (!head)
-		return (NULL);
-	head->file = ft_strdup("a.txt");
-	head->append = 1;
-
-/* 	second = malloc(sizeof(t_output));
-	if (!second)
-		return (NULL);
-	second->file = ft_strdup("testando.txt");
-	second->append = 1;
-	second->next = NULL; */
-	head->next = NULL;
-	return (head);
-}
-
 t_cmd_block	*fake_cmd_echo_redir(void)
 {
 	t_cmd_block	*cmd;
 	t_output	*out;
-
 	cmd = malloc(sizeof(t_cmd_block));
 	cmd->args = malloc(sizeof(char *) * 3);
 	cmd->args[0] = ft_strdup("echo");
@@ -132,13 +110,11 @@ t_cmd_block	*fake_cmd_echo_redir(void)
 t_cmd_block	*fake_cmd_echo(void)
 {
 	t_cmd_block	*cmd;
-
 	cmd = malloc(sizeof(t_cmd_block));
 	cmd->args = malloc(sizeof(char *) * 3);
 	cmd->args[0] = ft_strdup("echo");
 	cmd->args[1] = ft_strdup("AAAAAAAA");
 	cmd->args[2] = NULL;
-
 	cmd->outputs = NULL;
 	cmd->n_outputs = 0;
 	cmd->input = NULL;
@@ -146,7 +122,6 @@ t_cmd_block	*fake_cmd_echo(void)
 	cmd->heredoc_fd = -1;
 	cmd->limits = NULL;
 	cmd->next = NULL;
-
 	return (cmd);
 }
 

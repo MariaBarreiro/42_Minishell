@@ -1,7 +1,22 @@
 #include "../header.h"
 
+int	(*create_pipes(int n))[2]
+{
+	int	(*p)[2];
+	int	i;
 
-static void	setup_child_pipes( t_cmd_block *cmd, int i, int total, int (*p)[2])
+	p = malloc(sizeof(int [2]) * (n - 1));
+	i = 0;
+	while (i < n - 1)
+	{
+		if (pipe(p[i]) == -1)
+			exit(1);
+		i++;
+	}
+	return (p);
+}
+
+static void	setup_child_pipes(t_cmd_block *cmd, int i, int total, int (*p)[2])
 {
 	int	j;
 
@@ -18,16 +33,14 @@ static void	setup_child_pipes( t_cmd_block *cmd, int i, int total, int (*p)[2])
 	}
 }
 
-static void	child_process(t_mini *mini, t_cmd_block *cmd, int (*p)[2], int i, int n)
+static void	child_process(t_mini *mini, t_cmd_block *cmd, int (*p)[2], int i, int n_cmds)
 {
-	setup_child_pipes(cmd, i, n, p);
+	setup_child_pipes(cmd, i, n_cmds, p);
 	setup_redirections(cmd);
-
 	if (is_builtin(cmd->args))
 		exit(exec_builtin(cmd->args, mini));
-
 	execute_cmd(cmd, mini->my_env);
-	exit(126);
+	exit(1);
 }
 
 
@@ -46,26 +59,26 @@ static void	child_process(t_mini *mini, t_cmd_block *cmd, int (*p)[2], int i, in
 int	execute_multiple(t_mini *mini)
 {
 	t_cmd_block		*cmd;
-	int				n;
+	int				n_cmds;
 	int				(*pipes)[2];
 	pid_t			*pids;
 	int				i;
 
 	cmd = mini->cmd;
-	n = count_cmds(cmd);
-	pipes = create_pipes(n);
-	pids = malloc(sizeof(pid_t) * n);
+	n_cmds = count_cmds(cmd);
+	pipes = create_pipes(n_cmds);
+	pids = malloc(sizeof(pid_t) * n_cmds);
 	i = 0;
 	while (cmd)
 	{
 		pids[i] = fork();
 		if (pids[i] == 0)
-			child_process(mini, cmd, pipes, i, n);
+			child_process(mini, cmd, pipes, i, n_cmds);
 		cmd = cmd->next;
 		i++;
 	}
-	close_all_pipes(pipes, n);
-	wait_all_children(pids, n, mini);
+	close_all_pipes(pipes, n_cmds);
+	wait_all_children(pids, n_cmds, mini);
 	free(pipes);
 	free(pids);
 	return (mini->exit_stts);
