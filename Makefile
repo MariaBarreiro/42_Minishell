@@ -23,9 +23,77 @@ INC_PATH						= ./includes/
 
 SRC_PATH						= ./src/
 
-SRC_FILES						= main.c
+SRC_FILES				  		= main.c
+SRC_FILES							+= env_variables.c
+SRC_FILES							+= utils_free.c
+SRC_FILES							+= utils_error.c
+SRC_FILES							+= utils_booleans.c
+SRC_FILES							+= env_list.c
+SRC_FILES							+= init_env.c
+SRC_FILES							+= main_test.c 
+
+MAIN_SRC_PATH					= main/
+
+MAIN_SRC_FILES				+= main_loop.c
+MAIN_SRC_FILES				+= parsing_main.c
+MAIN_SRC_FILES				+= signals.c
+
+TOKEN_SRC_PATH				= tokens/
+
+TOKEN_SRC_FILES				= tokenizer.c
+TOKEN_SRC_FILES				+= init_tokens.c
+TOKEN_SRC_FILES				+= new_token.c
+
+BLOCKS_SRC_PATH				= blocks/
+
+BLOCKS_SRC_FILES			= blocks.c
+BLOCKS_SRC_FILES			+= blocks_utils.c
+BLOCKS_SRC_FILES			+= handle_redirs.c
+
+BUILTIN_SRC_PATH			= builtin/
+
+BUILTIN_SRC_FILES			= builtin_command.c
+BUILTIN_SRC_FILES			+= cd.c
+BUILTIN_SRC_FILES			+= echo.c
+BUILTIN_SRC_FILES			+= env.c
+BUILTIN_SRC_FILES			+= env_utils.c
+BUILTIN_SRC_FILES			+= exit.c
+BUILTIN_SRC_FILES			+= export.c
+BUILTIN_SRC_FILES			+= export_utils.c
+BUILTIN_SRC_FILES			+= pwd.c
+BUILTIN_SRC_FILES			+= signal_handle.c
+BUILTIN_SRC_FILES			+= unset.c
+BUILTIN_SRC_FILES			+= utils.c
+
+BUILTIN_LST_PATH			= builtin/lst_utils/
+
+BUILTIN_LST_FILES			= ft_lstadd_back.c
+BUILTIN_LST_FILES			+= ft_lstadd_front.c
+BUILTIN_LST_FILES			+= ft_lstclear.c
+BUILTIN_LST_FILES			+= ft_lstdelone.c
+BUILTIN_LST_FILES			+= ft_lstiter.c
+BUILTIN_LST_FILES			+= ft_lstlast.c
+BUILTIN_LST_FILES			+= ft_lstmap.c
+BUILTIN_LST_FILES			+= ft_lstnew.c
+BUILTIN_LST_FILES			+= ft_lstsize.c
+
+EXECUTION_SRC_PATH		= execution/
+
+EXECUTION_SRC_FILES		= exec_builtin.c
+EXECUTION_SRC_FILES		+= exec_errors.c
+EXECUTION_SRC_FILES		+= exec_multiple.c
+EXECUTION_SRC_FILES		+= exec_utils.c
+EXECUTION_SRC_FILES		+= exec_cmd.c
+EXECUTION_SRC_FILES		+= execution.c
+EXECUTION_SRC_FILES		+= setup_redirections.c
 
 SRC								= $(addprefix $(SRC_PATH), $(SRC_FILES))
+SRC								+= $(addprefix $(MAIN_SRC_PATH), $(MAIN_SRC_FILES))
+SRC								+= $(addprefix $(TOKEN_SRC_PATH), $(TOKEN_SRC_FILES))
+SRC								+= $(addprefix $(BLOCKS_SRC_PATH), $(BLOCKS_SRC_FILES))
+SRC								+= $(addprefix $(BUILTIN_SRC_PATH), $(BUILTIN_SRC_FILES))								+= $(addprefix $(BUILTIN_SRC_PATH), $(BUILTIN_SRC_FILES))
+SRC								+= $(addprefix $(BUILTIN_LST_PATH), $(BUILTIN_LST_FILES))								+= $(addprefix $(BUILTIN_SRC_PATH), $(BUILTIN_SRC_FILES))
+SRC								+= $(addprefix $(EXECUTION_SRC_PATH), $(EXECUTION_SRC_FILES))								+= $(addprefix $(BUILTIN_SRC_PATH), $(BUILTIN_SRC_FILES))
 
 OBJS_DIR						= obj
 OBJS							= $(patsubst %.c, $(OBJS_DIR)/%.o, $(SRC))
@@ -79,3 +147,5 @@ fclean: clean
 
 re: fclean all
 		@echo "Re-compile was successfull!"
+
+PHONY: bonus all clean fclean re
