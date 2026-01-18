@@ -1,4 +1,4 @@
-#include "../header.h"
+#include "../../includes/minishell.h"
 
 char	**find_path(t_env *env)
 {

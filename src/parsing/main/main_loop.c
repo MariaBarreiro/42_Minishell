@@ -1,4 +1,4 @@
-#include "../parsing_header.h"
+#include "../../../includes/minishell.h"
 
 /*
 	Main interactive loop for minishell.

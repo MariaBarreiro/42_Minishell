@@ -1,4 +1,4 @@
-#include "../header.h"
+#include "../../includes/minishell.h"
 
 int	(*create_pipes(int n))[2]
 {

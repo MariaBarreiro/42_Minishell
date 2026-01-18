@@ -1,4 +1,4 @@
-#include "../header.h"
+#include "../../includes/minishell.h"
 
 int		count_cmds(t_cmd_block *cmd)
 {

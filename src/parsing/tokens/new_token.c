@@ -1,4 +1,4 @@
-#include "../parsing_header.h"
+#include "../../../includes/minishell.h"
 
 /*
 	Get the type and update the current.

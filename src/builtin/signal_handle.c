@@ -1,4 +1,4 @@
-#include "../header.h"
+#include "../../includes/minishell.h"
 
 void ctrl_c(int sign)
 {

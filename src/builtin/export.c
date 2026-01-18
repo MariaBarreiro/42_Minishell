@@ -1,4 +1,4 @@
-#include "../header.h"
+#include "../../includes/minishell.h"
 
 /*
 Without any arguments, the command will generate or display all exported variables. Below is an example of the expected output.

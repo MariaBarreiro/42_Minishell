@@ -1,4 +1,4 @@
-#include "../header.h"
+#include "../../includes/minishell.h"
 
 static int	update_pwd(char *key, t_env **my_env)
 {

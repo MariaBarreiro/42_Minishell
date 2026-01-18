@@ -1,4 +1,4 @@
-/* #include "../header.h"
+/* #include "../../includes/minishell.h"
 
 void	handle_pipes(int pipes[][2], int i, int total)
 {

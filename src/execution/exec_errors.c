@@ -1,4 +1,4 @@
-#include "../header.h"
+#include "../../includes/minishell.h"
 
 void	error_not_found(char **cmd, char **paths)
 {

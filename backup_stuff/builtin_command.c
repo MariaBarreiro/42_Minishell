@@ -1,4 +1,4 @@
-#include "../header.h"
+#include "../../includes/minishell.h"
 
 // JUST A FAKE TOKEN MAKER NEED TO BE EXCLUDED LATER ON //
 

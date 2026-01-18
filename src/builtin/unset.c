@@ -1,4 +1,4 @@
-#include "../header.h"
+#include "../../includes/minishell.h"
 
 	//unset values and attributes of variables and functions >> When you use unset on a variable, it removes the variable 
 	//from the shell environment, making it undefined. 

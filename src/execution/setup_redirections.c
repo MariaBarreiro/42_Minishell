@@ -1,4 +1,4 @@
-#include "../header.h"
+#include "../../includes/minishell.h"
 
 void	handle_heredoc(t_cmd_block *cmd)
 {

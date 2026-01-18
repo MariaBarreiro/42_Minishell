@@ -1,4 +1,4 @@
-#include "../header.h"
+#include "../../includes/minishell.h"
 
 int	ft_env(t_env *my_env, char **arg)
 {

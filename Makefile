@@ -52,8 +52,8 @@ BLOCKS_SRC_FILES			+= handle_redirs.c
 
 BUILTIN_SRC_PATH			= builtin/
 
-BUILTIN_SRC_FILES			= builtin_command.c
-BUILTIN_SRC_FILES			+= cd.c
+#BUILTIN_SRC_FILES			= builtin_command.c
+BUILTIN_SRC_FILES			= cd.c
 BUILTIN_SRC_FILES			+= echo.c
 BUILTIN_SRC_FILES			+= env.c
 BUILTIN_SRC_FILES			+= env_utils.c
@@ -64,18 +64,6 @@ BUILTIN_SRC_FILES			+= pwd.c
 BUILTIN_SRC_FILES			+= signal_handle.c
 BUILTIN_SRC_FILES			+= unset.c
 BUILTIN_SRC_FILES			+= utils.c
-
-BUILTIN_LST_PATH			= builtin/lst_utils/
-
-BUILTIN_LST_FILES			= ft_lstadd_back.c
-BUILTIN_LST_FILES			+= ft_lstadd_front.c
-BUILTIN_LST_FILES			+= ft_lstclear.c
-BUILTIN_LST_FILES			+= ft_lstdelone.c
-BUILTIN_LST_FILES			+= ft_lstiter.c
-BUILTIN_LST_FILES			+= ft_lstlast.c
-BUILTIN_LST_FILES			+= ft_lstmap.c
-BUILTIN_LST_FILES			+= ft_lstnew.c
-BUILTIN_LST_FILES			+= ft_lstsize.c
 
 EXECUTION_SRC_PATH		= execution/
 

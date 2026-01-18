@@ -16,9 +16,7 @@
 # include <curses.h>
 # include "../libs/42_Libft/42_Gnl/get_next_line.h"			
 # include "../libs/42_Libft/Inc/libft.h"
-# include "prototypes.h"
 # include "structs.h"
-
-void	main_loop(void);
+# include "prototypes.h"
 
 #endif

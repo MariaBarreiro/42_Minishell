@@ -1,4 +1,4 @@
-#include "../header.h"
+#include "../../includes/minishell.h"
 
 static int	execute_external(t_mini *mini)
 {
