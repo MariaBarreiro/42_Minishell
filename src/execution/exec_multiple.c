@@ -83,3 +83,5 @@ int	execute_multiple(t_mini *mini)
 	free(pids);
 	return (mini->exit_stts);
 }
+
+/*adicionar if (builtin)*/

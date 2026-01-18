@@ -47,6 +47,7 @@ t_cmd_block *new_block(int ac)
 	new_block->args = ft_calloc((ac + 1), sizeof(char *));
 	new_block->limits = ft_calloc((ac + 1), sizeof(char *));
 	new_block->input = ft_calloc((ac + 1), sizeof(char *));
+//	new_block->next = NULL;
 	return (new_block);
 }
 
