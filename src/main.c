@@ -3,7 +3,6 @@
 int main(int ac, char **av, char  **envp)
 {
 	t_mini	mini;
-	int		ret;
 
     if (ac != 1 || av[1])
         return (ft_putstr_fd("[Error] Usage: ./minishell\n", 2), 127);
@@ -11,8 +10,6 @@ int main(int ac, char **av, char  **envp)
     (void)av;
 	set_signals();
 	init_minishell(&mini, envp);
-	ret = 0;
-	ret = execute_pipeline(&mini);
 	main_loop(&mini);
 	//Missing free_all();
 	rl_clear_history();

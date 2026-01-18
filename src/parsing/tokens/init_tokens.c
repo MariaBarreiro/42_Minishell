@@ -77,6 +77,7 @@ char	*get_tokens(t_mini *mini, const char *line, int *i)
 			free(word);
 			return (NULL);
 		}
+
 		temp = word;
 		if (word)
 			word = ft_strjoin(word, fragment);

@@ -12,7 +12,7 @@ int	execute_pipeline(t_mini *mini)
 	int			ret;
 
 	cmd = mini->cmd;
-	if (cmd->next)
+	if (cmd->next != NULL)
 		return (execute_multiple(mini));
 	if (is_builtin(cmd->args))
 	{

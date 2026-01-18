@@ -11,7 +11,7 @@
 char	*read_input_line(void)
 {
 	if (check_interactive() == 1)
-		return (readline("minishell"));
+		return (readline("> "));
 	return (get_next_line(STDIN_FILENO));
 }
 
@@ -19,6 +19,7 @@ void	main_loop(t_mini *mini)
 {
 	char		*input_line;
 	t_cmd_block	*blocks;
+	int			ret;
 
 	while (1)
 	{
@@ -32,9 +33,10 @@ void	main_loop(t_mini *mini)
 		if (*input_line)
 			add_history(input_line);
 		blocks = tokenizer(mini, input_line);
-		if (blocks)
+		ret = execute_pipeline(mini);
+		if (blocks)	
 			free_blocks(blocks);
-	////Acrescentar execucao
+		
 		free(input_line);
 	}
 }

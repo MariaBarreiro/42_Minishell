@@ -46,7 +46,7 @@ int	init_minimal_env(t_env **env)
 	return (0);
 }
 
-t_env	*init_env(char **envp)
+/*t_env	*init_env(char **envp)
 {
 	t_env	*head;
 	int		i;
@@ -65,4 +65,4 @@ t_env	*init_env(char **envp)
 		i++;
 	}
 	return (head);
-}
+}*/

@@ -13,11 +13,7 @@
 
 void	init_minishell(t_mini *mini, char **envp)
 {
-
-	mini = malloc(sizeof(t_mini));
 	mini->cmd = NULL;
 	mini->my_env = init_env(envp);
 	mini->exit_stts = 0;
-	//missing.
-
 }

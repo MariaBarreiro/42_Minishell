@@ -51,7 +51,7 @@ void	list_add_back(t_env **env, t_env *new_node)
 	tail->next = new_node;
 }
 
-/* t_env	*init_env(char **envp)
+t_env	*init_env(char **envp)
 {
 	t_env	*head;
 	t_env	*node;
@@ -66,4 +66,4 @@ void	list_add_back(t_env **env, t_env *new_node)
 			list_add_back(&head, node);
 	}
 	return (head);
-} */
+}
