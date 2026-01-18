@@ -10,11 +10,14 @@
 # include <dirent.h>
 # include <string.h>
 # include <sys/ioctl.h>
+# include <sys/wait.h>
 # include <stdlib.h>
 # include <termios.h>
 # include <curses.h>
 # include "../libs/42_Libft/42_Gnl/get_next_line.h"			
 # include "../libs/42_Libft/Inc/libft.h"
+# include "prototypes.h"
+# include "structs.h"
 
 void	main_loop(void);
 
