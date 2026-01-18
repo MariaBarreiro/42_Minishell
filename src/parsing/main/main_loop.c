@@ -33,8 +33,7 @@ void	main_loop(t_mini *mini)
 		if (*input_line)
 			add_history(input_line);
 		blocks = tokenizer(mini, input_line);
-//falta associar os blocks a struct do mini.
-
+		mini->cmd = blocks;
 		ret = execute_pipeline(mini);
 		if (blocks)	
 			free_blocks(blocks);
