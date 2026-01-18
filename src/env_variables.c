@@ -1,4 +1,4 @@
-#include "parsing_header.h"
+#include "../../../includes/minishell.h"
 
 /*
 	Expand variables.
@@ -46,7 +46,7 @@ char	*get_variable(t_env *env, char *fragment, int exit_status)
 	if (i == 1)
 		return (fragment);
 	var_name = ft_substr(start, 1, i - 1);
-	var_value = get_env_value(env, var_name);
+	var_value = env_value(env, var_name);
 	free(var_name);
 	return_var = concat(start, fragment, var_value, i);
 	return (return_var);
@@ -101,7 +101,7 @@ char	*get_brace(t_env *env, char *fragment, char *start)
 		return (ft_strdup(""));
 	}
 	var_name = ft_substr((start + 2), 0, len);
-	var_value = get_env_value(env, var_name);
+	var_value = env_value(env, var_name);
 	free(var_name);
 	return (concat(start, fragment, var_value, len + 3));
 }
@@ -110,7 +110,7 @@ char	*get_brace(t_env *env, char *fragment, char *start)
 	Find an environment variable's value by name.
 */
 
-char	*get_env_value(t_env *env, char *var_name)
+char	*env_value(t_env *env, char *var_name)
 {
 	while (env)
 	{

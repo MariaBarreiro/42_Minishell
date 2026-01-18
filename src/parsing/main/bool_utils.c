@@ -1,4 +1,4 @@
-#include "../parsing_header.h"
+#include "../../../includes/minishell.h"
 
 /*
 	Determine if its a terminal or not.

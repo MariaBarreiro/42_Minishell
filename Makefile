@@ -63,7 +63,8 @@ BUILTIN_SRC_FILES			+= export_utils.c
 BUILTIN_SRC_FILES			+= pwd.c
 BUILTIN_SRC_FILES			+= signal_handle.c
 BUILTIN_SRC_FILES			+= unset.c
-BUILTIN_SRC_FILES			+= utils.c
+#BUILTIN_SRC_FILES			+= utils.c
+BUILTIN_SRC_FILES			+= utils_builtin.c
 
 EXECUTION_SRC_PATH		= execution/
 

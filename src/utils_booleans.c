@@ -1,4 +1,4 @@
-#include "parsing_header.h"
+#include "../../../includes/minishell.h"
 
 /*
 	Determine if its a terminal or not.
@@ -32,14 +32,14 @@ int	check_spaces(char *str)
 		i++;
 	if (str[i])
 		return (1);
-	return (0);
+	return (0);	
 }
 
 int	is_exact_token(const char *token, const char *value, long len)
 {
 	int	match;
 
-	if (len != ft_strlen(token))
+	if ((size_t)len != ft_strlen(token))
 		return (0);
 	match = ft_strncmp(token, value, len);
 	if (match == 0)

@@ -1,4 +1,4 @@
-#include "parsing_header.h"
+#include "../../../includes/minishell.h"
 
 t_env	*build_env_node(const char *entry)
 {

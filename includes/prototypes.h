@@ -38,7 +38,7 @@ int					is_exact_token(const char *token, const char *value, long len);
 char			*var_expansion(t_mini *mini, char *fragment, char quote_type);
 char			*get_variable(t_env *env, char *fragment, int exit_status);
 char			*get_brace(t_env *env, char *fragment, char *start);
-char			*get_env_value(t_env *env, char *var_name);
+char			*env_value(t_env *env, char *var_name);
 
 //Env List//
 t_env			*build_env_node(const char *entry);
@@ -118,5 +118,10 @@ int		env_key_exists(char *key, t_env *my_env);
 char	*get_key(char *args);
 int		ft_strcmp(const char *s1, const char *s2); //<<<< add to libft
 int		ft_lstsize(t_env *lst); //<<<< add to libft
+
+
+int	ft_strcmp(const char *s1, const char *s2);
+void	env_add_back(t_env **lst, t_env *new);
+char	*ft_itoa(int n);
 
 #endif

@@ -1,4 +1,4 @@
-#include "../parsing_header.h"
+#include "../../../includes/minishell.h"
 
 /*
 	Validate and record an input or output for the current command block.

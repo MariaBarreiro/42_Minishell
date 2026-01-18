@@ -1,4 +1,4 @@
-#include "./header.h"
+#include "../../../includes/minishell.h"
 
 int	init_pwd(t_env **env)
 {

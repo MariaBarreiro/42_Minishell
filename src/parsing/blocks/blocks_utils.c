@@ -1,5 +1,4 @@
-#include "../parsing_header.h"
-
+#include "../../../includes/minishell.h"
 /*
 	Determine how many command-line arguments exist before the next pipe symbol.
 */
