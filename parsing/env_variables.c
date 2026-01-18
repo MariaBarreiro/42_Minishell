@@ -15,7 +15,7 @@ char	*var_expansion(t_mini *mini, char *fragment, char quote_type)
 		if (!position[1] || position[1] == ' '
 			|| check_delimiter(position[1]) == 1)
 			break ;
-		fragment = get_variable(mini->env, fragment, mini->exit_stts);
+		fragment = get_variable(mini->my_env, fragment, mini->exit_stts);
 	}
 	return (fragment);
 }

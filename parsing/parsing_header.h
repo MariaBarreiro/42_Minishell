@@ -94,7 +94,7 @@ typedef struct s_cmd_block
 typedef struct s_mini
 {
 	int					exit_stts;
-	t_env				*env;
+	t_env				*my_env;
 	t_cmd_block			*cmd;
 } t_mini;
 
