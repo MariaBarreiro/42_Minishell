@@ -1,7 +1,5 @@
 #include "./header.h"
 
-int g_exit_status;
-
 /* static int	has_value(char **venv)
 {
 	int	i, j;
@@ -87,7 +85,7 @@ t_cmd_block	*fake_cmd_echo_redir(void)
 	cmd = malloc(sizeof(t_cmd_block));
 	cmd->args = malloc(sizeof(char *) * 3);
 	cmd->args[0] = ft_strdup("echo");
-	cmd->args[1] = ft_strdup("MARCIO");
+	cmd->args[1] = ft_strdup("marcio");
 	cmd->args[2] = NULL;
 
 	out = malloc(sizeof(t_output));
@@ -97,7 +95,6 @@ t_cmd_block	*fake_cmd_echo_redir(void)
 
 	cmd->outputs = out;
 	cmd->n_outputs = 1;
-
 	cmd->input = NULL;
 	cmd->heredoc = 0;
 	cmd->heredoc_fd = -1;
@@ -113,7 +110,7 @@ t_cmd_block	*fake_cmd_echo(void)
 	cmd = malloc(sizeof(t_cmd_block));
 	cmd->args = malloc(sizeof(char *) * 3);
 	cmd->args[0] = ft_strdup("echo");
-	cmd->args[1] = ft_strdup("AAAAAAAA");
+	cmd->args[1] = ft_strdup("abc");
 	cmd->args[2] = NULL;
 	cmd->outputs = NULL;
 	cmd->n_outputs = 0;
