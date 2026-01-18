@@ -29,6 +29,7 @@ SRC_FILES						+= ft_strrchr.c
 SRC_FILES						+= ft_tolower.c
 SRC_FILES						+= ft_toupper.c
 SRC_FILES						+= ft_memchr.c
+SRC_FILES						+= ft_strcmp.c 
 SRC_FILES						+= ft_strncmp.c 
 SRC_FILES						+= ft_memcmp.c
 SRC_FILES						+= ft_strnstr.c
