@@ -1,0 +1,47 @@
+
+TESTS:
+-------------------------------------------------------------------------------------------
+
+-> basic redirect:
+	echo "abc" > a.txt
+	a.txt < grep "a"
+
+	echo "def" >> a.txt
+
+	grep a << EOF 
+
+
+ERRORS:
+-------------------------------------------------------------------------------------------
+
+> echo 7 >> a.txt 
+Segmentation fault (core dumped)
+expected: insert text "7" inside a.txt (create file if not exist)
+
+> a.txt < grep 0 > b.txt
+bash: syntax error near unexpected token Segmentation fault (core dumped)
+expected: grep: No such file or directory
+
+> < a.txt grep 0 > b.txt
+bash: syntax error near unexpected token Segmentation fault (core dumped)
+expected: create b.txt with all words with 0 in a.txt
+
+OBS:
+if: a < a.txt grep 0 > b.txt 
+result: a: command not found (but still creating b.txt with nothing inside)
+
+> echo 7 > a.txt > b.txt > c.txt
+bash: syntax error near unexpected token Segmentation fault (core dumped)
+7: command not found (created all txt files, inclusive echo, but dont execute)
+
+OK OK OK :
+-------------------------------------------------------------------------------------------
+-> basic input:
+aaaa 
+
+-> basic builtin command:
+pwd - cd - echo - env - export - unset - env
+
+OBS: 
+> clear <- its not mandatory
+TERM environment variable not set.

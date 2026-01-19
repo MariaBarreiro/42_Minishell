@@ -61,20 +61,3 @@ void	wait_all_children(pid_t *pids, int n, t_mini *mini)
 		i++;
 	}
 }
-
-/* void	wait_all_children(pid_t *pids, int n)
-{
-	int	i;
-	int	status;
-
-	i = 0;
-	while (i < n)
-	{
-		waitpid(pids[i], &status, 0);
-		if (i == n - 1 && WIFEXITED(status))
-			g_exit_status = WEXITSTATUS(status);
-		if (i == n - 1 && WIFSIGNALED(status))
-			g_exit_status = 128 + WTERMSIG(status);
-		i++;
-	}
-} */

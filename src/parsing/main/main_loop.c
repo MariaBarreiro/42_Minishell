@@ -18,7 +18,6 @@ char	*read_input_line(void)
 void	main_loop(t_mini *mini)
 {
 	char		*input_line;
-	t_cmd_block	*blocks;
 	int			ret;
 
 	while (1)
@@ -32,12 +31,11 @@ void	main_loop(t_mini *mini)
 		}
 		if (*input_line)
 			add_history(input_line);
-		blocks = tokenizer(mini, input_line);
-		mini->cmd = blocks;
+		mini->cmd = tokenizer(mini, input_line);
 		ret = execute_pipeline(mini);
-		if (blocks)	
-			free_blocks(blocks);
-		
+		if (mini->cmd)	
+			free_blocks(mini->cmd);
 		free(input_line);
+		mini->exit_stts = ret;
 	}
 }

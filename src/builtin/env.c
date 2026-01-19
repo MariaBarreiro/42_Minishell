@@ -22,7 +22,6 @@ int	ft_env(t_env *my_env, char **arg)
 	else
 	{
 		write(2, "env: too many arguments\n", 25);
-		free (arg);
 		return (1);
 	}
 }

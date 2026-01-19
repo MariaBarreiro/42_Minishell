@@ -51,13 +51,11 @@ int	ft_cd(t_env **my_env, char **arg)
 	if (arg[2])
 	{
 		write(2, "cd: too many arguments\n", 24);
-		free (arg);
-		return (0);
+		return (1);
 	}
 	if (chdir(arg[1]) == -1)
 	{
 		perror("cd");
-		free (arg);
 		return (1);
 	}
 	update_env("OLDPWD", get_env_value("PWD", *my_env), my_env, create);

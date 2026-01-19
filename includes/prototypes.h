@@ -88,7 +88,6 @@ void	setup_redirections(t_cmd_block *cmd);
 int		execute_cmd(t_cmd_block *cmd, t_env *envp);
 void	free_array(char **str);
 void	error_not_found(char **cmd, char **paths);
-int		execute_cmd(t_cmd_block *cmd, t_env *envp);
 
 //----------------------execute utils------------------------------------------
 int		(*create_pipes(int n))[2];
@@ -109,7 +108,7 @@ int		ft_exit(char **args, int exit_stts);
 
 //______________________env utils_____________________________
 char	*get_env_value(char *key, t_env *my_env);
-int	init_minimal_env(t_env **env);
+int		init_minimal_env(t_env **env);
 void	update_env(char *key, char *value, t_env **my_env, int create);
 t_env	*new_node(char *key, char *valuev);
 void	lst_add_back(t_env **my_env, t_env *new_node);
@@ -118,12 +117,9 @@ int		env_key_exists(char *key, t_env *my_env);
 char	*get_key(char *args);
 int		ft_strcmp(const char *s1, const char *s2); //<<<< add to libft
 int		ft_lstsize(t_env *lst); //<<<< add to libft
-
-
-int	    ft_strcmp(const char *s1, const char *s2);
 void	env_add_back(t_env **lst, t_env *new);
 char	*ft_itoa(int n);
-int	    ft_atoll(const char *nptr);
-int	    ft_strsearch(char *str, char c);
+int		ft_atoll(const char *nptr);
+int		ft_strsearch(char *str, char c);
 
 #endif
