@@ -11,32 +11,36 @@ char	**find_path(t_env *env)
 	return (NULL);
 }
 
-char	**env_list_to_array(t_env *env)
+static int	env_size(t_env *env)
 {
-	int		i;
-	int		count;
-	char	**envp;
-	char	*tmp;
-
-	count = 0;
-	i = 0;
+	int i = 0;
 	while (env)
 	{
-		if (env->exported)
-			count++;
+		i++;
 		env = env->next;
 	}
-	envp = malloc(sizeof(char *) * (count + 1));
+	return (i);
+}
+
+char	**env_list_to_array(t_env *env)
+{
+	char	**envp;
+	int		i = 0;
+	char	*tmp;
+
+	envp = malloc(sizeof(char *) * (env_size(env) + 1));
 	if (!envp)
 		return (NULL);
 	while (env)
 	{
-		if (env->exported)
+		if (env->value)
 		{
 			tmp = ft_strjoin(env->name, "=");
 			envp[i++] = ft_strjoin(tmp, env->value);
 			free(tmp);
 		}
+		else
+			envp[i++] = ft_strdup(env->name);
 		env = env->next;
 	}
 	envp[i] = NULL;

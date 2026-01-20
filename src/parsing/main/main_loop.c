@@ -11,7 +11,7 @@
 char	*read_input_line(void)
 {
 	if (check_interactive() == 1)
-		return (readline("> "));
+		return (readline("minishell > "));
 	return (get_next_line(STDIN_FILENO));
 }
 

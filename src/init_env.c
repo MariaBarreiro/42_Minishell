@@ -1,48 +1,41 @@
 #include "../../../includes/minishell.h"
 
-int	init_pwd(t_env **env)
+int	set_pwd_env(t_env **env)
 {
-	char	cwd[1024];
+	char	cwd[4096];
 
-	if (env_key_exists("PWD", *env))
-		return (0);
-	if (!getcwd(cwd, sizeof(cwd)))
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		return (1);
 	update_env("PWD", cwd, env, 1);
+	if (!get_env_value("OLDPWD", *env))
+		update_env("OLDPWD", NULL, env, 1);
 	return (0);
 }
 
-static char	*compute_shlvl_value(t_env *env)
+static void	update_shlvl(t_env **env)
 {
 	int		lvl;
+	char	*val;
 
-	lvl = ft_atoi(get_env_value("SHLVL", env));
-	if (lvl >= 999)
+	val = get_env_value("SHLVL", *env);
+	if (!val)
 	{
-		ft_putstr_fd("minishell: warning: shell level too high, resetting to 1\n", 2);
-		return (ft_strdup("1"));
+		update_env("SHLVL", "1", env, 1);
+		return ;
 	}
-	return (ft_itoa(lvl + 1));
-}
-
-int	init_shlvl(t_env **env)
-{
-	char	*value;
-
-	value = compute_shlvl_value(*env);
-	if (!value)
-		return (1);
-	update_env("SHLVL", value, env, 1);
-	free(value);
-	return (0);
+	lvl = ft_atoi(val) + 1;
+	val = ft_itoa(lvl);
+	if (!val)
+		return ;
+	update_env("SHLVL", val, env, 1);
+	free(val);
 }
 
 int	init_minimal_env(t_env **env)
 {
-	if (init_pwd(env))
+	if (set_pwd_env(env))
 		return (1);
-	if (init_shlvl(env))
-		return (1);
+	update_shlvl(env);
 	return (0);
 }
 
