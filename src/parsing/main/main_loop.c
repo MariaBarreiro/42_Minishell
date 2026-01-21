@@ -32,6 +32,8 @@ void	main_loop(t_mini *mini)
 		if (*input_line)
 			add_history(input_line);
 		mini->cmd = tokenizer(mini, input_line);
+		if (!mini->cmd)
+			break ;
 		ret = execute_pipeline(mini);
 		if (mini->cmd)	
 			free_blocks(mini->cmd);
