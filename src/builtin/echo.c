@@ -26,11 +26,11 @@ static void	write_arg(char **arg, int beggin)
 	{
 		while(arg[beggin][i])
 		{
-			write (1, &arg[beggin][i], 1);
+			write (STDOUT_FILENO, &arg[beggin][i], 1);
 			i++;
 		}
 		if (arg[beggin + 1])
-			write (1, " ", 1);
+			write (STDOUT_FILENO, " ", 1);
 		beggin++;
 		i = 0;
 	}
@@ -41,7 +41,7 @@ int	ft_echo(char **arg)
 	int	beggin;
  	if (!arg[1])
 	{
-		write (1, "\n", 1);
+		write (STDOUT_FILENO, "\n", 1);
 		return (0);
 	}
  	if (has_flag(arg[1]))
@@ -53,7 +53,7 @@ int	ft_echo(char **arg)
 	{
 		beggin = 1;
 		write_arg(arg, beggin);
-		write (1, "\n", 1);
+		write (STDOUT_FILENO, "\n", 1);
 	}
 	return (0);
 }
