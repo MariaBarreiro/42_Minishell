@@ -34,6 +34,12 @@ typedef	struct s_output
 	struct s_output	*next;
 } t_output;
 
+typedef struct s_fd_backup
+{
+	int				stdin_fd;
+	int				stdout_fd;
+} t_fd_backup;
+
 typedef struct s_cmd_block
 {
 	int					redir_in;

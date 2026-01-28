@@ -5,15 +5,11 @@
 
 int	ft_pwd(void)
 {
-	char	buffer[1024];
+	char	cwd[4096];
 
-	if (getcwd(buffer, sizeof(buffer)) == NULL)
-	{
-		perror("PWD");
+	if (!getcwd(cwd, sizeof(cwd)))
 		return (1);
-	}
-	else
-		printf ("%s\n", buffer);
+	printf("%s\n", cwd);
 	return (0);
 }
 

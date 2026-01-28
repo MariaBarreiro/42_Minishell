@@ -10,34 +10,37 @@
 
 char	*read_input_line(void)
 {
-	if (check_interactive() == 1)
+	char	*line;
+
+	if (check_interactive())
 		return (readline("minishell > "));
-	return (get_next_line(STDIN_FILENO));
+	line = get_next_line(STDIN_FILENO);
+	if (!line)
+		return (NULL);
+	return (line);
 }
 
 void	main_loop(t_mini *mini)
 {
-	char		*input_line;
-	int			ret;
+	char	*input_line;
 
 	while (1)
 	{
 		input_line = read_input_line();
 		if (!input_line)
 		{
-			if (check_interactive() == 1)
+			if (check_interactive())
 				ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}
 		if (*input_line)
 			add_history(input_line);
 		mini->cmd = tokenizer(mini, input_line);
-		if (!mini->cmd)
-			break ;
-		ret = execute_pipeline(mini);
-		if (mini->cmd)	
-			free_blocks(mini->cmd);
 		free(input_line);
-		mini->exit_stts = ret;
+		if (!mini->cmd)
+			continue ;
+		execute_pipeline(mini);
+		free_blocks(mini->cmd);
+		mini->cmd = NULL;
 	}
 }

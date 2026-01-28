@@ -6,9 +6,7 @@
 
 int	check_interactive(void)
 {
-	if (isatty(STDIN_FILENO))
-		return (1);
-	return (0);
+	return (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO));
 }
 
 int	check_delimiter(char c)

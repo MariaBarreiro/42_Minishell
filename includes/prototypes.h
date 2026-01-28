@@ -94,7 +94,8 @@ int		(*create_pipes(int n))[2];
 void	wait_all_children(pid_t *pids, int n, t_mini *mini);
 void	close_all_pipes(int (*pipes)[2], int n);
 int		count_cmds(t_cmd_block *cmd);
-
+void	restore_fds(t_fd_backup *b);
+void	save_fds(t_fd_backup *b);
 
 //______________________built-in commands_____________________________
 
