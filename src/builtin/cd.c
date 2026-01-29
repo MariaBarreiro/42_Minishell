@@ -50,7 +50,7 @@ int	ft_cd(t_env **my_env, char **arg)
 		return (cd_home(my_env, create));
 	if (arg[2])
 	{
-		write(2, "cd: too many arguments\n", 24);
+		print_error("cd", "too many arguments");
 		return (1);
 	}
 	if (chdir(arg[1]) == -1)

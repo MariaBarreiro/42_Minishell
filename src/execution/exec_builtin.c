@@ -19,11 +19,8 @@ int	is_builtin(char **arg)
 int	exec_builtin(char **arg, t_mini *mini)
 {
 	t_env		*my_env;
-	t_fd_backup	fd;
 
 	my_env = mini->my_env;
-	save_fds(&fd);
-	setup_redirections(mini->cmd);
 	if (ft_strcmp(arg[0], "cd") == 0)
 		mini->exit_stts = ft_cd(&my_env, arg);
 	else if (ft_strcmp(arg[0], "pwd") == 0)
@@ -40,6 +37,5 @@ int	exec_builtin(char **arg, t_mini *mini)
 		mini->exit_stts = ft_export(&my_env, arg);
 	else
 		mini->exit_stts = 0;
-	restore_fds(&fd);
 	return (mini->exit_stts);
 }

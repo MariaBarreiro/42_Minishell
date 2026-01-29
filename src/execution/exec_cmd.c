@@ -83,9 +83,9 @@ int	execute_cmd(t_cmd_block *cmd, t_env *envp)
 	path = verify_commands(cmd->args[0], paths);
 	if (!path)
 	{
-		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putstr_fd(cmd->args[0], 2);
-		ft_putstr_fd("\n", 2);
+		print_error(cmd->args[0], "command not found");
+		free(path);
+		free_array(paths);
 		exit(127);
 	}
 	env_array = env_list_to_array(envp);

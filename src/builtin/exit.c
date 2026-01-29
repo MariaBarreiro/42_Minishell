@@ -8,10 +8,39 @@
 	| `exit 10 20` | imprime `exit` + erro, **não encerra**, retorna 1 | ok
 */
 
-int	is_valid_number(char *arg)
+static int	is_overflow(char *s)
 {
-	int i = 0;
+	char	*max;
+	char	*min;
+	int		sign;
 
+	max = "9223372036854775807";
+	min = "9223372036854775808";
+	sign = 1;
+	if (*s == '+' || *s == '-')
+	{
+		if (*s == '-')
+			sign = -1;
+		s++;
+	}
+	while (*s == '0')
+		s++;
+	if (ft_strlen(s) > 19)
+		return (1);
+	if (ft_strlen(s) < 19)
+		return (0);
+	if (sign == 1 && ft_strcmp(s, max) > 0)
+		return (1);
+	if (sign == -1 && ft_strcmp(s, min) > 0)
+		return (1);
+	return (0);
+}
+
+static int	is_valid_exit_number(char *arg)
+{
+	int	i;
+
+	i = 0;
 	if (arg[i] == '+' || arg[i] == '-')
 		i++;
 	if (!arg[i])
@@ -22,26 +51,30 @@ int	is_valid_number(char *arg)
 			return (0);
 		i++;
 	}
+	if (is_overflow(arg))
+		return (0);
 	return (1);
 }
 
 int	ft_exit(char **args, int exit_stts)
 {
-	int	exit_code;
+	long long	code;
 
-	printf("exit\n");
+	write(1, "exit\n", 5);
 	if (!args[1])
-		exit (exit_stts);
+		exit(exit_stts);
 	if (args[2])
 	{
-		printf("exit: too many arguments\n");
+		print_error("exit", "too many arguments");
 		return (1);
 	}
-	if (!is_valid_number(args[1]))
+	if (!strcmp(args[1], "--"))
+		exit(0);
+	if (!is_valid_exit_number(args[1]))
 	{
-		write(2, "exit: numeric argument required \n", 34);
-		exit (2);
+		print_error("exit", "numeric argument required");
+		exit(2);
 	}
-	exit_code = (unsigned char)ft_atoll(args[1]);
-	exit (exit_code);
+	code = ft_atoll(args[1]);
+	exit((unsigned char)code);
 }

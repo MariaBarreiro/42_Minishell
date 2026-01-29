@@ -25,24 +25,19 @@ static int	execute_external(t_mini *mini)
 
 int	execute_pipeline(t_mini *mini)
 {
-	t_cmd_block *cmd;
+	t_cmd_block	*cmd;
+	int			ret;
 
 	cmd = mini->cmd;
-	if (cmd->next != NULL)
-		return execute_multiple(mini);
+	if (cmd->next)
+		return (execute_multiple(mini));
 	if (is_builtin(cmd->args))
 	{
-		if (!check_interactive())
-		{
-			pid_t pid = fork();
-			if (pid == 0)
-				exit(exec_builtin(cmd->args, mini));
-			waitpid(pid, &mini->exit_stts, 0);
-			mini->exit_stts = WEXITSTATUS(mini->exit_stts);
-			return mini->exit_stts;
-		}
-		mini->exit_stts = exec_builtin(cmd->args, mini);
-		return mini->exit_stts;
+		setup_redirections(cmd);
+		ret = exec_builtin(cmd->args, mini);
+		return (ret);
 	}
-	return execute_external(mini);
+	ret = execute_external(mini);
+	mini->exit_stts = ret;
+	return (ret);
 }

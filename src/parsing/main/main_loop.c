@@ -26,11 +26,10 @@ void	main_loop(t_mini *mini)
 
 	while (1)
 	{
-		input_line = read_input_line();
+		input_line = readline("minishell > ");
 		if (!input_line)
 		{
-			if (check_interactive())
-				ft_putendl_fd("exit", STDOUT_FILENO);
+			ft_putendl_fd("exit", STDOUT_FILENO);
 			break ;
 		}
 		if (*input_line)

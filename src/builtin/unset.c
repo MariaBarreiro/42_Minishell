@@ -1,20 +1,20 @@
 #include "../../includes/minishell.h"
 
-	//unset values and attributes of variables and functions >> When you use unset on a variable, it removes the variable 
-	//from the shell environment, making it undefined. 
-	//This is particularly useful for freeing memory, avoiding accidental variable reuse, and managing temporary variables within scripts.
+void	append_env(char *key, char *value, t_env **env)
+{
+	char	*old;
+	char	*new;
 
-
-/*	
-	se for a primeira;
-		apenas apagar
-	se estiver no meio;
-		anterior.next == proxima
-		apagar
-	se for a ultima; 
-		anterior.next == NULL
-		apagar
-*/
+	old = get_env_value(key, *env); // função que retorna valor atual
+	if (!old)
+		update_env(key, value, env, 1);
+	else
+	{
+		new = ft_strjoin(old, value);
+		update_env(key, new, env, 0);
+		free(new);
+	}
+}
 
 void remove_key(t_env **my_env, char *args)
 {
@@ -62,7 +62,7 @@ int	ft_unset(t_env **my_env, char **args)
 	int	i;
 
 	if (!args[1])
-		return (1);
+		return (0);
 	i = 1;
 	while (args[i])
 	{

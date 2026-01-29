@@ -1,12 +1,12 @@
 #include "../../includes/minishell.h"
 
-void	error_not_found(char **cmd, char **paths)
+void	print_error(char *cmd, char *error)
 {
-	ft_putstr_fd("pipex: command not found: ", 2);
-	ft_putstr_fd(cmd[0], 2);
-	ft_putstr_fd("\n", 2);
-	free_array(cmd);
-	free_array(paths);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(error, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
 void	free_array(char **str)

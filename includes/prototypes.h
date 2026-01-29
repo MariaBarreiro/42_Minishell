@@ -87,7 +87,7 @@ int		execute_multiple(t_mini *mini);
 void	setup_redirections(t_cmd_block *cmd);
 int		execute_cmd(t_cmd_block *cmd, t_env *envp);
 void	free_array(char **str);
-void	error_not_found(char **cmd, char **paths);
+void	print_error(char *cmd, char *error);
 
 //----------------------execute utils------------------------------------------
 int		(*create_pipes(int n))[2];
@@ -122,5 +122,6 @@ void	env_add_back(t_env **lst, t_env *new);
 char	*ft_itoa(int n);
 int		ft_atoll(const char *nptr);
 int		ft_strsearch(char *str, char c);
+void	append_env(char *key, char *value, t_env **env);
 
 #endif
