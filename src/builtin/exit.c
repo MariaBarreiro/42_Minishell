@@ -1,13 +1,5 @@
 #include "../../includes/minishell.h"
 
-/* 	| Caso         | Comportamento                                     |
-	| ------------ | ------------------------------------------------- |
-	| `exit`       | imprime `exit`, termina com último status         | ok
-	| `exit 123`   | imprime `exit`, termina com 123                   |
-	| `exit abc`   | imprime `exit` + erro, termina com 2              |
-	| `exit 10 20` | imprime `exit` + erro, **não encerra**, retorna 1 | ok
-*/
-
 static int	is_overflow(char *s)
 {
 	char	*max;

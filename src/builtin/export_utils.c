@@ -22,22 +22,26 @@ static void	ft_swap(t_env **a, t_env **b)
 	*b = tmp;
 }
 
-static void sort_env_array(t_env **arr, int size)
+static void	sort_env_array(t_env **arr, int size)
 {
 	int	i;
 	int	j;
 
-	for (i = 0; i < size - 1; i++)
+	i = 0;
+	while (i < size - 1)
 	{
-		for (j = 0; j < size - i - 1; j++)
+		j = 0;
+		while (j < size - i - 1)
 		{
 			if (ft_strcmp(arr[j]->name, arr[j + 1]->name) > 0)
 				ft_swap(&arr[j], &arr[j + 1]);
+			j++;
 		}
+		i++;
 	}
 }
 
-static void print_export_line(t_env *env)
+static void	print_export_line(t_env *env)
 {
 	if (!ft_strcmp(env->name, "_"))
 		return ;
@@ -47,7 +51,7 @@ static void print_export_line(t_env *env)
 	printf("\n");
 }
 
-int print_variables(t_env *my_env)
+int	print_variables(t_env *my_env)
 {
 	int		size;
 	int		i;
@@ -68,7 +72,8 @@ int print_variables(t_env *my_env)
 		tmp = tmp->next;
 	}
 	sort_env_array(arr, size);
-	for (i = 0; i < size; i++)
+	i = -1;
+	while (++i < size)
 		if (arr[i]->exported == 1)
 			print_export_line(arr[i]);
 	free(arr);

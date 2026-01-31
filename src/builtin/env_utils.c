@@ -22,9 +22,9 @@ int	env_key_exists(char *key, t_env *my_env)
 	return (0);
 }
 
-t_env *new_node(char *key, char *value)
+t_env	*new_node(char *key, char *value)
 {
-	t_env *new_var;
+	t_env	*new_var;
 
 	new_var = malloc(sizeof(t_env));
 	if (!new_var)
@@ -39,17 +39,16 @@ t_env *new_node(char *key, char *value)
 	return (new_var);
 }
 
-
 void	lst_add_back(t_env **my_env, t_env *new_node)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	if (!my_env || !new_node)
-		return;
+		return ;
 	if (*my_env == NULL)
 	{
 		*my_env = new_node;
-		return;
+		return ;
 	}
 	tmp = *my_env;
 	while (tmp->next)
@@ -57,10 +56,11 @@ void	lst_add_back(t_env **my_env, t_env *new_node)
 	tmp->next = new_node;
 }
 
-void update_env(char *key, char *value, t_env **my_env, int create)
+void	update_env(char *key, char *value, t_env **my_env, int create)
 {
-	t_env *tmp = *my_env;
+	t_env	*tmp;
 
+	tmp = *my_env;
 	if (create)
 	{
 		lst_add_back(my_env, new_node(key, value));
@@ -71,7 +71,7 @@ void update_env(char *key, char *value, t_env **my_env, int create)
 		if (!ft_strncmp(tmp->name, key, ft_strlen(key) + 1))
 		{
 			if (value)
-			{	
+			{
 				free(tmp->value);
 				tmp->value = ft_strdup(value);
 			}

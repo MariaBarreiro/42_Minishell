@@ -2,13 +2,13 @@
 
 static int	has_flag(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (arg[i] == '-')
 	{
 		i++;
-		while(arg[i] && arg[i] == 'n')
+		while (arg[i] && arg[i] == 'n')
 			i++;
 	}
 	if (i > 1 && !arg[i])
@@ -22,9 +22,9 @@ static void	write_arg(char **arg, int beggin)
 	int	i;
 
 	i = 0;
-	while(arg[beggin])
+	while (arg[beggin])
 	{
-		while(arg[beggin][i])
+		while (arg[beggin][i])
 		{
 			write (STDOUT_FILENO, &arg[beggin][i], 1);
 			i++;
@@ -39,12 +39,13 @@ static void	write_arg(char **arg, int beggin)
 int	ft_echo(char **arg)
 {
 	int	beggin;
- 	if (!arg[1])
+
+	if (!arg[1])
 	{
 		write (STDOUT_FILENO, "\n", 1);
 		return (0);
 	}
- 	if (has_flag(arg[1]))
+	if (has_flag(arg[1]))
 	{
 		beggin = 2;
 		write_arg(arg, beggin);

@@ -1,9 +1,10 @@
 #include "../../includes/minishell.h"
 
-int	has_plus_equal(char *s)
+static int	has_plus_equal(char *s)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	while (s[i])
 	{
 		if (s[i] == '+' && s[i + 1] == '=')
@@ -15,7 +16,7 @@ int	has_plus_equal(char *s)
 	return (0);
 }
 
-int	valid_identifier(char *s)
+static int	valid_identifier(char *s)
 {
 	int	i;
 
@@ -43,7 +44,7 @@ int	valid_identifier(char *s)
 	return (1);
 }
 
-char *get_key(char *args)
+char	*get_key(char *args)
 {
 	int	equal;
 
@@ -53,10 +54,11 @@ char *get_key(char *args)
 	return (ft_substr(args, 0, equal));
 }
 
-static char *get_value(char *s)
+static char	*get_value(char *s)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	while (s[i])
 	{
 		if (s[i] == '+' && s[i + 1] == '=')
@@ -73,6 +75,7 @@ int	ft_export(t_env **my_env, char **args)
 	int		i;
 	char	*key;
 	int		rt;
+	char	*value;
 
 	rt = 0;
 	if (!args[1])
@@ -85,7 +88,7 @@ int	ft_export(t_env **my_env, char **args)
 		else
 		{
 			key = get_key(args[i]);
-			char *value = get_value(args[i]);
+			value = get_value(args[i]);
 			if (has_plus_equal(args[i]))
 				append_env(key, value, my_env);
 			else

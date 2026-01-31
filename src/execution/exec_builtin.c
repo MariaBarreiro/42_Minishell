@@ -24,7 +24,7 @@ int	exec_builtin(char **arg, t_mini *mini)
 	if (ft_strcmp(arg[0], "cd") == 0)
 		mini->exit_stts = ft_cd(&my_env, arg);
 	else if (ft_strcmp(arg[0], "pwd") == 0)
-		mini->exit_stts = ft_pwd();
+		mini->exit_stts = ft_pwd(arg, my_env);
 	else if (ft_strcmp(arg[0], "echo") == 0)
 		mini->exit_stts = ft_echo(arg);
 	else if (ft_strcmp(arg[0], "env") == 0)

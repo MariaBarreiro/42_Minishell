@@ -2,7 +2,7 @@
 
 static int	update_pwd(char *key, t_env **my_env)
 {
-	char *current;
+	char	*current;
 
 	current = getcwd(NULL, 0);
 	if (!current)
@@ -22,9 +22,10 @@ static int	check_old_pwd(t_env *my_env)
 	return (1);
 }
 
-static int	cd_home(t_env **my_env, int	create)
+static int	cd_home(t_env **my_env, int create)
 {
-	char *home;
+	char	*home;
+
 	update_env("OLDPWD", get_env_value("PWD", *my_env), my_env, create);
 	home = get_env_value("HOME", *my_env);
 	if (!home)

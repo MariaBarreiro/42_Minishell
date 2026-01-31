@@ -51,7 +51,6 @@ BLOCKS_SRC_FILES			+= handle_redirs.c
 
 BUILTIN_SRC_PATH			= ./src/builtin/
 
-#BUILTIN_SRC_FILES			= builtin_command.c
 BUILTIN_SRC_FILES			= cd.c
 BUILTIN_SRC_FILES			+= echo.c
 BUILTIN_SRC_FILES			+= env.c
@@ -60,9 +59,7 @@ BUILTIN_SRC_FILES			+= exit.c
 BUILTIN_SRC_FILES			+= export.c
 BUILTIN_SRC_FILES			+= export_utils.c
 BUILTIN_SRC_FILES			+= pwd.c
-BUILTIN_SRC_FILES			+= signal_handle.c
 BUILTIN_SRC_FILES			+= unset.c
-#BUILTIN_SRC_FILES			+= utils.c
 BUILTIN_SRC_FILES			+= utils_builtin.c
 
 EXECUTION_SRC_PATH		= ./src/execution/

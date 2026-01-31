@@ -101,7 +101,7 @@ void	save_fds(t_fd_backup *b);
 
 int		ft_echo(char **arg);
 int		ft_cd(t_env **my_env, char **arg);
-int		ft_pwd(void); //t_env *my_env, char **cmd
+int		ft_pwd(char **cmd, t_env *env);
 int		ft_export(t_env **my_env, char **args);
 int		ft_unset(t_env **my_env, char **args);
 int		ft_env(t_env *my_env, char **arg);

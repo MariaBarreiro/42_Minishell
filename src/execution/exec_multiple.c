@@ -43,19 +43,6 @@ static void	child_process(t_mini *mini, t_cmd_block *cmd, int (*p)[2], int i, in
 	exit(1);
 }
 
-
-/* void	execute_child(t_mini *mini)
-{
-	t_cmd_block	*cmd;
-
-	cmd = mini->cmd;
-	if (is_builtin(cmd->args))
-		exit(execute_builtin_child(cmd));
-	execve(resolve_path(cmd->args[0]), cmd->args, mini);
-	perror("execve");
-	exit(1);
-} */
-
 int	execute_multiple(t_mini *mini)
 {
 	t_cmd_block		*cmd;
@@ -83,5 +70,3 @@ int	execute_multiple(t_mini *mini)
 	free(pids);
 	return (mini->exit_stts);
 }
-
-/*adicionar if (builtin)*/

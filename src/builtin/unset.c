@@ -5,7 +5,7 @@ void	append_env(char *key, char *value, t_env **env)
 	char	*old;
 	char	*new;
 
-	old = get_env_value(key, *env); // função que retorna valor atual
+	old = get_env_value(key, *env);
 	if (!old)
 		update_env(key, value, env, 1);
 	else
@@ -16,7 +16,7 @@ void	append_env(char *key, char *value, t_env **env)
 	}
 }
 
-void remove_key(t_env **my_env, char *args)
+static void	remove_key(t_env **my_env, char *args)
 {
 	t_env	*temp;
 	t_env	*prev;
@@ -43,8 +43,9 @@ void remove_key(t_env **my_env, char *args)
 
 static int	valid_identifier(char *s)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	if (!ft_isalpha(s[0]) && s[0] != '_')
 		return (0);
 	i = 1;
