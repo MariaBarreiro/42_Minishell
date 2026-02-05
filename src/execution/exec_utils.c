@@ -56,8 +56,14 @@ void	wait_all_children(pid_t *pids, int n, t_mini *mini)
 	i = 0;
 	while (i < n)
 	{
-		if (waitpid(pids[i], &status, 0) > 0 && i == n - 1)
-			handle_status(status, mini);
+		waitpid(pids[i], &status, 0);
+		if (i == n - 1)
+		{
+			if (WIFEXITED(status))
+				mini->exit_stts = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				mini->exit_stts = 128 + WTERMSIG(status);
+		}
 		i++;
 	}
 }

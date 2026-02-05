@@ -10,7 +10,8 @@ static int	execute_external(t_mini *mini)
 		return (perror("fork"), 1);
 	if (pid == 0)
 	{
-		setup_redirections(mini->cmd);
+		if (setup_redirections(mini->cmd))
+			exit(1);
 		execute_cmd(mini->cmd, mini->my_env);
 		exit(1);
 	}
@@ -22,10 +23,10 @@ static int	execute_external(t_mini *mini)
 	return (1);
 }
 
-
 int	execute_pipeline(t_mini *mini)
 {
 	t_cmd_block	*cmd;
+	t_fd_backup	b;
 	int			ret;
 
 	cmd = mini->cmd;
@@ -33,8 +34,16 @@ int	execute_pipeline(t_mini *mini)
 		return (execute_multiple(mini));
 	if (is_builtin(cmd->args))
 	{
-		setup_redirections(cmd);
+		save_fds(&b);
+		if (setup_redirections(cmd))
+		{
+			restore_fds(&b);
+			mini->exit_stts = 1;
+			return (1);
+		}
 		ret = exec_builtin(cmd->args, mini);
+		restore_fds(&b);
+		mini->exit_stts = ret;
 		return (ret);
 	}
 	ret = execute_external(mini);

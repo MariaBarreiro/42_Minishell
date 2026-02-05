@@ -16,14 +16,14 @@ int	(*create_pipes(int n))[2]
 	return (p);
 }
 
-static void	setup_child_pipes(t_cmd_block *cmd, int i, int total, int (*p)[2])
+static void	setup_child_pipes(int i, int total, int (*p)[2])
 {
 	int	j;
 
 	j = 0;
 	if (i > 0)
 		dup2(p[i - 1][0], STDIN_FILENO);
-	if (i < total - 1 && cmd->outputs == NULL)
+	if (i < total - 1)
 		dup2(p[i][1], STDOUT_FILENO);
 	while (j < total - 1)
 	{
@@ -33,9 +33,10 @@ static void	setup_child_pipes(t_cmd_block *cmd, int i, int total, int (*p)[2])
 	}
 }
 
-static void	child_process(t_mini *mini, t_cmd_block *cmd, int (*p)[2], int i, int n_cmds)
+static void	child_process(t_mini *mini, t_cmd_block *cmd,
+			int (*p)[2], int i, int n_cmds)
 {
-	setup_child_pipes(cmd, i, n_cmds, p);
+	setup_child_pipes(i, n_cmds, p);
 	setup_redirections(cmd);
 	if (is_builtin(cmd->args))
 		exit(exec_builtin(cmd->args, mini));

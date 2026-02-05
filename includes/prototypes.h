@@ -84,7 +84,8 @@ int		exec_builtin(char **arg, t_mini *mini);
 //void	apply_redirections(t_command_block *cmd);
 /* -------------------------------execute mutiple-------------------------------------------------- */
 int		execute_multiple(t_mini *mini);
-void	setup_redirections(t_cmd_block *cmd);
+int		setup_redirections(t_cmd_block *cmd);
+void	handle_heredocs(t_cmd_block *cmd);
 int		execute_cmd(t_cmd_block *cmd, t_env *envp);
 void	free_array(char **str);
 void	print_error(char *cmd, char *error);

@@ -1,52 +1,26 @@
 #include "../../includes/minishell.h"
 
-static void	handle_heredocs(t_cmd_block *cmd)
-{
-	int		fd[2];
-	int		i;
-	char	*line;
-
-	if (!cmd->limits)
-		return ;
-	i = 0;
-	while (cmd->limits[i + 1])
-		i++;
-	if (pipe(fd) < 0)
-		exit(1);
-	while (1)
-	{
-		line = readline("> ");
-		if (!line || !ft_strcmp(line, cmd->limits[i]))
-		{
-			free(line);
-			break ;
-		}
-		write(fd[1], line, ft_strlen(line));
-		write(fd[1], "\n", 1);
-		free(line);
-	}
-	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
-}
-
-void	handle_input(t_cmd_block *cmd)
+static int	handle_input(t_cmd_block *cmd)
 {
 	int	i;
 	int	fd;
 
 	if (!cmd->input)
-		return ;
+		return (0);
 	i = 0;
 	while (cmd->input[i])
 	{
 		fd = open(cmd->input[i], O_RDONLY);
 		if (fd < 0)
-			exit(1);
+		{
+			perror(cmd->input[i]);
+			exit (1);
+		}
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 		i++;
 	}
+	return (0);
 }
 
 static int	open_output_file(t_output *out)
@@ -76,12 +50,15 @@ int	handle_output_redir(t_cmd_block *cmd)
 	return (0);
 }
 
-void	setup_redirections(t_cmd_block *cmd)
+int	setup_redirections(t_cmd_block *cmd)
 {
 	if (cmd->heredoc > 0)
 		handle_heredocs(cmd);
 	if (cmd->redir_in > 0)
-		handle_input(cmd);
+		if (handle_input(cmd))
+			return (1);
 	if (cmd->n_outputs > 0)
-		handle_output_redir(cmd);
+		if (handle_output_redir(cmd))
+			return (1);
+	return (0);
 }
