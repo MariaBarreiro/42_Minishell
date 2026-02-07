@@ -24,8 +24,8 @@ t_token			*tokenization(t_mini *mini, char *line);
 
 //Init token//
 t_token			*init_token(t_mini *mini, t_token *head, char *line, int *i);
-char			*get_tokens(t_mini *mini, const char *line, int *i);
-char			*get_single_token(t_mini *mini, const char *line, int *i);
+char			*get_tokens(t_mini *mini, const char *line, int *i, int *quoted);
+char			*get_single_token(t_mini *mini, const char *line, int *i, int *was_quoted);
 
 //New Token//
 void			new_token(t_token **new_node, t_token **head, t_token **current);

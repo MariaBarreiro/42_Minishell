@@ -103,6 +103,6 @@ int	pipe_error(t_cmd_block *head, t_mini *mini)
 {
 	free_blocks(head);
 	ft_putendl_fd("bash: syntax error near unexpected token `|'", 2);
-	mini->exit_stts = 1;
+	mini->exit_stts = 2;
 	return (-1);
 }

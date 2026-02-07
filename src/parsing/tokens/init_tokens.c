@@ -24,14 +24,20 @@ t_token	*init_token(t_mini *mini, t_token *head, char *line, int *i)
 		*i += 1;
 	}
 	else
-		new->value = get_tokens(mini, line, i);
+	{
+		new->quoted = 0;
+		new->value = get_tokens(mini, line, i, &new->quoted);
+	}
 	if (!new->value)
 	{
 		free_tokens(head);
 		free(new);
 		return (NULL);
 	}
-	new->type = get_type(new->value);
+	if (new->quoted)
+		new->type = T_WORD;
+	else
+		new->type = get_type(new->value);
 	return (new);
 }
 
@@ -62,22 +68,25 @@ t_token_type get_type(char *value)
 		Builds one word at a time!
 */
 
-char	*get_tokens(t_mini *mini, const char *line, int *i)
+char	*get_tokens(t_mini *mini, const char *line, int *i, int *quoted)
 {
 	char	*word;
 	char	*fragment;
 	char	*temp;
+	int		was_quoted;
 
 	word = NULL;
 	while (line[*i] && line[*i] != ' ' && line[*i] != '\t' && check_delimiter(line[*i]) == 0)
 	{
-		fragment = get_single_token(mini, line, i);
+		was_quoted = 0;
+		fragment = get_single_token(mini, line, i, &was_quoted);
 		if (!fragment)
 		{
 			free(word);
 			return (NULL);
 		}
-
+		if (was_quoted)
+			*quoted = 1;
 		temp = word;
 		if (word)
 			word = ft_strjoin(word, fragment);
@@ -93,7 +102,7 @@ char	*get_tokens(t_mini *mini, const char *line, int *i)
 	Fragment extractor.
 */
 
-char	*get_single_token(t_mini *mini, const char *line, int *i)
+char	*get_single_token(t_mini *mini, const char *line, int *i, int *was_quoted)
 {
 	int		start_word;
 	char	quote_type;
@@ -102,6 +111,7 @@ char	*get_single_token(t_mini *mini, const char *line, int *i)
 	quote_type = 0;
 	if (line[*i] == '\'' || line[*i] == '"')
 	{
+		*was_quoted = 1;
 		quote_type = line[(*i)++];
 		start_word = (*i);
 		while (line[*i] && line[*i] != quote_type)

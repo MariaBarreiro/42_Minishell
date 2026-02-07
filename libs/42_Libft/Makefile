@@ -68,7 +68,7 @@ OBJS								= $(patsubst %.c, $(OBJS_DIR)/%.o, $(SRC))
 # **************************************************************************** #
 
 CC              = cc
-CFLAGS          = -Wall -Wextra -Werror
+CFLAGS          = -Wall -Wextra -Werror -g
 INC             = -I $(INC_PATH) 
 INC							+= -I $(INC_PATH)/42_Gnl 
 
