@@ -10,6 +10,8 @@ t_cmd_block	*parse_blocks(t_token *token, t_mini *mini)
 
 	while (token)
 	{
+		if (token->type == T_PIPE)
+			return (pipe_error(block[0], mini), NULL);
 		total_ac  = count_ac(token);
 		block[2] = new_block(total_ac);
 		if (!block[2])
