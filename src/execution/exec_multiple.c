@@ -37,7 +37,8 @@ static void	child_process(t_mini *mini, t_cmd_block *cmd,
 			int (*p)[2], int i, int n_cmds)
 {
 	setup_child_pipes(i, n_cmds, p);
-	setup_redirections(cmd);
+	if (setup_redirections(cmd))
+		exit(1);
 	if (is_builtin(cmd->args))
 		exit(exec_builtin(cmd->args, mini));
 	execute_cmd(cmd, mini->my_env);
