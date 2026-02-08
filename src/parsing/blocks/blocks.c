@@ -15,7 +15,7 @@ t_cmd_block	*parse_blocks(t_token *token, t_mini *mini)
 		block[2] = new_block(total_ac);
 		if (!block[2])
 			return (NULL);
-		if (fill_block(block[2], &token, mini, block[0]) != true)
+		if (fill_block(block[2], &token, mini, block[0]) != 1)
 			return (NULL);
 		if (!block[0])
 			block[0] = block[2];
@@ -36,7 +36,7 @@ int	handle_pipe_token(t_token **token, t_cmd_block *head, t_mini *mini)
 		if (!*token || (*token)->type == T_PIPE)
 			return (pipe_error(head, mini), 1);
 	}
-	return (true);
+	return (1);
 }
 
 
@@ -74,7 +74,7 @@ int	fill_block(t_cmd_block *block, t_token **token, t_mini *mini, t_cmd_block *h
 					|| (*token)->type == T_REDIR_APPEND)
 		{
 			if (handle_redir(block, token, (*token)->type) == 0)
-				return (redir_error(head, block, mini, *token), false);
+				return (redir_error(head, block, mini, *token), 0);
 		}
 		else if ((*token)->type == T_HEREDOC)
 		{
@@ -84,5 +84,5 @@ int	fill_block(t_cmd_block *block, t_token **token, t_mini *mini, t_cmd_block *h
 	(*token) = (*token)->next;
 	}
 	block->args[i] = NULL;
-	return (true);
+	return (1);
 }
