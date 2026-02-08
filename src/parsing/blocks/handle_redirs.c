@@ -15,6 +15,8 @@ int	handle_redir(t_cmd_block *block, t_token **token, int type)
 		return (add_input_redir(block, *token));
 	if (type == T_REDIR_APPEND)
 		return (add_output_redir(block, *token, type));
+	if (type == T_REDIR_OUT)
+		return (add_output_redir(block, *token, 0));
 	return (0);
 }
 
