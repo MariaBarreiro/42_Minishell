@@ -24,8 +24,9 @@ t_token			*tokenization(t_mini *mini, char *line);
 
 //Init token//
 t_token			*init_token(t_mini *mini, t_token *head, char *line, int *i);
+void			set_token_value(t_mini *mini, t_token *new, char *line, int *i);
 char			*get_tokens(t_mini *mini, const char *line, int *i, int *quoted);
-char			*get_single_token(t_mini *mini, const char *line, int *i, int *was_quoted);
+char			*get_single_token(t_mini *mini, const char *line, int *i, int *quoted);
 
 //New Token//
 void			new_token(t_token **new_node, t_token **head, t_token **current);
@@ -33,6 +34,9 @@ void			new_token(t_token **new_node, t_token **head, t_token **current);
 //Token Utils//
 t_token_type		get_type(char *value);
 int					is_exact_token(const char *token, const char *value, long len);
+int					is_double_redirect(const char *line, int *i);
+char				*extract_quoted_fragment(const char *line, int *i, char *quote_type);
+char				*extract_unquoted_fragment(const char *line, int *i);
 
 //Env variables//
 char			*var_expansion(t_mini *mini, char *fragment, char quote_type);
@@ -63,6 +67,7 @@ int				handle_redir(t_cmd_block *block, t_token **token, int type);
 int				add_input_redir(t_cmd_block *block, t_token *token);
 int				add_output_redir(t_cmd_block *block, t_token *token, int append);
 int				handle_heredoc(t_cmd_block *block, t_token **token);
+int				handle_pipe_token(t_token **token, t_cmd_block *head, t_mini *mini);
 
 //Error//
 void			error(t_token *token, char *message, int exit_code);

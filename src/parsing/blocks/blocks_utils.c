@@ -2,6 +2,7 @@
 /*
 	Determine how many command-line arguments exist before the next pipe symbol.
 */
+
 int	count_ac(t_token *temp_token)
 {
 	int	counter;

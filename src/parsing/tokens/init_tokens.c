@@ -12,22 +12,7 @@ t_token	*init_token(t_mini *mini, t_token *head, char *line, int *i)
 	new = calloc(sizeof(t_token), 1);
 	if (!new)
 		error(head, "Error: failed in memory allocate\n", 1);
-	if ((line[*i] == '>' && line[1 + *i] == '>')
-		|| (line[*i] == '<' && line[1 + *i] == '<'))
-	{
-		new->value = ft_substr(line, *i, 2);
-		*i += 2;
-	}
-	else if (check_delimiter(line[*i]) == 1)
-	{
-		new->value = ft_substr(line, *i, 1);
-		*i += 1;
-	}
-	else
-	{
-		new->quoted = 0;
-		new->value = get_tokens(mini, line, i, &new->quoted);
-	}
+	set_token_value(mini, new, line, i);
 	if (!new->value)
 	{
 		free_tokens(head);
@@ -41,13 +26,31 @@ t_token	*init_token(t_mini *mini, t_token *head, char *line, int *i)
 	return (new);
 }
 
+void	set_token_value(t_mini *mini, t_token *new, char *line, int *i)
+{
+	if (is_double_redirect(line, i))
+	{
+		new->value = ft_substr(line, *i, 2);
+		*i += 2;
+		return ;
+	}
+	if (check_delimiter(line[*i]) == 1)
+	{
+		new->value = ft_substr(line, *i, 1);
+		*i += 1;
+		return ;
+	}
+	new->quoted = 0;
+	new->value = get_tokens(mini, line, i, &new->quoted);
+}
+
 /*
 	Determine what kind of token a value represents.
 */
 
-t_token_type get_type(char *value)
+t_token_type	get_type(char *value)
 {
-	long len;
+	long	len;
 
 	len = ft_strlen(value);
 	if (is_exact_token(">>", value, len) == 1 && value[0])
@@ -76,15 +79,13 @@ char	*get_tokens(t_mini *mini, const char *line, int *i, int *quoted)
 	int		was_quoted;
 
 	word = NULL;
-	while (line[*i] && line[*i] != ' ' && line[*i] != '\t' && check_delimiter(line[*i]) == 0)
+	while (line[*i] && line[*i] != ' '
+		&& line[*i] != '\t' && check_delimiter(line[*i]) == 0)
 	{
 		was_quoted = 0;
 		fragment = get_single_token(mini, line, i, &was_quoted);
 		if (!fragment)
-		{
-			free(word);
-			return (NULL);
-		}
+			return (free(word), NULL);
 		if (was_quoted)
 			*quoted = 1;
 		temp = word;
@@ -102,32 +103,20 @@ char	*get_tokens(t_mini *mini, const char *line, int *i, int *quoted)
 	Fragment extractor.
 */
 
-char	*get_single_token(t_mini *mini, const char *line, int *i, int *was_quoted)
+char	*get_single_token(t_mini *mini, const char *line, int *i, int *quoted)
 {
-	int		start_word;
 	char	quote_type;
 	char	*fragment;
 
 	quote_type = 0;
 	if (line[*i] == '\'' || line[*i] == '"')
 	{
-		*was_quoted = 1;
-		quote_type = line[(*i)++];
-		start_word = (*i);
-		while (line[*i] && line[*i] != quote_type)
-			(*i)++;
-		if (line[*i] != quote_type)
-			return (NULL);
-		fragment = ft_substr(line, start_word, (*i - start_word));
-		(*i)++;
+		*quoted = 1;
+		fragment = extract_quoted_fragment(line, i, &quote_type);
 	}
 	else
-	{
-		start_word = (*i);
-		while (line[*i] && check_delimiter(line[*i]) == 0 && line[*i] != '"'
-				&& line[*i] != ' ' && line[*i] != '\t' && line[*i] != '\'')
-			(*i)++;
-		fragment = ft_substr(line, start_word, (*i - start_word));
-	}
+		fragment = extract_unquoted_fragment(line, i);
+	if (!fragment)
+		return (NULL);
 	return (var_expansion(mini, fragment, quote_type));
 }

@@ -27,4 +27,3 @@ void	init_minishell(t_mini *mini, char **envp)
 		}
 	}
 }
-

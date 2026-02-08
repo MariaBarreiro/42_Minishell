@@ -1,5 +1,6 @@
 #include "../../../includes/minishell.h"
-int g_exit_status;
+
+int	g_exit_status;
 
 /*
 	Initializes signal handlers for the shell. 
@@ -26,4 +27,3 @@ void	sighandler(int signal)
 	rl_on_new_line();
 	rl_redisplay();
 }
-

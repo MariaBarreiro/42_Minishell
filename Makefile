@@ -42,6 +42,7 @@ TOKEN_SRC_PATH				= ./src/parsing/tokens/
 TOKEN_SRC_FILES				= tokenizer.c
 TOKEN_SRC_FILES				+= init_tokens.c
 TOKEN_SRC_FILES				+= new_token.c
+TOKEN_SRC_FILES				+= utils_tokens.c
 
 BLOCKS_SRC_PATH				= ./src/parsing/blocks/
 

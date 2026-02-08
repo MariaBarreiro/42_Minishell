@@ -7,7 +7,6 @@ t_cmd_block	*parse_blocks(t_token *token, t_mini *mini)
 
 	block[0] = NULL;
 	block[1] = NULL;
-
 	while (token)
 	{
 		if (token->type == T_PIPE)
@@ -23,15 +22,23 @@ t_cmd_block	*parse_blocks(t_token *token, t_mini *mini)
 		else
 			block[1]->next = block[2];
 		block[1] = block[2];
-		if (token && token->type == T_PIPE)
-		{
-			token = token->next;
-			if (!token || token->type == T_PIPE)
-				return (pipe_error(block[0], mini), NULL);
-		}
+		if (!handle_pipe_token(&token, block[0], mini))
+			return (NULL);
 	}
 	return (block[0]);
 }
+
+int	handle_pipe_token(t_token **token, t_cmd_block *head, t_mini *mini)
+{
+	if (*token && (*token)->type == T_PIPE)
+	{
+		*token = (*token)->next;
+		if (!*token || (*token)->type == T_PIPE)
+			return (pipe_error(head, mini), 1);
+	}
+	return (true);
+}
+
 
 /*
 	Allocate and initialize the new t_cmd_block structure to represent one command
@@ -45,11 +52,9 @@ t_cmd_block *new_block(int ac)
 	new_block = ft_calloc(1, sizeof(t_cmd_block));
 	if (!new_block)
 		return NULL;
-
 	new_block->args = ft_calloc((ac + 1), sizeof(char *));
 	new_block->limits = ft_calloc((ac + 1), sizeof(char *));
 	new_block->input = ft_calloc((ac + 1), sizeof(char *));
-//	new_block->next = NULL;
 	return (new_block);
 }
 

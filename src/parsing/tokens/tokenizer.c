@@ -9,12 +9,11 @@
 t_cmd_block	*tokenizer(t_mini *mini, char *line)
 {
 	t_token			*token;
-	t_cmd_block	*blocks;
+	t_cmd_block		*blocks;
 
 	blocks = NULL;
-
-	if (!line[0] || !ft_strcmp(line, "$NOTHING") ||check_spaces(line) == 0)
-		return NULL;
+	if (!line[0] || !ft_strcmp(line, "$NOTHING") || check_spaces(line) == 0)
+		return (NULL);
 	if (!ft_strncmp(line, "$NOTHING", 8))
 		line += 8;
 	if (!ft_strncmp(line, "\"\"", 2) && (!line[2] || line[2] == ' '))
@@ -27,7 +26,7 @@ t_cmd_block	*tokenizer(t_mini *mini, char *line)
 	if (!token)
 	{
 		printf("Error: input incorrect\n");
-		return NULL;
+		return (NULL);
 	}
 	blocks = parse_blocks(token, mini);
 	free_tokens(token);
@@ -63,5 +62,5 @@ t_token	*tokenization(t_mini *mini, char *line)
 			new_token(&new, &head, &current);
 		}
 	}
-	return (head); 
+	return (head);
 }
