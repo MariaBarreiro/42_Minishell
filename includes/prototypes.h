@@ -81,7 +81,6 @@ int		execute_pipeline(t_mini *mini);
 int		is_builtin(char **arg);
 int		exec_builtin(char **arg, t_mini *mini);
 
-//void	apply_redirections(t_command_block *cmd);
 /* -------------------------------execute mutiple-------------------------------------------------- */
 int		execute_multiple(t_mini *mini);
 int		setup_redirections(t_cmd_block *cmd);
@@ -97,6 +96,7 @@ void	close_all_pipes(int (*pipes)[2], int n);
 int		count_cmds(t_cmd_block *cmd);
 void	restore_fds(t_fd_backup *b);
 void	save_fds(t_fd_backup *b);
+int 	is_directory(char *path);
 
 //______________________built-in commands_____________________________
 

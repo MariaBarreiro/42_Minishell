@@ -88,6 +88,11 @@ int	execute_cmd(t_cmd_block *cmd, t_env *envp)
 		free_array(paths);
 		exit(127);
 	}
+	if (is_directory(path))
+	{
+		print_error(path, "Is a directory");
+		exit(126);
+	}
 	env_array = env_list_to_array(envp);
 	execve(path, cmd->args, env_array);
 	perror("minishell");

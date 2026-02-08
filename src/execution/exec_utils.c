@@ -67,3 +67,12 @@ void	wait_all_children(pid_t *pids, int n, t_mini *mini)
 		i++;
 	}
 }
+
+int	is_directory(char *path)
+{
+	struct stat	st;
+
+	if (stat(path, &st) == -1)
+		return (0);
+	return (S_ISDIR(st.st_mode));
+}
