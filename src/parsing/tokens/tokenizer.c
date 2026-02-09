@@ -18,7 +18,7 @@ t_cmd_block	*tokenizer(t_mini *mini, char *line)
 		line += 8;
 	if (!ft_strncmp(line, "\"\"", 2) && (!line[2] || line[2] == ' '))
 	{
-		ft_putendl_fd(":command not found", STDERR_FILENO);
+		print_error(line, "command not found");
 		mini->exit_stts = 127;
 		return (NULL);
 	}

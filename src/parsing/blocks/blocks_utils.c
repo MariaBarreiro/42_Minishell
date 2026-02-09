@@ -24,7 +24,7 @@ int	count_ac(t_token *temp_token)
 
 void	free_blocks(t_cmd_block	*head)
 {
-	t_cmd_block *temp;
+	t_cmd_block	*temp;
 
 	while (head)
 	{
@@ -42,11 +42,10 @@ void	free_blocks(t_cmd_block	*head)
 void	free_arrays(char **array)
 {
 	int	i;
-	i = 0;
 
+	i = 0;
 	if (!array)
 		return ;
-
 	while (array[i])
 	{
 		free(array[i]);

@@ -22,7 +22,7 @@ int	handle_redir(t_cmd_block *block, t_token **token, int type)
 
 int	add_input_redir(t_cmd_block *block, t_token *token)
 {
-	char *filename;
+	char	*filename;
 
 	filename = ft_strdup(token->value);
 	if (!filename)
@@ -45,7 +45,7 @@ int	add_output_redir(t_cmd_block *block, t_token *token, int append)
 	new_output->append = append;
 	new_output->next = NULL;
 	if (!block->outputs)
-		block->outputs= new_output;
+		block->outputs = new_output;
 	else
 	{
 		tail = block->outputs;
@@ -57,21 +57,22 @@ int	add_output_redir(t_cmd_block *block, t_token *token, int append)
 	return (1);
 }
 
-int	redir_error(t_cmd_block *head, t_cmd_block *block, t_mini *mini, t_token *token)
+int	redir_error(t_cmd_block *head, t_cmd_block *block,
+			t_mini *mini, t_token *token)
 {
 	write(2, "bash: syntax error near unexpected token ", 41);
 	if (!token)
 		ft_putendl_fd("`newline'", 2);
 	else if (token->type == T_REDIR_IN)
-			ft_putendl_fd("`<'", 2);
+		ft_putendl_fd("`<'", 2);
 	else if (token->type == T_REDIR_OUT)
-			ft_putendl_fd("`>'", 2);
+		ft_putendl_fd("`>'", 2);
 	else if (token->type == T_PIPE)
-			ft_putendl_fd("`|'", 2);
+		ft_putendl_fd("`|'", 2);
 	else if (token->type == T_REDIR_APPEND)
-			ft_putendl_fd("`>>'", 2);
+		ft_putendl_fd("`>>'", 2);
 	else if (token->type == T_HEREDOC)
-			ft_putendl_fd("`<<'", 2);
+		ft_putendl_fd("`<<'", 2);
 	free_blocks(head);
 	free_blocks(block);
 	mini->exit_stts = 2;
@@ -87,8 +88,8 @@ int	handle_heredoc(t_cmd_block *block, t_token **token)
 {
 	(*token) = (*token)->next;
 	if (!(*token) || (*token)->type == T_PIPE || (*token)->type == T_REDIR_IN
-			|| (*token)->type == T_REDIR_OUT || (*token)->type == T_REDIR_APPEND
-			||(*token)->type == T_HEREDOC)
+		|| (*token)->type == T_REDIR_OUT || (*token)->type == T_REDIR_APPEND
+		|| (*token)->type == T_HEREDOC)
 		return (0);
 	block->limits[block->heredoc++] = ft_strdup((*token)->value);
 	return (1);
@@ -101,10 +102,3 @@ int	handle_heredoc(t_cmd_block *block, t_token **token)
 		Sets the shell's exit status to indicate a syntax error
 		Returns an error code for the parser to stop.
 */
-int	pipe_error(t_cmd_block *head, t_mini *mini)
-{
-	free_blocks(head);
-	ft_putendl_fd("bash: syntax error near unexpected token `|'", 2);
-	mini->exit_stts = 2;
-	return (-1);
-}

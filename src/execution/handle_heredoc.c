@@ -34,7 +34,7 @@ int	handle_heredocs(t_cmd_block *cmd)
 	int	i;
 
 	if (!cmd->limits)
-		return 1;
+		return (1);
 	i = get_last_limiter(cmd->limits);
 	if (pipe(fd) < 0)
 		exit(1);

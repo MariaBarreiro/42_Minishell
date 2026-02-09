@@ -111,7 +111,7 @@ void			close_all_pipes(t_pipe *pipes, int n_cmds);
 int				count_cmds(t_cmd_block *cmd);
 void			restore_fds(t_fd_backup *b);
 void			save_fds(t_fd_backup *b);
-int				is_directory(char *path);
+int				validate_cmd(char *cmd, char *path);
 
 //Built-in Commands//
 

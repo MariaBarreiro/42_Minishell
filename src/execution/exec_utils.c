@@ -1,9 +1,9 @@
 #include "../../includes/minishell.h"
 
-int		count_cmds(t_cmd_block *cmd)
+int	count_cmds(t_cmd_block *cmd)
 {
-	int	i;
-	t_cmd_block *temp;
+	int			i;
+	t_cmd_block	*temp;
 
 	i = 0;
 	temp = cmd;
@@ -68,11 +68,19 @@ void	wait_all_children(pid_t *pids, int n, t_mini *mini)
 	}
 }
 
-int	is_directory(char *path)
+int	validate_cmd(char *cmd, char *path)
 {
-	struct stat	st;
+	struct stat	path_stat;
 
-	if (stat(path, &st) == -1)
+	if (stat(path, &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
+	{
+		print_error(cmd, "Is a directory");
 		return (0);
-	return (S_ISDIR(st.st_mode));
+	}
+	if (access(path, X_OK) != 0)
+	{
+		print_error(cmd, "Permission denied");
+		return (0);
+	}
+	return (1);
 }

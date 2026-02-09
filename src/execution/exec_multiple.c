@@ -18,8 +18,11 @@ static void	setup_child_pipes(int i, int total, t_pipe *p)
 }
 
 static void	child_process(t_mini *mini, t_cmd_block *cmd,
-			t_pipe *p, int i, int n_cmds)
+			t_pipe *p, int i)
 {
+	int	n_cmds;
+
+	n_cmds = count_cmds(mini->cmd);
 	setup_child_pipes(i, n_cmds, p);
 	if (apply_redirections(cmd))
 		exit (1);
@@ -41,7 +44,7 @@ static pid_t	*init_exec_multiple(t_pipe **pipes, int n_cmds)
 }
 
 static void	fork_loop(t_mini *mini, t_cmd_block *cmd,
-			t_pipe *pipes, pid_t *pids, int n_cmds)
+			t_pipe *pipes, pid_t *pids)
 {
 	int	i;
 
@@ -50,7 +53,7 @@ static void	fork_loop(t_mini *mini, t_cmd_block *cmd,
 	{
 		pids[i] = fork();
 		if (pids[i] == 0)
-			child_process(mini, cmd, pipes, i, n_cmds);
+			child_process(mini, cmd, pipes, i);
 		cmd = cmd->next;
 		i++;
 	}
@@ -66,7 +69,7 @@ int	execute_multiple(t_mini *mini)
 	cmd = mini->cmd;
 	n_cmds = count_cmds(cmd);
 	pids = init_exec_multiple(&pipes, n_cmds);
-	fork_loop(mini, cmd, pipes, pids, n_cmds);
+	fork_loop(mini, cmd, pipes, pids);
 	close_all_pipes(pipes, n_cmds);
 	wait_all_children(pids, n_cmds, mini);
 	free(pipes);

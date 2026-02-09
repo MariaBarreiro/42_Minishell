@@ -47,6 +47,7 @@ static int	exec_single_builtin(t_mini *mini, t_cmd_block *cmd)
 	mini->exit_stts = ret;
 	return (ret);
 }
+
 int	execute_pipeline(t_mini *mini)
 {
 	t_cmd_block	*cmd;

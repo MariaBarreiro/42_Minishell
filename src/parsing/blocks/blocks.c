@@ -11,7 +11,7 @@ t_cmd_block	*parse_blocks(t_token *token, t_mini *mini)
 	{
 		if (token->type == T_PIPE)
 			return (pipe_error(block[0], mini), NULL);
-		total_ac  = count_ac(token);
+		total_ac = count_ac(token);
 		block[2] = new_block(total_ac);
 		if (!block[2])
 			return (NULL);
@@ -39,19 +39,20 @@ int	handle_pipe_token(t_token **token, t_cmd_block *head, t_mini *mini)
 	return (1);
 }
 
-
 /*
-	Allocate and initialize the new t_cmd_block structure to represent one command
-		in the pipeline, complete with arrays for its arguments and redirections.
+	Allocate and initialize the new t_cmd_block
+	structure to represent one command
+	in the pipeline, complete with
+	arrays for its arguments and redirections.
 */
 
-t_cmd_block *new_block(int ac)
+t_cmd_block	*new_block(int ac)
 {
 	t_cmd_block	*new_block;
 
 	new_block = ft_calloc(1, sizeof(t_cmd_block));
 	if (!new_block)
-		return NULL;
+		return (NULL);
 	new_block->args = ft_calloc((ac + 1), sizeof(char *));
 	new_block->limits = ft_calloc((ac + 1), sizeof(char *));
 	new_block->input = ft_calloc((ac + 1), sizeof(char *));
@@ -61,7 +62,8 @@ t_cmd_block *new_block(int ac)
 /*
 	Consume tokens up to the next pipe and populate a single t_cmd_block.	
 */
-int	fill_block(t_cmd_block *block, t_token **token, t_mini *mini, t_cmd_block *head)
+int	fill_block(t_cmd_block *block, t_token **token,
+			t_mini *mini, t_cmd_block *head)
 {
 	int	i;
 
@@ -70,8 +72,8 @@ int	fill_block(t_cmd_block *block, t_token **token, t_mini *mini, t_cmd_block *h
 	{
 		if ((*token)->type == T_WORD && (*token)->value[0] != '\0')
 			block->args[i++] = ft_strdup((*token)->value);
-		else if ((*token)->type == T_REDIR_IN || (*token)->type == T_REDIR_OUT 
-					|| (*token)->type == T_REDIR_APPEND)
+		else if ((*token)->type == T_REDIR_IN || (*token)->type == T_REDIR_OUT
+			|| (*token)->type == T_REDIR_APPEND)
 		{
 			if (handle_redir(block, token, (*token)->type) == 0)
 				return (redir_error(head, block, mini, *token), 0);
@@ -81,8 +83,16 @@ int	fill_block(t_cmd_block *block, t_token **token, t_mini *mini, t_cmd_block *h
 			if (handle_heredoc(block, token) == false)
 				return (redir_error(head, block, mini, *token), false);
 		}
-	(*token) = (*token)->next;
+		(*token) = (*token)->next;
 	}
 	block->args[i] = NULL;
 	return (1);
+}
+
+int	pipe_error(t_cmd_block *head, t_mini *mini)
+{
+	free_blocks(head);
+	ft_putendl_fd("bash: syntax error near unexpected token `|'", 2);
+	mini->exit_stts = 2;
+	return (-1);
 }
