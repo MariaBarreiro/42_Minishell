@@ -1,22 +1,6 @@
 #include "../../includes/minishell.h"
 
-int	(*create_pipes(int n))[2]
-{
-	int	(*p)[2];
-	int	i;
-
-	p = malloc(sizeof(int [2]) * (n - 1));
-	i = 0;
-	while (i < n - 1)
-	{
-		if (pipe(p[i]) == -1)
-			exit(1);
-		i++;
-	}
-	return (p);
-}
-
-static void	setup_child_pipes(int i, int total, int (*p)[2])
+static void	setup_child_pipes(int i, int total, t_pipe *p)
 {
 	int	j;
 
@@ -34,29 +18,33 @@ static void	setup_child_pipes(int i, int total, int (*p)[2])
 }
 
 static void	child_process(t_mini *mini, t_cmd_block *cmd,
-			int (*p)[2], int i, int n_cmds)
+			t_pipe *p, int i, int n_cmds)
 {
 	setup_child_pipes(i, n_cmds, p);
-	if (setup_redirections(cmd))
-		exit(1);
+	if (apply_redirections(cmd))
+		exit (1);
 	if (is_builtin(cmd->args))
 		exit(exec_builtin(cmd->args, mini));
 	execute_cmd(cmd, mini->my_env);
 	exit(1);
 }
 
-int	execute_multiple(t_mini *mini)
+static pid_t	*init_exec_multiple(t_pipe **pipes, int n_cmds)
 {
-	t_cmd_block		*cmd;
-	int				n_cmds;
-	int				(*pipes)[2];
-	pid_t			*pids;
-	int				i;
+	pid_t	*pids;
 
-	cmd = mini->cmd;
-	n_cmds = count_cmds(cmd);
-	pipes = create_pipes(n_cmds);
+	*pipes = create_pipes(n_cmds);
 	pids = malloc(sizeof(pid_t) * n_cmds);
+	if (!*pipes || !pids)
+		exit(1);
+	return (pids);
+}
+
+static void	fork_loop(t_mini *mini, t_cmd_block *cmd,
+			t_pipe *pipes, pid_t *pids, int n_cmds)
+{
+	int	i;
+
 	i = 0;
 	while (cmd)
 	{
@@ -66,6 +54,19 @@ int	execute_multiple(t_mini *mini)
 		cmd = cmd->next;
 		i++;
 	}
+}
+
+int	execute_multiple(t_mini *mini)
+{
+	t_cmd_block	*cmd;
+	t_pipe		*pipes;
+	pid_t		*pids;
+	int			n_cmds;
+
+	cmd = mini->cmd;
+	n_cmds = count_cmds(cmd);
+	pids = init_exec_multiple(&pipes, n_cmds);
+	fork_loop(mini, cmd, pipes, pids, n_cmds);
 	close_all_pipes(pipes, n_cmds);
 	wait_all_children(pids, n_cmds, mini);
 	free(pipes);

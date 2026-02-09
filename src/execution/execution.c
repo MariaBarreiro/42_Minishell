@@ -10,7 +10,7 @@ static int	execute_external(t_mini *mini)
 		return (perror("fork"), 1);
 	if (pid == 0)
 	{
-		if (setup_redirections(mini->cmd))
+		if (apply_redirections(mini->cmd))
 			exit(1);
 		execute_cmd(mini->cmd, mini->my_env);
 		exit(1);
@@ -36,7 +36,7 @@ static int	exec_single_builtin(t_mini *mini, t_cmd_block *cmd)
 	int			ret;
 
 	save_fds(&b);
-	if (setup_redirections(cmd))
+	if (apply_redirections(cmd))
 	{
 		restore_fds(&b);
 		mini->exit_stts = 1;

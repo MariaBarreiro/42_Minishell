@@ -15,12 +15,12 @@ int		count_cmds(t_cmd_block *cmd)
 	return (i);
 }
 
-void	close_all_pipes(int (*pipes)[2], int n)
+void	close_all_pipes(t_pipe *pipes, int n_cmds)
 {
 	int	i;
 
 	i = 0;
-	while (i < n - 1)
+	while (i < n_cmds - 1)
 	{
 		close(pipes[i][0]);
 		close(pipes[i][1]);

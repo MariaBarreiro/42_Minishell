@@ -1,7 +1,9 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-	typedef enum e_token_type
+typedef int	t_pipe[2];
+
+typedef enum e_token_type
 {
 	T_WORD,
 	T_PIPE,
@@ -9,15 +11,15 @@
 	T_REDIR_OUT,
 	T_REDIR_APPEND,
 	T_HEREDOC,
-} t_token_type;
+}	t_token_type;
 
 typedef struct s_token
 {
-	char            *value;
+	char			*value;
 	int				quoted;
-	t_token_type    type;
-	struct s_token  *next;
-} t_token;
+	t_token_type	type;
+	struct s_token	*next;
+}	t_token;
 
 typedef struct s_env
 {
@@ -27,18 +29,18 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef	struct s_output
+typedef struct s_output
 {
 	char			*file;
 	int				append;
 	struct s_output	*next;
-} t_output;
+}	t_output;
 
 typedef struct s_fd_backup
 {
 	int				stdin_fd;
 	int				stdout_fd;
-} t_fd_backup;
+}	t_fd_backup;
 
 typedef struct s_cmd_block
 {
@@ -50,13 +52,13 @@ typedef struct s_cmd_block
 	int					n_outputs;
 	t_output			*outputs;
 	struct s_cmd_block	*next;
-} t_cmd_block;
+}	t_cmd_block;
 
 typedef struct s_mini
 {
 	int					exit_stts;
 	t_env				*my_env;
 	t_cmd_block			*cmd;
-} t_mini;
+}	t_mini;
 
 #endif

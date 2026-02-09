@@ -13,3 +13,21 @@ void	restore_fds(t_fd_backup *b)
 	close(b->stdin_fd);
 	close(b->stdout_fd);
 }
+
+t_pipe	*create_pipes(int n)
+{
+	t_pipe	*p;
+	int		i;
+
+	p = malloc(sizeof(t_pipe) * (n - 1));
+	if (!p)
+		exit(1);
+	i = 0;
+	while (i < n - 1)
+	{
+		if (pipe(p[i]) == -1)
+			exit(1);
+		i++;
+	}
+	return (p);
+}
