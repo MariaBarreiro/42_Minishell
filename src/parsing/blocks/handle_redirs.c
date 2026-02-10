@@ -89,6 +89,7 @@ int	redir_error(t_cmd_block *head, t_cmd_block *block,
 int	handle_heredoc(t_cmd_block *block, t_token **token)
 {
 	(*token) = (*token)->next;
+	block->last_redir = 1;
 	if (!(*token) || (*token)->type == T_PIPE || (*token)->type == T_REDIR_IN
 		|| (*token)->type == T_REDIR_OUT || (*token)->type == T_REDIR_APPEND
 		|| (*token)->type == T_HEREDOC)

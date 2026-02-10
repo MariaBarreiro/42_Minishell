@@ -12,10 +12,7 @@ static int	handle_input(t_cmd_block *cmd)
 	{
 		fd = open(cmd->input[i], O_RDONLY);
 		if (fd < 0)
-		{
-			perror(cmd->input[i]);
-			exit (1);
-		}
+			return (perror(cmd->input[i]), 1);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 		i++;
@@ -49,31 +46,6 @@ int	handle_output_redir(t_cmd_block *cmd)
 	}
 	return (0);
 }
-/* int	apply_redirections(t_cmd_block *cmd)
-{
-	int	error;
-
-	error = 0;
-	if (cmd->last_redir == 1)
-	{
-		if (cmd->redir_in > 0 && handle_input(cmd))
-			error = 1;
-		if (cmd->heredoc > 0)
-			handle_heredocs(cmd);
-		if (cmd->n_outputs > 0 && handle_output_redir(cmd))
-			error = 1;
-	}
-	else
-	{
-		if (cmd->heredoc > 0)
-			handle_heredocs(cmd);
-		if (cmd->n_outputs > 0 && handle_output_redir(cmd))
-			error = 1;
-		if (cmd->redir_in > 0 && handle_input(cmd))
-			error = 1;
-	}
-	return (error);
-} */
 
 int	apply_redirections(t_cmd_block *cmd)
 {
@@ -88,7 +60,7 @@ int	apply_redirections(t_cmd_block *cmd)
 			if (handle_output_redir(cmd))
 				return (1);
 	}
-	else 
+	else
 	{
 		if (cmd->heredoc > 0)
 			handle_heredocs(cmd);
