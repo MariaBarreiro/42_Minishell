@@ -50,6 +50,7 @@ typedef struct s_cmd_block
 	char				**args;
 	char				**input;
 	int					n_outputs;
+	int					last_redir;
 	t_output			*outputs;
 	struct s_cmd_block	*next;
 }	t_cmd_block;

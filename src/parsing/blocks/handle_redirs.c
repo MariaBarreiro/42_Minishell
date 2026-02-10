@@ -25,6 +25,7 @@ int	add_input_redir(t_cmd_block *block, t_token *token)
 	char	*filename;
 
 	filename = ft_strdup(token->value);
+	block->last_redir = 0;
 	if (!filename)
 		return (0);
 	block->input[block->redir_in++] = filename;
@@ -40,6 +41,7 @@ int	add_output_redir(t_cmd_block *block, t_token *token, int append)
 	if (!new_output)
 		return (0);
 	new_output->file = ft_strdup(token->value);
+	block->last_redir = 1;
 	if (!new_output->file)
 		return (free(new_output), 0);
 	new_output->append = append;

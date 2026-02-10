@@ -49,16 +49,55 @@ int	handle_output_redir(t_cmd_block *cmd)
 	}
 	return (0);
 }
+/* int	apply_redirections(t_cmd_block *cmd)
+{
+	int	error;
+
+	error = 0;
+	if (cmd->last_redir == 1)
+	{
+		if (cmd->redir_in > 0 && handle_input(cmd))
+			error = 1;
+		if (cmd->heredoc > 0)
+			handle_heredocs(cmd);
+		if (cmd->n_outputs > 0 && handle_output_redir(cmd))
+			error = 1;
+	}
+	else
+	{
+		if (cmd->heredoc > 0)
+			handle_heredocs(cmd);
+		if (cmd->n_outputs > 0 && handle_output_redir(cmd))
+			error = 1;
+		if (cmd->redir_in > 0 && handle_input(cmd))
+			error = 1;
+	}
+	return (error);
+} */
 
 int	apply_redirections(t_cmd_block *cmd)
 {
-	if (cmd->n_outputs > 0)
-		if (handle_output_redir(cmd))
-			return (1);
-	if (cmd->heredoc > 0)
-		handle_heredocs(cmd);
-	if (cmd->redir_in > 0)
-		if (handle_input(cmd))
-			return (1);
+	if (cmd->last_redir == 1)
+	{
+		if (cmd->redir_in > 0)
+			if (handle_input(cmd))
+				return (1);
+		if (cmd->heredoc > 0)
+				handle_heredocs(cmd);
+		if (cmd->n_outputs > 0)
+			if (handle_output_redir(cmd))
+				return (1);
+	}
+	else 
+	{
+		if (cmd->heredoc > 0)
+			handle_heredocs(cmd);
+		if (cmd->n_outputs > 0)
+			if (handle_output_redir(cmd))
+				return (1);
+		if (cmd->redir_in > 0)
+			if (handle_input(cmd))
+				return (1);
+	}
 	return (0);
 }
