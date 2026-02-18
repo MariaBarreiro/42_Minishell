@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   setup_redirections.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/18 17:21:59 by mda-enca          #+#    #+#             */
+/*   Updated: 2026/02/18 17:22:18 by mda-enca         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 static int	handle_input(t_cmd_block *cmd)
@@ -55,7 +67,7 @@ int	apply_redirections(t_cmd_block *cmd)
 			if (handle_input(cmd))
 				return (1);
 		if (cmd->heredoc > 0)
-				handle_heredocs(cmd);
+			handle_heredocs(cmd);
 		if (cmd->n_outputs > 0)
 			if (handle_output_redir(cmd))
 				return (1);

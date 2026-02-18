@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/18 17:27:59 by mda-enca          #+#    #+#             */
+/*   Updated: 2026/02/18 17:28:39 by mda-enca         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 int	main(int ac, char **av, char **envp)
@@ -11,7 +23,7 @@ int	main(int ac, char **av, char **envp)
 	set_signals();
 	init_minishell(&mini, envp);
 	main_loop(&mini);
-	//Missing free_all();
+	//MISSING FREE
 	rl_clear_history();
 	return (0);
 }
