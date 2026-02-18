@@ -20,6 +20,8 @@
 		Manages exit conditions.
 */
 
+
+/*
 char	*read_input_line(void)
 {
 	char	*line;
@@ -45,6 +47,48 @@ void	main_loop(t_mini *mini)
 			break ;
 		}
 		if (*input_line)
+			add_history(input_line);
+		mini->cmd = tokenizer(mini, input_line);
+		free(input_line);
+		if (!mini->cmd)
+			continue ;
+		execute_pipeline(mini);
+		free_blocks(mini->cmd);
+		mini->cmd = NULL;
+	}
+}
+*/
+
+char	*read_input_line(void)
+{
+	//NEED TO DELETE THIS!!!
+	char	*line;
+	char	*trimmed_line;
+
+	if (check_interactive())
+		return (readline("minishell > "));
+	line = get_next_line(STDIN_FILENO);
+	if (!line)
+		return (NULL);
+	trimmed_line = ft_strtrim(line, "\n");
+	free(line);
+	return (trimmed_line);
+}
+
+void	main_loop(t_mini *mini)
+{
+	char	*input_line;
+
+	while (1)
+	{
+		input_line = read_input_line();
+		if (!input_line)
+		{
+			if (check_interactive())
+				ft_putendl_fd("exit", STDOUT_FILENO);
+			break ;
+		}
+		if (check_interactive() && *input_line)
 			add_history(input_line);
 		mini->cmd = tokenizer(mini, input_line);
 		free(input_line);

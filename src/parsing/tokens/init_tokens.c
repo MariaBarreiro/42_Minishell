@@ -121,6 +121,8 @@ char	*get_single_token(t_mini *mini, const char *line, int *i, int *quoted)
 	char	*fragment;
 
 	quote_type = 0;
+	if (line[*i] == '$' && line[*i + 1] == '"')
+		(*i)++;
 	if (line[*i] == '\'' || line[*i] == '"')
 	{
 		*quoted = 1;
