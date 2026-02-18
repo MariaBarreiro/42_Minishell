@@ -83,7 +83,8 @@ int	fill_block(t_cmd_block *block, t_token **token,
 	i = 0;
 	while (*token && (*token)->type != T_PIPE)
 	{
-		if ((*token)->type == T_WORD && (*token)->value[0] != '\0')
+		if ((*token)->type == T_WORD && ((*token)->value[0] != '\0'
+			|| (*token)->quoted))
 			block->args[i++] = ft_strdup((*token)->value);
 		else if ((*token)->type == T_REDIR_IN || (*token)->type == T_REDIR_OUT
 			|| (*token)->type == T_REDIR_APPEND)

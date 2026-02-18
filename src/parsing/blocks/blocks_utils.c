@@ -22,7 +22,7 @@ int	count_ac(t_token *temp_token)
 	counter = 0;
 	while (temp_token && temp_token->type != T_PIPE)
 	{
-		if (temp_token->type == T_WORD && temp_token->value[0] != '\0')
+		if (temp_token->type == T_WORD && (temp_token->value[0] != '\0' || temp_token->quoted))
 			counter += 1;
 		temp_token = temp_token->next;
 	}
