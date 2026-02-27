@@ -38,9 +38,9 @@ t_token			*tokenization(t_mini *mini, char *line);
 t_token			*init_token(t_mini *mini, t_token *head, char *line, int *i);
 void			set_token_value(t_mini *mini, t_token *new, char *line, int *i);
 char			*get_tokens(t_mini *mini, const char *line,
-					int *i, int *quoted);
+					int *i, int *quoted, int expand);
 char			*get_single_token(t_mini *mini,
-					const char *line, int *i, int *quoted);
+					const char *line, int *i, int *quoted, int expand);
 
 //New Token//
 void			new_token(t_token **new_node,
@@ -54,6 +54,7 @@ int				is_double_redirect(const char *line, int *i);
 char			*extract_quoted_fragment(const char *line,
 					int *i, char *quote_type);
 char			*extract_unquoted_fragment(const char *line, int *i);
+int				is_heredoc_limiter(const char *line, int i);
 
 //Env variables//
 char			*var_expansion(t_mini *mini, char *fragment, char quote_type);
