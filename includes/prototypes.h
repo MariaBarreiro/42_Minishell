@@ -56,6 +56,7 @@ char			*extract_quoted_fragment(const char *line,
 char			*extract_unquoted_fragment(const char *line, int *i);
 int				is_heredoc_limiter(const char *line, int i);
 char			find_unclosed_quote(const char *line);
+char			*tilde_fragment(t_mini *mini, char *fragment, char quote_type);
 
 //Env variables//
 char			*var_expansion(t_mini *mini, char *fragment, char quote_type);

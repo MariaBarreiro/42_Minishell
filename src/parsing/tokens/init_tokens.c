@@ -136,5 +136,6 @@ char	*get_single_token(t_mini *mini, const char *line, int *i, int *quoted, int 
 		return (NULL);
 	if (!expand)
 		return (fragment);
+	fragment = tilde_fragment(mini, fragment, quote_type);
 	return (var_expansion(mini, fragment, quote_type));
 }

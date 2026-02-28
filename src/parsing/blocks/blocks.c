@@ -46,7 +46,7 @@ int	handle_pipe_token(t_token **token, t_cmd_block *head, t_mini *mini)
 	{
 		*token = (*token)->next;
 		if (!*token || (*token)->type == T_PIPE)
-			return (pipe_error(head, mini), 1);
+			return (pipe_error(head, mini), 0);
 	}
 	return (1);
 }
