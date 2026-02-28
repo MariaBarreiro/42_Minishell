@@ -151,7 +151,7 @@ char			*get_key(char *args);
 int				ft_strcmp(const char *s1, const char *s2);
 void			env_add_back(t_env **lst, t_env *new);
 char			*ft_itoa(int n);
-int				ft_atoll(const char *nptr);
+long long		ft_atoll(const char *nptr);
 int				ft_strsearch(char *str, char c);
 void			append_env(char *key, char *value, t_env **env);
 
