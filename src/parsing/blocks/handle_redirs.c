@@ -19,6 +19,9 @@
 int	handle_redir(t_cmd_block *block, t_token **token, int type)
 {
 	(*token) = (*token)->next;
+if (type == T_REDIR_OUT && (*token) && (*token)->type == T_PIPE
+		&& (*token)->next && (*token)->next->type == T_WORD)
+		(*token) = (*token)->next;
 	if (!(*token) || (*token)->type == T_PIPE || (*token)->type == T_REDIR_IN
 		|| (*token)->type == T_REDIR_OUT || (*token)->type == T_REDIR_APPEND
 		|| (*token)->type == T_HEREDOC)
