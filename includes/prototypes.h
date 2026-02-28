@@ -106,6 +106,7 @@ void			free_blocks(t_cmd_block *head);
 void			free_arrays(char **array);
 void			free_output_list(t_output *output);
 void			free_block_arrays(t_cmd_block *block);
+void			free_env_list(t_env *env);
 
 //Execution//
 
@@ -152,7 +153,7 @@ char			*get_key(char *args);
 int				ft_strcmp(const char *s1, const char *s2);
 void			env_add_back(t_env **lst, t_env *new);
 char			*ft_itoa(int n);
-long long		ft_atoll(const char *nptr);
+int				ft_atoll(const char *nptr);
 int				ft_strsearch(char *str, char c);
 void			append_env(char *key, char *value, t_env **env);
 

@@ -109,7 +109,10 @@ int	handle_heredoc(t_cmd_block *block, t_token **token)
 		|| (*token)->type == T_REDIR_OUT || (*token)->type == T_REDIR_APPEND
 		|| (*token)->type == T_HEREDOC)
 		return (0);
-	block->limits[block->heredoc++] = ft_strdup((*token)->value);
+	block->limits[block->heredoc] = ft_strdup((*token)->value);
+	if (!block->limits[block->heredoc])
+		return (0);
+	block->heredoc++;
 	return (1);
 }
 

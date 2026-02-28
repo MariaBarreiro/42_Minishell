@@ -68,6 +68,14 @@ t_cmd_block	*new_block(int ac)
 	new_block->args = ft_calloc((ac + 1), sizeof(char *));
 	new_block->limits = ft_calloc((ac + 1), sizeof(char *));
 	new_block->input = ft_calloc((ac + 1), sizeof(char *));
+	if (!new_block->args || !new_block->limits || !new_block->input)
+	{
+		free(new_block->args);
+		free(new_block->limits);
+		free(new_block->input);
+		free(new_block);
+		return (NULL);
+	}
 	new_block->last_redir = 0;
 	return (new_block);
 }
