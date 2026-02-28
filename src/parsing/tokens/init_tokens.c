@@ -20,18 +20,19 @@
 t_token	*init_token(t_mini *mini, t_token *head, char *line, int *i)
 {
 	t_token	*new;
+	int		start;
 
+	start = *i;
 	new = calloc(sizeof(t_token), 1);
 	if (!new)
 		error(head, "Error: failed in memory allocate\n", 1);
 	set_token_value(mini, new, line, i);
 	if (!new->value)
 	{
-		free_tokens(head);
 		free(new);
 		return (NULL);
 	}
-	if (new->quoted)
+	if (new->quoted || check_delimiter(line[start]) == 0)
 		new->type = T_WORD;
 	else
 		new->type = get_type(new->value);

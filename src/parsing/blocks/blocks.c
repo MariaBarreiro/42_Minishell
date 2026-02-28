@@ -85,7 +85,12 @@ int	fill_block(t_cmd_block *block, t_token **token,
 	{
 		if ((*token)->type == T_WORD && ((*token)->value[0] != '\0'
 			|| (*token)->quoted))
-			block->args[i++] = ft_strdup((*token)->value);
+		{
+			if ((*token)->quoted)
+				block->args[i++] = ft_strdup((*token)->value);
+			else
+				add_unquoted_fields(block->args, &i, (*token)->value);
+		}
 		else if ((*token)->type == T_REDIR_IN || (*token)->type == T_REDIR_OUT
 			|| (*token)->type == T_REDIR_APPEND)
 		{
@@ -101,6 +106,30 @@ int	fill_block(t_cmd_block *block, t_token **token,
 	}
 	block->args[i] = NULL;
 	return (1);
+}
+
+void	add_unquoted_fields(char **args, int *i, char *value)
+{
+	int		start;
+	int		end;
+	char	*field;
+
+	start = 0;
+	end = 0;
+	field = 0;
+	while (value && value[start])
+	{
+		while (value[start] == ' ' || value[start] == '\t')
+			start++;
+		if (!value[start])
+			break ;
+		end = start;
+		while (value[end] && value[end] != ' ' && value[end] != '\t')
+			end++;
+		field = ft_substr(value, start, end - start);
+		args[(*i)++] = field;
+		start = end;
+	}
 }
 
 int	pipe_error(t_cmd_block *head, t_mini *mini)

@@ -37,7 +37,12 @@ t_cmd_block	*tokenizer(t_mini *mini, char *line)
 	token = tokenization(mini, line);
 	if (!token)
 	{
-		printf("Error: input incorrect\n");
+		if (find_unclosed_quote(line))
+			ft_putendl_fd("bash: unexpected EOF while looking for matching quote",
+				STDERR_FILENO);
+		//else
+		//	ft_putendl_fd("bash: syntax error", STDERR_FILENO);
+		mini->exit_stts = 2;
 		return (NULL);
 	}
 	blocks = parse_blocks(token, mini);
@@ -75,4 +80,22 @@ t_token	*tokenization(t_mini *mini, char *line)
 		}
 	}
 	return (head);
+}
+
+char	find_unclosed_quote(const char *line)
+{
+	char	quote;
+	int		j;
+
+	quote = 0;
+	j = 0;
+	while (line[j])
+	{
+		if (!quote && (line[j] == '\'' || line[j] == '"'))
+			quote = line[j];
+		else if (quote && line[j] == quote)
+			quote = 0;
+		j++;
+	}
+	return (quote);
 }

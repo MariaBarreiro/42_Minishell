@@ -13,13 +13,11 @@
 #include "../../../includes/minishell.h"
 
 /*
-	Get the type and update the current.
+	Append token to the linked list and update current tail.
 */
 
 void	new_token(t_token **new_node, t_token **head, t_token **current)
 {
-	if (!(*new_node)->quoted)
-		(*new_node)->type = get_type((*new_node)->value);
 	(*new_node)->next = NULL;
 	if (*head == NULL)
 	{

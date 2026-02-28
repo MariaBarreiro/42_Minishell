@@ -55,6 +55,7 @@ char			*extract_quoted_fragment(const char *line,
 					int *i, char *quote_type);
 char			*extract_unquoted_fragment(const char *line, int *i);
 int				is_heredoc_limiter(const char *line, int i);
+char			find_unclosed_quote(const char *line);
 
 //Env variables//
 char			*var_expansion(t_mini *mini, char *fragment, char quote_type);
@@ -77,9 +78,11 @@ t_cmd_block		*parse_blocks(t_token *token, t_mini *mini);
 t_cmd_block		*new_block(int ac);
 int				fill_block(t_cmd_block *block, t_token **token,
 					t_mini *mini, t_cmd_block *head);
+void			add_unquoted_fields(char **args, int *i, char *value);
 
 //Block Utils//
 int				count_ac(t_token *temp_token);
+int				count_unquoted_fields(char *value);
 
 //Handle Redirections//
 int				handle_redir(t_cmd_block *block, t_token **token, int type);
