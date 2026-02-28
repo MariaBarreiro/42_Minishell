@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:19:59 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:20:00 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/02/25 17:46:00 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,19 @@ int	ft_exit(char **args, int exit_stts)
 
 	write(1, "exit\n", 5);
 	if (!args[1])
-		exit(exit_stts);
+		return (exit_stts);
 	if (args[2])
 	{
 		print_error("exit", "too many arguments");
 		return (1);
 	}
 	if (!strcmp(args[1], "--"))
-		exit(0);
+		return (0);
 	if (!is_valid_exit_number(args[1]))
 	{
 		print_error("exit", "numeric argument required");
-		exit(2);
+		return (2);
 	}
 	code = ft_atoll(args[1]);
-	exit((unsigned char)code);
+	return ((unsigned char)code);
 }

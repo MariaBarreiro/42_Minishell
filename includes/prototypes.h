@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prototypes.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:29:51 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:29:51 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/02/28 17:09:00 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,12 @@
 int				main(int ac, char **av, char **envp);
 void			init_minishell(t_mini *mini, char **envp);
 void			main_loop(t_mini *mini);
-char			*read_input_line(void);
 
 //Signals//
 void			set_signals(void);
 void			sighandler(int signal);
 
 //Main utils//
-int				check_interactive(void);
 int				check_delimiter(char c);
 int				check_spaces(char *str);
 
@@ -156,5 +154,7 @@ char			*ft_itoa(int n);
 int				ft_atoll(const char *nptr);
 int				ft_strsearch(char *str, char c);
 void			append_env(char *key, char *value, t_env **env);
+void			update_shlvl(t_env **env);
+void			free_all(t_mini *mini);
 
 #endif

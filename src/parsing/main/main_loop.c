@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:24:49 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:25:43 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/02/28 17:42:31 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,7 @@
 		Manages exit conditions.
 */
 
-
-/*
-char	*read_input_line(void)
-{
-	char	*line;
-
-	if (check_interactive())
-		return (readline("minishell > "));
-	line = get_next_line(STDIN_FILENO);
-	if (!line)
-		return (NULL);
-	return (line);
-}
-
-void	main_loop(t_mini *mini)
+/* void	main_loop(t_mini *mini)
 {
 	char	*input_line;
 
@@ -56,12 +42,16 @@ void	main_loop(t_mini *mini)
 		free_blocks(mini->cmd);
 		mini->cmd = NULL;
 	}
+} */
+int	check_interactive(void)
+{
+	if (isatty(STDIN_FILENO))
+		return (1);
+	return (0);
 }
-*/
 
 char	*read_input_line(void)
 {
-	//NEED TO DELETE THIS!!!
 	char	*line;
 	char	*trimmed_line;
 
