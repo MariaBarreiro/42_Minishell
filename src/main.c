@@ -25,5 +25,5 @@ int	main(int ac, char **av, char **envp)
 	main_loop(&mini);
 	//MISSING FREE
 	rl_clear_history();
-	return (0);
+	return (mini.exit_stts);
 }
