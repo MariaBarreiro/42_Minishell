@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:21:26 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:21:27 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/03/04 13:03:10 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ int	exec_builtin(char **arg, t_mini *mini)
 	else if (ft_strcmp(arg[0], "env") == 0)
 		mini->exit_stts = ft_env(my_env, arg);
 	else if (ft_strcmp(arg[0], "exit") == 0)
+	{
 		mini->exit_stts = ft_exit(arg, mini->exit_stts);
+		free_and_exit(mini, mini->exit_stts);
+	}
 	else if (ft_strcmp(arg[0], "unset") == 0)
 		mini->exit_stts = ft_unset(&my_env, arg);
 	else if (ft_strcmp(arg[0], "export") == 0)

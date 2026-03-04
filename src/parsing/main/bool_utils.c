@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bool_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:24:42 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:24:43 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/02/25 16:29:27 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 /*
 	Determine if its a terminal or not.
 */
-
-int	check_interactive(void)
-{
-	return (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO));
-}
 
 int	check_delimiter(char c)
 {

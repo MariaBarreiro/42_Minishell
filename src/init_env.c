@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:27:55 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:27:56 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/02/25 17:27:49 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	set_pwd_env(t_env **env)
 	return (0);
 }
 
-static void	update_shlvl(t_env **env)
+void	update_shlvl(t_env **env)
 {
 	int		lvl;
 	char	*val;
@@ -33,13 +33,14 @@ static void	update_shlvl(t_env **env)
 	if (!val)
 	{
 		update_env("SHLVL", "1", env, 1);
+		val = ft_strdup("1");
 		return ;
 	}
 	lvl = ft_atoi(val) + 1;
 	val = ft_itoa(lvl);
 	if (!val)
 		return ;
-	update_env("SHLVL", val, env, 1);
+	update_env("SHLVL", val, env, 0);
 	free(val);
 }
 
@@ -48,26 +49,6 @@ int	init_minimal_env(t_env **env)
 	if (set_pwd_env(env))
 		return (1);
 	update_shlvl(env);
+	update_env("_", "./minishell", env, 1);
 	return (0);
 }
-
-/*t_env	*init_env(char **envp)
-{
-	t_env	*head;
-	int		i;
-	char	*equal;
-
-	head = NULL;
-	i = 0;
-	while (envp && envp[i])
-	{
-		equal = ft_strchr(envp[i], '=');
-		if (equal)
-			env_add_back(&head, new_node(ft_substr(envp[i], 0, equal - envp[i]),
-					ft_strdup(equal + 1)));
-		else
-			env_add_back(&head, new_node(ft_strdup(envp[i]), NULL));
-		i++;
-	}
-	return (head);
-}*/

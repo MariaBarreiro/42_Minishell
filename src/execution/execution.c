@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:21:48 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:21:49 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/03/04 13:01:49 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static int	execute_external(t_mini *mini)
 	{
 		if (apply_redirections(mini->cmd))
 			exit(1);
+		if (!mini->cmd->args || !mini->cmd->args[0])
+			free_and_exit(mini, 0);
 		execute_cmd(mini->cmd, mini->my_env);
 		exit(1);
 	}
@@ -35,12 +37,22 @@ static int	execute_external(t_mini *mini)
 	return (1);
 }
 
-static int	is_empty_cmd(t_cmd_block *cmd)
+/* static int	is_empty_cmd(t_cmd_block *cmd)
 {
+	t_fd_backup	b;
+
 	if (!cmd->args || !cmd->args[0] || cmd->args[0][0] == '\0')
+	{
+		save_fds(&b);
+		if (apply_redirections(cmd))
+		{
+			restore_fds(&b);
+			return(1);
+		}
 		return (1);
+	}
 	return (0);
-}
+} */
 
 static int	exec_single_builtin(t_mini *mini, t_cmd_block *cmd)
 {
@@ -66,8 +78,8 @@ int	execute_pipeline(t_mini *mini)
 	int			ret;
 
 	cmd = mini->cmd;
-	if (is_empty_cmd(cmd))
-		return (mini->exit_stts = 0);
+/* 	if (is_empty_cmd(cmd))
+		return (mini->exit_stts = 0); */
 	if (cmd->next)
 		return (execute_multiple(mini));
 	if (is_builtin(cmd->args))

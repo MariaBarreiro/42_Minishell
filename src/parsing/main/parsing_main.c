@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:24:52 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:25:36 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/02/25 17:25:45 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	init_minishell(t_mini *mini, char **envp)
 	mini->cmd = NULL;
 	mini->exit_stts = 0;
 	if (envp && envp[0])
+	{
 		mini->my_env = init_env(envp);
+		update_shlvl(&mini->my_env);
+	}
 	else
 	{
 		mini->my_env = NULL;
