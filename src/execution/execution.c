@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:21:48 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/28 18:20:08 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/04 13:01:49 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static int	execute_external(t_mini *mini)
 	{
 		if (apply_redirections(mini->cmd))
 			exit(1);
+		if (!mini->cmd->args || !mini->cmd->args[0])
+			free_and_exit(mini, 0);
 		execute_cmd(mini->cmd, mini->my_env);
 		exit(1);
 	}

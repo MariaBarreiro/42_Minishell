@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:29:51 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/28 17:09:00 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/04 13:04:20 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ void			free_arrays(char **array);
 void			free_output_list(t_output *output);
 void			free_block_arrays(t_cmd_block *block);
 void			free_env_list(t_env *env);
+void			free_all(t_mini *mini);
+void			free_and_exit(t_mini *mini, int exit_code);
 
 //Execution//
 
@@ -155,6 +157,5 @@ int				ft_atoll(const char *nptr);
 int				ft_strsearch(char *str, char c);
 void			append_env(char *key, char *value, t_env **env);
 void			update_shlvl(t_env **env);
-void			free_all(t_mini *mini);
 
 #endif

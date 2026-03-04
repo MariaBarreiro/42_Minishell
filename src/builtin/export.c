@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:20:02 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:20:03 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/03/04 13:28:49 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	ft_export(t_env **my_env, char **args)
 			if (has_plus_equal(args[i]))
 				append_env(key, value, my_env);
 			else
-				update_env(key, value, my_env, env_key_exists(key, *my_env));
+				update_env(key, value, my_env, !env_key_exists(key, *my_env));
 		}
 		i++;
 	}

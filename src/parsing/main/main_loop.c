@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:24:49 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/28 17:42:31 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/04 13:03:12 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 		mini->cmd = NULL;
 	}
 } */
+
 int	check_interactive(void)
 {
 	if (isatty(STDIN_FILENO))
