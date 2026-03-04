@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:19:26 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:19:28 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/03/04 20:26:27 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ static int	cd_home(t_env **my_env, int create)
 	return (0);
 }
 
+static void	cd_operand()
+{
+	return ;
+}
+
 int	ft_cd(t_env **my_env, char **arg)
 {
 	int	create;
@@ -66,10 +71,15 @@ int	ft_cd(t_env **my_env, char **arg)
 		print_error("cd", "too many arguments");
 		return (1);
 	}
-	if (chdir(arg[1]) == -1)
+	if (strcmp(arg[1], "-"))
+		cd_operand();
+	else
 	{
-		perror("cd");
-		return (1);
+		if (chdir(arg[1]) == -1)
+		{
+			perror("cd");
+			return (1);
+		}
 	}
 	update_env("OLDPWD", get_env_value("PWD", *my_env), my_env, create);
 	return (update_pwd("PWD", my_env));
