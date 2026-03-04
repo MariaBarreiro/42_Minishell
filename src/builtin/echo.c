@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:19:46 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:19:47 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/03/04 19:39:20 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,43 +29,42 @@ static int	has_flag(char *arg)
 		return (0);
 }
 
-static void	write_arg(char **arg, int beggin)
+static void	write_arg(char **arg, int start)
 {
 	int	i;
 
 	i = 0;
-	while (arg[beggin])
+	while (arg[start])
 	{
-		while (arg[beggin][i])
+		while (arg[start][i])
 		{
-			write (STDOUT_FILENO, &arg[beggin][i], 1);
+			write (STDOUT_FILENO, &arg[start][i], 1);
 			i++;
 		}
-		if (arg[beggin + 1])
+		if (arg[start + 1])
 			write (STDOUT_FILENO, " ", 1);
-		beggin++;
+		start++;
 		i = 0;
 	}
 }
 
 int	ft_echo(char **arg)
 {
-	int	beggin;
+	int	start;
 
 	if (!arg[1])
 	{
 		write (STDOUT_FILENO, "\n", 1);
 		return (0);
 	}
-	if (has_flag(arg[1]))
-	{
-		beggin = 2;
-		write_arg(arg, beggin);
-	}
+	start = 1;
+	while (has_flag(arg[start]))
+		start ++;
+	if (start > 1)
+		write_arg(arg, start);
 	else
 	{
-		beggin = 1;
-		write_arg(arg, beggin);
+		write_arg(arg, start);
 		write (STDOUT_FILENO, "\n", 1);
 	}
 	return (0);
