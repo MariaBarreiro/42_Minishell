@@ -20,18 +20,19 @@
 t_token	*init_token(t_mini *mini, t_token *head, char *line, int *i)
 {
 	t_token	*new;
+	int		start;
 
+	start = *i;
 	new = calloc(sizeof(t_token), 1);
 	if (!new)
 		error(head, "Error: failed in memory allocate\n", 1);
 	set_token_value(mini, new, line, i);
 	if (!new->value)
 	{
-		free_tokens(head);
 		free(new);
 		return (NULL);
 	}
-	if (new->quoted)
+	if (new->quoted || check_delimiter(line[start]) == 0)
 		new->type = T_WORD;
 	else
 		new->type = get_type(new->value);
@@ -53,7 +54,8 @@ void	set_token_value(t_mini *mini, t_token *new, char *line, int *i)
 		return ;
 	}
 	new->quoted = 0;
-	new->value = get_tokens(mini, line, i, &new->quoted);
+	new->value = get_tokens(mini, line, i, &new->quoted,
+			!is_heredoc_limiter(line, *i));
 }
 
 /*
@@ -83,7 +85,7 @@ t_token_type	get_type(char *value)
 		Builds one word at a time!
 */
 
-char	*get_tokens(t_mini *mini, const char *line, int *i, int *quoted)
+char	*get_tokens(t_mini *mini, const char *line, int *i, int *quoted, int expand)
 {
 	char	*word;
 	char	*fragment;
@@ -95,7 +97,7 @@ char	*get_tokens(t_mini *mini, const char *line, int *i, int *quoted)
 		&& line[*i] != '\t' && check_delimiter(line[*i]) == 0)
 	{
 		was_quoted = 0;
-		fragment = get_single_token(mini, line, i, &was_quoted);
+		fragment = get_single_token(mini, line, i, &was_quoted, expand);
 		if (!fragment)
 			return (free(word), NULL);
 		if (was_quoted)
@@ -115,12 +117,14 @@ char	*get_tokens(t_mini *mini, const char *line, int *i, int *quoted)
 	Fragment extractor.
 */
 
-char	*get_single_token(t_mini *mini, const char *line, int *i, int *quoted)
+char	*get_single_token(t_mini *mini, const char *line, int *i, int *quoted, int expand)
 {
 	char	quote_type;
 	char	*fragment;
 
 	quote_type = 0;
+	if (line[*i] == '$' && (line[*i + 1] == '"' || line[*i + 1] == '\''))
+		(*i)++;
 	if (line[*i] == '\'' || line[*i] == '"')
 	{
 		*quoted = 1;
@@ -130,5 +134,8 @@ char	*get_single_token(t_mini *mini, const char *line, int *i, int *quoted)
 		fragment = extract_unquoted_fragment(line, i);
 	if (!fragment)
 		return (NULL);
+	if (!expand)
+		return (fragment);
+	fragment = tilde_fragment(mini, fragment, quote_type);
 	return (var_expansion(mini, fragment, quote_type));
 }

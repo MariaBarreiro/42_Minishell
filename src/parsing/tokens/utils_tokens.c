@@ -60,3 +60,13 @@ char	*extract_unquoted_fragment(const char *line, int *i)
 	fragment = ft_substr(line, start_word, (*i - start_word));
 	return (fragment);
 }
+
+int	is_heredoc_limiter(const char *line, int i)
+{
+	while (i > 0 && (line[i - 1] == ' ' || line[i - 1] == '\t'))
+		i--;
+	if (i > 1 && line[i - 1] == '<' && line[i - 2] == '<')
+		return (1);
+	return (0);
+}
+

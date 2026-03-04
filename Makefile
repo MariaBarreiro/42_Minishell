@@ -48,6 +48,7 @@ BLOCKS_SRC_PATH				= ./src/parsing/blocks/
 
 BLOCKS_SRC_FILES			= blocks.c
 BLOCKS_SRC_FILES			+= blocks_utils.c
+BLOCKS_SRC_FILES			+= blocks_utils2.c
 BLOCKS_SRC_FILES			+= handle_redirs.c
 
 BUILTIN_SRC_PATH			= ./src/builtin/

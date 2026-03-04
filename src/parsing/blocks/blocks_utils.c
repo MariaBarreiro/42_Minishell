@@ -18,12 +18,25 @@
 int	count_ac(t_token *temp_token)
 {
 	int	counter;
+	int	fields;
 
 	counter = 0;
+	fields = 0;
 	while (temp_token && temp_token->type != T_PIPE)
 	{
-		if (temp_token->type == T_WORD && temp_token->value[0] != '\0')
-			counter += 1;
+		if (temp_token->type == T_WORD && (temp_token->value[0] != '\0'
+				|| temp_token->quoted))
+		{
+			if (temp_token->quoted)
+				counter += 1;
+			else
+			{
+				fields = count_unquoted_fields(temp_token->value);
+				if (fields == 0)
+					fields = 1;
+				counter += fields;
+			}
+		}
 		temp_token = temp_token->next;
 	}
 	return (counter);

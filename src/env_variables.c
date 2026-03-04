@@ -20,14 +20,25 @@
 char	*var_expansion(t_mini *mini, char *fragment, char quote_type)
 {
 	char	*position;
+	int		offset;
 
-	while (quote_type != '\'' && ft_strchr(fragment, '$'))
+	offset = 0;
+	while (quote_type != '\'' && ft_strchr(fragment + offset, '$'))
 	{
-		position = ft_strchr(fragment, '$');
-		if (!position[1] || position[1] == ' '
-			|| check_delimiter(position[1]) == 1)
-			break ;
+		position = ft_strchr(fragment + offset, '$');
+		if (!position[1] || position[1] == ' ' || check_delimiter(position[1]) == 1)
+		{
+			offset = (position - fragment) + 1;
+			continue ;
+		}
+		if (position[1] != '?' && position[1] != '{' && !ft_isalnum(position[1])
+			&& position[1] != '_')
+		{
+			offset = (position - fragment) + 1;
+			continue ;
+		}
 		fragment = get_variable(mini->my_env, fragment, mini->exit_stts);
+		offset = 0;
 	}
 	return (fragment);
 }
