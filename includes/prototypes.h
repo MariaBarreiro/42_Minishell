@@ -104,7 +104,6 @@ void			free_blocks(t_cmd_block *head);
 void			free_arrays(char **array);
 void			free_output_list(t_output *output);
 void			free_block_arrays(t_cmd_block *block);
-void			free_env_list(t_env *env);
 void			free_all(t_mini *mini);
 void			free_and_exit(t_mini *mini, int exit_code);
 

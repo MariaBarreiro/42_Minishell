@@ -25,17 +25,3 @@ void	free_tokens(t_token *token)
 		token = temp;
 	}
 }
-
-void	free_env_list(t_env *env)
-{
-	t_env	*next;
-
-	while (env)
-	{
-		next = env->next;
-		free(env->name);
-		free(env->value);
-		free(env);
-		env = next;
-	}
-}
