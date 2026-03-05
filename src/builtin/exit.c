@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:19:59 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/05 16:52:17 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/05 18:06:58 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,21 +64,23 @@ int	ft_exit(char **args, int exit_stts)
 {
 	long long	code;
 
-	write(1, "exit\n", 5);
 	if (!args[1])
-		return (exit_stts);
-	if (args[2])
 	{
-		print_error("exit", "too many arguments");
-		return (1);
+		return (exit_stts);
 	}
-	if (!strcmp(args[1], "--"))
-		return (0);
 	if (!is_valid_exit_number(args[1]))
 	{
 		print_error("exit", "numeric argument required");
 		return (2);
 	}
+	if (args[2])
+	{
+		ft_putstr_fd("exit", 2);
+		print_error("exit", "too many arguments");
+		return (1);
+	}
+	if (!strcmp(args[1], "--"))
+		return (0);
 	code = ft_atoll(args[1]);
 	return ((unsigned char)code);
 }
