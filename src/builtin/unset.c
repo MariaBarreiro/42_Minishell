@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:20:54 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:20:55 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/03/05 16:41:55 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int	ft_unset(t_env **my_env, char **args)
 	i = 1;
 	while (args[i])
 	{
+		if (args[1][0] == '-')
+			return (arg_error_unset(args[i]));
 		if (valid_identifier(args[i]))
 		{
 			if (env_key_exists(args[i], *my_env))

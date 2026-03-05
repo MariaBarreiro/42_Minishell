@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:29:51 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/04 13:04:20 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/05 16:41:52 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void			error(t_token *token, char *message, int exit_code);
 int				redir_error(t_cmd_block *head, t_cmd_block *block,
 					t_mini *mini, t_token *token);
 int				pipe_error(t_cmd_block *head, t_mini *mini);
+int				arg_error(char *args);
+int				arg_error_unset(char *args);
 
 //Free//
 void			free_tokens(t_token *token);

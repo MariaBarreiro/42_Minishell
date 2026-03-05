@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:19:50 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:19:51 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/03/05 16:19:00 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ int	ft_env(t_env *my_env, char **arg)
 	else
 	{
 		write(2, "env: too many arguments\n", 25);
-		return (1);
+		return (127);
 	}
 }

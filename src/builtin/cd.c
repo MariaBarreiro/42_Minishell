@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:19:26 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/04 20:26:27 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/05 16:08:10 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,29 @@ static int	cd_home(t_env **my_env, int create)
 	return (0);
 }
 
-static void	cd_operand()
+static int	cd_special(t_env **my_env, char *arg)
 {
-	return ;
+	char	*oldpwd;
+
+	if (strcmp(arg, "-") == 0)
+	{
+		oldpwd = get_env_value("OLDPWD", *my_env);
+		if (!oldpwd || chdir(oldpwd) == -1)
+			return (perror("cd"), 1);
+		printf("%s\n", oldpwd);
+		update_env("OLDPWD", get_env_value("PWD", *my_env), my_env, 0);
+		update_pwd("PWD", my_env);
+		return (0);
+	}
+	if (chdir(arg) == -1)
+		return (perror("cd"), 1);
+	update_env("OLDPWD", get_env_value("PWD", *my_env), my_env, 0);
+	return (update_pwd("PWD", my_env));
 }
 
 int	ft_cd(t_env **my_env, char **arg)
 {
-	int	create;
+	int		create;
 
 	create = check_old_pwd(*my_env);
 	if (!arg[1])
@@ -71,16 +86,17 @@ int	ft_cd(t_env **my_env, char **arg)
 		print_error("cd", "too many arguments");
 		return (1);
 	}
-	if (strcmp(arg[1], "-"))
-		cd_operand();
+	if (!strcmp(arg[1], "-"))
+		return (cd_special(my_env, arg[1]));
 	else
 	{
 		if (chdir(arg[1]) == -1)
 		{
-			perror("cd");
+			ft_putstr_fd("cd: ", 2);
+			perror(arg[1]);
 			return (1);
 		}
+		update_env("OLDPWD", get_env_value("PWD", *my_env), my_env, create);
+		return (update_pwd("PWD", my_env));
 	}
-	update_env("OLDPWD", get_env_value("PWD", *my_env), my_env, create);
-	return (update_pwd("PWD", my_env));
 }
