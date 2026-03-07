@@ -69,7 +69,7 @@ char	*verify_commands(char *cmd, char **paths)
 	char	*add_slash;
 
 	i = 0;
-	if (!cmd)
+	if (!cmd || !cmd[0])
 		return (NULL);
 	if (ft_strchr(cmd, '/'))
 	{

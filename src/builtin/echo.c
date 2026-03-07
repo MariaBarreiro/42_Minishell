@@ -58,7 +58,7 @@ int	ft_echo(char **arg)
 		return (0);
 	}
 	start = 1;
-	while (has_flag(arg[start]))
+	while (arg[start] && has_flag(arg[start]))
 		start ++;
 	if (start > 1)
 		write_arg(arg, start);
