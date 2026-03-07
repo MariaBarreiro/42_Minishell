@@ -19,6 +19,9 @@
 int	handle_redir(t_cmd_block *block, t_token **token, int type)
 {
 	(*token) = (*token)->next;
+	if (type == T_REDIR_OUT && (*token) && (*token)->type == T_PIPE
+		&& (*token)->next && (*token)->next->type == T_WORD)
+		(*token) = (*token)->next;
 	if (!(*token) || (*token)->type == T_PIPE || (*token)->type == T_REDIR_IN
 		|| (*token)->type == T_REDIR_OUT || (*token)->type == T_REDIR_APPEND
 		|| (*token)->type == T_HEREDOC)
@@ -74,7 +77,8 @@ int	add_output_redir(t_cmd_block *block, t_token *token, int append)
 int	redir_error(t_cmd_block *head, t_cmd_block *block,
 			t_mini *mini, t_token *token)
 {
-	write(2, "bash: syntax error near unexpected token ", 41);
+//	write(2, "bash: syntax error near unexpected token ", 41);	
+	ft_putstr_fd("bash: syntax error near unexpected token ", 2);
 	if (!token)
 		ft_putendl_fd("`newline'", 2);
 	else if (token->type == T_REDIR_IN)

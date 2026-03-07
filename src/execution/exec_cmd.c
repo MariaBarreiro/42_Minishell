@@ -51,6 +51,8 @@ char	**env_list_to_array(t_env *env)
 		if (env->value)
 		{
 			tmp = ft_strjoin(env->name, "=");
+			if (!tmp)
+				return (free_array(envp), NULL);
 			envp[i++] = ft_strjoin(tmp, env->value);
 			free(tmp);
 		}

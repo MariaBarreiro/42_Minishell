@@ -42,10 +42,14 @@ t_env	*new_node(char *key, char *value)
 	if (!new_var)
 		return (NULL);
 	new_var->name = ft_strdup(key);
+	if (!new_var->name)
+		return (free(new_var), NULL);
 	if (value)
 		new_var->value = ft_strdup(value);
 	else
 		new_var->value = NULL;
+	if (value && !new_var->value)
+		return (free(new_var->name), free(new_var), NULL);
 	new_var->exported = 1;
 	new_var->next = NULL;
 	return (new_var);

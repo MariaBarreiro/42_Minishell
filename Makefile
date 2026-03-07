@@ -88,6 +88,9 @@ SRC								+= $(addprefix $(EXECUTION_SRC_PATH), $(EXECUTION_SRC_FILES))
 OBJS_DIR						= obj
 OBJS							= $(patsubst %.c, $(OBJS_DIR)/%.o, $(SRC))
 
+VAL_RULES = --leak-check=full --show-leak-kinds=all --suppressions=readline.supp
+#--trace-children=yes
+
 # **************************************************************************** #
 #                                   Compiler                                   #
 # **************************************************************************** #
@@ -109,6 +112,9 @@ RM              = rm -rf
 # **************************************************************************** #
  
 all: $(LIB) $(NAME)
+
+valgrind: all
+	valgrind $(VAL_RULES) ./$(NAME)
 
 $(LIB): 
 	@$(MAKE) -C $(LIB_PATH)

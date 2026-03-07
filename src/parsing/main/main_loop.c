@@ -84,7 +84,11 @@ void	main_loop(t_mini *mini)
 		mini->cmd = tokenizer(mini, input_line);
 		free(input_line);
 		if (!mini->cmd)
+		{
+			if (!check_interactive() && mini->exit_stts == 2)
+				break ;
 			continue ;
+		}
 		execute_pipeline(mini);
 		free_blocks(mini->cmd);
 		mini->cmd = NULL;

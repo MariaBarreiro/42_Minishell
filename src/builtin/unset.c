@@ -23,8 +23,10 @@ void	append_env(char *key, char *value, t_env **env)
 	else
 	{
 		new = ft_strjoin(old, value);
-		update_env(key, new, env, 0);
+		if (new)
+			update_env(key, new, env, 0);
 		free(new);
+		free(old);
 	}
 }
 
