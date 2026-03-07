@@ -97,6 +97,7 @@ int	execute_cmd(t_cmd_block *cmd, t_env *envp)
 	char	**paths;
 	char	**env_array;
 
+	handle_dot(cmd->args);
 	paths = find_path(envp);
 	path = verify_commands(cmd->args[0], paths);
 	if (!path)

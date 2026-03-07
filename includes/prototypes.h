@@ -132,6 +132,7 @@ int				count_cmds(t_cmd_block *cmd);
 void			restore_fds(t_fd_backup *b);
 void			save_fds(t_fd_backup *b);
 int				validate_cmd(char *cmd, char *path);
+void			handle_dot(char **args);
 
 //Built-in Commands//
 

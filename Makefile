@@ -75,6 +75,7 @@ EXECUTION_SRC_FILES		+= execution.c
 EXECUTION_SRC_FILES		+= setup_redirections.c
 EXECUTION_SRC_FILES		+= handle_heredoc.c
 EXECUTION_SRC_FILES		+= fds_utils.c
+EXECUTION_SRC_FILES		+= utils.c
 
 SRC								= $(addprefix $(SRC_PATH), $(SRC_FILES))
 SRC								+= $(addprefix $(MAIN_SRC_PATH), $(MAIN_SRC_FILES))
