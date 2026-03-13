@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:27:59 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/28 16:45:14 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/13 11:03:48 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int ac, char **av, char **envp)
 	set_signals();
 	init_minishell(&mini, envp);
 	main_loop(&mini);
-	free_blocks(mini.cmd);
 	free_env_list(mini.my_env);
 	rl_clear_history();
 	return (mini.exit_stts);

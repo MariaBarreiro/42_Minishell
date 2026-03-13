@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:29:51 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/05 16:41:52 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/13 11:13:32 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,9 @@ int				handle_heredocs(t_cmd_block *cmd);
 int				execute_cmd(t_cmd_block *cmd, t_env *envp);
 void			free_array(char **str);
 void			print_error(char *cmd, char *error);
+char			**find_path(t_env *env);
+void			cmd_not_found(t_cmd_block *cmd, char **paths);
+
 
 //Execute Utils//
 t_pipe			*create_pipes(int n);

@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:19:53 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:19:54 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/03/13 13:21:40 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*get_env_value(char *key, t_env *my_env)
+char *get_env_value(char *name, t_env *env)
 {
-	while (my_env)
+	while (env)
 	{
-		if (!ft_strncmp(my_env->name, key, ft_strlen(key) + 1))
-			return (ft_strdup(my_env->value));
-		my_env = my_env->next;
+		if (!ft_strcmp(env->name, name))
+			return (env->value);
+		env = env->next;
 	}
 	return (NULL);
 }

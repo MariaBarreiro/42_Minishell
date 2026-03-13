@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:27:55 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/25 17:27:49 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/13 13:38:36 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	update_shlvl(t_env **env)
 	if (!val)
 	{
 		update_env("SHLVL", "1", env, 1);
-		val = ft_strdup("1");
 		return ;
 	}
 	lvl = ft_atoi(val) + 1;

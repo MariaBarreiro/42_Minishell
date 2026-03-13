@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:21:30 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:21:31 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/03/13 11:11:59 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	**find_path(t_env *env)
-{
-	while (env)
-	{
-		if (env->name && env->value && !ft_strcmp(env->name, "PATH"))
-			return (ft_split(env->value, ':'));
-		env = env->next;
-	}
-	return (NULL);
-}
 
 static int	env_size(t_env *env)
 {
@@ -93,32 +82,35 @@ char	*verify_commands(char *cmd, char **paths)
 	return (NULL);
 }
 
+static void	exec_cmd(char *path, t_cmd_block *cmd, t_env *envp)
+{
+	char	**env_array;
+
+	env_array = env_list_to_array(envp);
+	execve(path, cmd->args, env_array);
+	free_array(env_array);
+	free(path);
+	perror("minishell");
+	exit(126);
+}
+
 int	execute_cmd(t_cmd_block *cmd, t_env *envp)
 {
 	char	*path;
 	char	**paths;
-	char	**env_array;
 
 	handle_dot(cmd->args);
 	paths = find_path(envp);
 	path = verify_commands(cmd->args[0], paths);
 	if (!path)
-	{
-		if (ft_strchr(cmd->args[0], '/'))
-			print_error(cmd->args[0], "No such file or directory");
-		else
-			print_error(cmd->args[0], "command not found");
-		free_array(paths);
-		exit(127);
-	}
+		cmd_not_found(cmd, paths);
 	if (!validate_cmd(cmd->args[0], path))
 	{
 		free(path);
 		free_array(paths);
 		exit(126);
 	}
-	env_array = env_list_to_array(envp);
-	execve(path, cmd->args, env_array);
-	perror("minishell");
-	exit(126);
+	free_array(paths);
+	exec_cmd(path, cmd, envp);
+	return (0);
 }

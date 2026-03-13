@@ -6,20 +6,21 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:19:26 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/05 16:08:10 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/13 13:34:21 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	update_pwd(char *key, t_env **my_env)
+int	update_pwd(char *key, t_env **env)
 {
-	char	*current;
+	char	*pwd;
 
-	current = getcwd(NULL, 0);
-	if (!current)
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
 		return (1);
-	update_env(key, current, my_env, 0);
+	update_env(key, pwd, env, 0);
+	free(pwd);
 	return (0);
 }
 
