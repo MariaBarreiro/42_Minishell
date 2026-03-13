@@ -6,11 +6,20 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:20:54 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/05 16:41:55 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/13 15:20:49 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	free_and_ret(char *key, char *value)
+{
+	if (key)
+		free(key);
+	if (value)
+		free(value);
+	return (0);
+}
 
 void	append_env(char *key, char *value, t_env **env)
 {

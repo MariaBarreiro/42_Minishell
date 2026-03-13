@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:29:51 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/13 11:13:32 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/13 15:20:57 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void			free_output_list(t_output *output);
 void			free_block_arrays(t_cmd_block *block);
 void			free_env_list(t_env *env);
 void			free_all(t_mini *mini);
+int				free_and_ret(char *key, char *value);
 void			free_and_exit(t_mini *mini, int exit_code);
 
 //Execution//
