@@ -6,12 +6,14 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:29:51 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/14 16:57:14 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/14 18:29:13 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PROTOTYPES_H
 # define PROTOTYPES_H
+
+extern int	g_signal;
 
 //Main//
 int				main(int ac, char **av, char **envp);

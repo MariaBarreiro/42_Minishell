@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:24:49 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/05 11:52:49 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/14 18:36:00 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@
 	while (1)
 	{
 		input_line = readline("minishell > ");
+		if (g_signal)
+		{
+			mini->exit_stts = g_signal;
+			g_signal = 0;
+		}
 		if (!input_line)
 		{
 			ft_putendl_fd("exit", STDOUT_FILENO);
