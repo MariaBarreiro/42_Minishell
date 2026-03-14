@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:29:51 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/13 15:20:57 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/14 16:57:14 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,8 @@ int				exec_builtin(char **arg, t_mini *mini);
 
 //Execute Mutiple//
 int				execute_multiple(t_mini *mini);
-int				apply_redirections(t_cmd_block *cmd);
-int				handle_heredocs(t_cmd_block *cmd);
+int				apply_redirections(t_cmd_block *cmd, t_env *env);
+int				handle_heredocs(t_cmd_block *cmd, t_env *env);
 int				execute_cmd(t_cmd_block *cmd, t_env *envp);
 void			free_array(char **str);
 void			print_error(char *cmd, char *error);
@@ -164,5 +164,7 @@ int				ft_atoll(const char *nptr);
 int				ft_strsearch(char *str, char c);
 void			append_env(char *key, char *value, t_env **env);
 void			update_shlvl(t_env **env);
+char			*append_char(char *str, char c);
+char			*ft_strjoin_free(char *s1, char *s2);
 
 #endif

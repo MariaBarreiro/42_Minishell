@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:21:59 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/28 17:19:53 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/14 16:39:21 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	handle_output_redir(t_cmd_block *cmd)
 	return (0);
 }
 
-int	apply_redirections(t_cmd_block *cmd)
+int	apply_redirections(t_cmd_block *cmd, t_env *env)
 {
 	if (cmd->last_redir == 1)
 	{
@@ -67,7 +67,7 @@ int	apply_redirections(t_cmd_block *cmd)
 			if (handle_input(cmd))
 				return (1);
 		if (cmd->heredoc > 0)
-			handle_heredocs(cmd);
+			handle_heredocs(cmd, env);
 		if (cmd->n_outputs > 0)
 			if (handle_output_redir(cmd))
 				return (1);
@@ -75,7 +75,7 @@ int	apply_redirections(t_cmd_block *cmd)
 	else
 	{
 		if (cmd->heredoc > 0)
-			handle_heredocs(cmd);
+			handle_heredocs(cmd, env);
 		if (cmd->n_outputs > 0)
 			if (handle_output_redir(cmd))
 				return (1);

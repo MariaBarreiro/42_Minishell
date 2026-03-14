@@ -14,10 +14,10 @@ INC_PATH        = ./Inc/
 
 SRC_PATH        = ./Src/
 
-SRC_FILES           = ft_bzero.c
-SRC_FILES           += ft_isalnum.c
-SRC_FILES           += ft_isalpha.c 
-SRC_FILES           += ft_isascii.c
+SRC_FILES						= ft_bzero.c
+SRC_FILES						+= ft_isalnum.c
+SRC_FILES						+= ft_isalpha.c 
+SRC_FILES						+= ft_isascii.c
 SRC_FILES						+= ft_isdigit.c 
 SRC_FILES						+= ft_isprint.c
 SRC_FILES						+= ft_memcpy.c

@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:21:37 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/04 12:37:29 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/14 16:38:35 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	child_process(t_mini *mini, t_cmd_block *cmd,
 
 	n_cmds = count_cmds(mini->cmd);
 	setup_child_pipes(i, n_cmds, p);
-	if (apply_redirections(cmd))
+	if (apply_redirections(cmd, mini->my_env))
 		exit (1);
 	if (is_builtin(cmd->args))
 		exit(exec_builtin(cmd->args, mini));
