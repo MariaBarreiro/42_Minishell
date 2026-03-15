@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   prototypes.h                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/18 17:29:51 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/15 14:08:07 by mlima-si         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #ifndef PROTOTYPES_H
 # define PROTOTYPES_H
@@ -38,9 +28,8 @@ t_token			*tokenization(t_mini *mini, char *line);
 t_token			*init_token(t_mini *mini, t_token *head, char *line, int *i);
 void			set_token_value(t_mini *mini, t_token *new, char *line, int *i);
 char			*get_tokens(t_mini *mini, const char *line,
-					int *i, int *quoted, int expand);
-char			*get_single_token(t_mini *mini,
-					const char *line, int *i, int *quoted, int expand);
+					int *i, int *quoted);
+char			*get_single_token(const char *line, int *i, char *quote_type);
 
 //New Token//
 void			new_token(t_token **new_node,
@@ -57,6 +46,9 @@ char			*extract_unquoted_fragment(const char *line, int *i);
 int				is_heredoc_limiter(const char *line, int i);
 char			find_unclosed_quote(const char *line);
 char			*tilde_fragment(t_mini *mini, char *fragment, char quote_type);
+char			*join_fragment(char *word, char *fragment);
+char			*expand_fragment(t_mini *mini, char *fragment,
+					char quote_type, int expand);
 
 //Env variables//
 char			*var_expansion(t_mini *mini, char *fragment, char quote_type);
@@ -84,7 +76,8 @@ void			add_unquoted_fields(char **args, int *i, char *value);
 //Block Utils//
 int				count_ac(t_token *temp_token);
 int				count_unquoted_fields(char *value);
-int				process_block_token(t_cmd_block *block, t_token **token, int *i)
+int				process_block_token(t_cmd_block *block,
+					t_token **token, int *i);
 
 //Handle Redirections//
 int				handle_redir(t_cmd_block *block, t_token **token, int type);

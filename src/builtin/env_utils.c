@@ -6,13 +6,13 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:19:53 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/13 13:21:40 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:04:20 by mda-enca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *get_env_value(char *name, t_env *env)
+char	*get_env_value(char *name, t_env *env)
 {
 	while (env)
 	{

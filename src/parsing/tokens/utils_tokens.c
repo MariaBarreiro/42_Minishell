@@ -69,4 +69,3 @@ int	is_heredoc_limiter(const char *line, int i)
 		return (1);
 	return (0);
 }
-
