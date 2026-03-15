@@ -38,16 +38,13 @@ t_cmd_block	*tokenizer(t_mini *mini, char *line)
 	if (!token)
 	{
 		if (find_unclosed_quote(line))
-			ft_putendl_fd("bash: unexpected EOF while looking for matching quote",
-				STDERR_FILENO);
-		//else
-		//	ft_putendl_fd("bash: syntax error", STDERR_FILENO);
+			ft_putendl_fd("bash: unexpected EOF while looking for
+				  matching quote", STDERR_FILENO);
 		mini->exit_stts = 2;
 		return (NULL);
 	}
 	blocks = parse_blocks(token, mini);
-	free_tokens(token);
-	return (blocks);
+	return (free_tokens(token), blocks);
 }
 
 /*
