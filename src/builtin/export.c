@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:20:02 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/15 11:56:04 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:14:26 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	valid_identifier(char *s)
 		return (0);
 	if (!ft_isalpha(s[0]) && s[0] != '_')
 	{
-		print_error("export", "not a valid identifier");
+		print_arg_error("export", s, "not a valid identifier");
 		return (0);
 	}
 	i = 1;
@@ -48,7 +48,7 @@ static int	valid_identifier(char *s)
 			return (1);
 		if (!ft_isalnum(s[i]) && s[i] != '_')
 		{
-			print_error("export", "not a valid identifier");
+			print_arg_error("export", s, "not a valid identifier");
 			return (0);
 		}
 		i++;

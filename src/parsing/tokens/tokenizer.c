@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:27:08 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:27:09 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:21:17 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ t_cmd_block	*tokenizer(t_mini *mini, char *line)
 	if (!token)
 	{
 		if (find_unclosed_quote(line))
-			ft_putendl_fd("bash: unexpected EOF while looking for
-				  matching quote", STDERR_FILENO);
+			print_eof();
 		mini->exit_stts = 2;
 		return (NULL);
 	}

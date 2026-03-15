@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prototypes.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 14:12:10 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/15 14:12:14 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:20:58 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ t_env			*init_env(char **envp);
 //Env Utils//
 char			*concat(char *start, char *fragment,
 					char *var_exit_value, int i);
+void			print_eof(void);
 
 //Blocks//
 t_cmd_block		*parse_blocks(t_token *token, t_mini *mini);
