@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:19:26 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/13 13:34:21 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:46:43 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	cd_special(t_env **my_env, char *arg)
 {
 	char	*oldpwd;
 
-	if (strcmp(arg, "-") == 0)
+	if (!strcmp(arg, "-"))
 	{
 		oldpwd = get_env_value("OLDPWD", *my_env);
 		if (!oldpwd || chdir(oldpwd) == -1)
@@ -69,6 +69,8 @@ static int	cd_special(t_env **my_env, char *arg)
 		update_pwd("PWD", my_env);
 		return (0);
 	}
+	else
+		return (cd_home(my_env, 0));
 	if (chdir(arg) == -1)
 		return (perror("cd"), 1);
 	update_env("OLDPWD", get_env_value("PWD", *my_env), my_env, 0);
@@ -87,7 +89,7 @@ int	ft_cd(t_env **my_env, char **arg)
 		print_error("cd", "too many arguments");
 		return (1);
 	}
-	if (!strcmp(arg[1], "-"))
+	if (!strcmp(arg[1], "-") || !strcmp(arg[1], "--"))
 		return (cd_special(my_env, arg[1]));
 	else
 	{
