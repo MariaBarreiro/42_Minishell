@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:21:54 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/14 16:46:54 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/15 13:30:45 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ char	*expand_variables(char *line, t_env *env)
 	tmp = res;
 	return (tmp);
 }
-
 
 static void	write_heredoc(int fd, char *limit, t_env *env)
 {
