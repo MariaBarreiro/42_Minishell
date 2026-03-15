@@ -39,4 +39,3 @@ void	sighandler(int sig)
 	rl_on_new_line();
 	rl_redisplay();
 }
-

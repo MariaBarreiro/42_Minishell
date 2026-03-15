@@ -6,7 +6,7 @@
 /*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:27:52 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:27:53 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:05:09 by mda-enca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ char	*var_expansion(t_mini *mini, char *fragment, char quote_type)
 	while (quote_type != '\'' && ft_strchr(fragment + offset, '$'))
 	{
 		position = ft_strchr(fragment + offset, '$');
-		if (!position[1] || position[1] == ' ' || check_delimiter(position[1]) == 1)
+		if (!position[1] || position[1] == ' '
+			|| check_delimiter(position[1]) == 1)
 		{
 			offset = (position - fragment) + 1;
 			continue ;

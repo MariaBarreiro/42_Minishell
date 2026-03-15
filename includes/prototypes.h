@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:29:51 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/14 18:29:13 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:07:19 by mda-enca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ t_token			*tokenization(t_mini *mini, char *line);
 //Init token//
 t_token			*init_token(t_mini *mini, t_token *head, char *line, int *i);
 void			set_token_value(t_mini *mini, t_token *new, char *line, int *i);
-char			*get_tokens(t_mini *mini, const char *line, int *i, int *quoted);
+char			*get_tokens(t_mini *mini, const char *line,
+					int *i, int *quoted);
 char			*get_single_token(const char *line, int *i, char *quote_type);
 
 //New Token//
@@ -56,7 +57,8 @@ int				is_heredoc_limiter(const char *line, int i);
 char			find_unclosed_quote(const char *line);
 char			*tilde_fragment(t_mini *mini, char *fragment, char quote_type);
 char			*join_fragment(char *word, char *fragment);
-char			*expand_fragment(t_mini *mini, char *fragment, char quote_type, int expand);
+char			*expand_fragment(t_mini *mini, char *fragment,
+					char quote_type, int expand);
 
 //Env variables//
 char			*var_expansion(t_mini *mini, char *fragment, char quote_type);
@@ -84,7 +86,8 @@ void			add_unquoted_fields(char **args, int *i, char *value);
 //Block Utils//
 int				count_ac(t_token *temp_token);
 int				count_unquoted_fields(char *value);
-int				process_block_token(t_cmd_block *block, t_token **token, int *i)
+int				process_block_token(t_cmd_block *block,
+					t_token **token, int *i);
 
 //Handle Redirections//
 int				handle_redir(t_cmd_block *block, t_token **token, int type);
