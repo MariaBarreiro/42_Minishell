@@ -1,27 +1,178 @@
-# 42_Minishell
+*This project has been created as part of the 42 curriculum by mlima-si, mda-enca.*
 
-Readme Requirements
+# Minishell
 
-A README.md file must be provided at the root of your Git repository. Its purpose is
-to allow anyone unfamiliar with the project (peers, staff, recruiters, etc.) to quickly
-understand what the project is about, how to run it, and where to find more information
-on the topic.
+## Description
 
+**Minishell** is a simplified Unix shell developed as part of the curriculum at the :contentReference[oaicite:0]{index=0}.  
+The goal of the project is to recreate the core behavior of a Unix shell such as :contentReference[oaicite:1]{index=1} while respecting strict constraints on allowed functions and coding standards.
 
-The README.md must include at least:
-• The very first line must be italicized and read: This project has been created as part
-of the 42 curriculum by <login1>[, <login2>[, <login3>[...]]].
-• A “Description” section that clearly presents the project, including its goal and a
-brief overview.
-• An “Instructions” section containing any relevant information about compilation,
-installation, and/or execution.
-• A “Resources” section listing classic references related to the topic (documen-
-tation, articles, tutorials, etc.), as well as a description of how AI was used —
-specifying for which tasks and which parts of the project.
-➠ Additional sections may be required depending on the project (e.g., usage
-examples, feature list, technical choices, etc.).
-Any required additions will be explicitly listed below.
+The program provides an interactive command-line interface where users can execute commands, manage processes, and interact with the system environment.
 
+Key concepts implemented in this project include:
 
-Your README must be written in English.
+- Command parsing and tokenization
+- Execution of programs using `fork` and `execve`
+- Built-in commands implementation
+- Pipes and file redirections
+- Environment variable management
+- Signal handling
+- Heredoc (`<<`) support
 
+The project focuses heavily on **process control, file descriptors, memory management, and shell parsing**, providing a deep understanding of how Unix shells operate internally.
+
+---
+
+## Features
+
+The implemented features include:
+
+- Interactive prompt using `readline`
+- Execution of external programs
+- Built-in commands:
+  - `echo`
+  - `cd`
+  - `pwd`
+  - `export`
+  - `unset`
+  - `env`
+  - `exit`
+- Pipes (`|`)
+- Input redirection (`<`)
+- Output redirection (`>`)
+- Append redirection (`>>`)
+- Heredoc (`<<`)
+- Environment variable expansion (`$VAR`)
+- Signal handling (`Ctrl+C`, `Ctrl+D`, `Ctrl+\`)
+
+---
+
+## Instructions
+
+### Requirements
+
+The project was developed and tested on **Linux**.
+
+Required dependencies:
+
+- GCC
+- Make
+- Readline library
+
+Install readline if needed:
+
+```bash
+sudo apt-get install libreadline-dev
+```
+
+## Compilation
+
+Clone the repository and compile the project:
+```bash
+git clone <repository_url>
+cd minishell
+make
+```
+
+This will generate the executable:
+```bash
+./minishell
+```
+Running the Shell
+
+Start the shell with:
+```bash
+./minishell
+```
+
+Example session:
+```bash
+minishell > echo Hello
+Hello
+
+minishell > ls | grep minishell
+
+minishell > cat << EOF
+hello
+world
+EOF
+
+minishell > exit
+```
+## Project Structure
+
+Typical components of the project include:
+```
+minishell/
+│
+├── parsing/        # Tokenization and command parsing
+├── execution/      # Command execution and pipelines
+├── builtins/       # Built-in commands
+├── redirections/   # File redirection and heredoc
+├── signals/        # Signal handling
+├── utils/          # Helper functions
+│
+├── minishell.h
+├── Makefile
+└── README.md
+```
+
+## Technical Concepts
+
+The project heavily relies on fundamental Unix mechanisms such as:
+
+- fork() for process creation
+
+- execve() for program execution
+
+- pipe() for inter-process communication
+
+- dup2() for file descriptor redirection
+
+- waitpid() for process synchronization
+
+Special care was taken to correctly manage:
+
+- memory allocation and deallocation
+
+- file descriptor lifecycle
+
+- signal propagation between parent and child processes
+
+---
+## Resources
+
+The following resources were used during development:
+
+https://harm-smits.github.io/42docs/projects/minishell
+
+https://42-cursus.gitbook.io/guide/3-rank-03/minishell
+
+https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a10598218
+
+These references helped understand shell architecture, parsing strategies, and execution models.
+
+---
+## AI Usage
+
+AI tools were used only as auxiliary support during development.
+Their use included:
+
+- Clarifying behavior of Unix system calls (fork, execve, pipe, dup2)
+
+- Understanding edge cases of shell behavior (redirections, heredocs, signals)
+
+- Reviewing code structure and debugging strategies
+
+- Assisting in documentation writing
+
+All implementation decisions, debugging, and integration were performed manually by the project authors.
+
+---
+## Authors
+
+- mlima-si
+
+- mda-enca
+
+Project developed as part of the curriculum of the 42 School.
