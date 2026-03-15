@@ -84,6 +84,7 @@ void			add_unquoted_fields(char **args, int *i, char *value);
 //Block Utils//
 int				count_ac(t_token *temp_token);
 int				count_unquoted_fields(char *value);
+int				process_block_token(t_cmd_block *block, t_token **token, int *i)
 
 //Handle Redirections//
 int				handle_redir(t_cmd_block *block, t_token **token, int type);
@@ -128,7 +129,6 @@ void			free_array(char **str);
 void			print_error(char *cmd, char *error);
 char			**find_path(t_env *env);
 void			cmd_not_found(t_cmd_block *cmd, char **paths);
-
 
 //Execute Utils//
 t_pipe			*create_pipes(int n);

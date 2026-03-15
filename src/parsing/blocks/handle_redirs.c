@@ -6,7 +6,7 @@
 /*   By: mda-enca <mda-enca@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:24:08 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/02/18 17:24:09 by mda-enca         ###   ########.fr       */
+/*   Updated: 2026/03/15 12:58:28 by mda-enca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	add_output_redir(t_cmd_block *block, t_token *token, int append)
 int	redir_error(t_cmd_block *head, t_cmd_block *block,
 			t_mini *mini, t_token *token)
 {
-//	write(2, "bash: syntax error near unexpected token ", 41);	
 	ft_putstr_fd("bash: syntax error near unexpected token ", 2);
 	if (!token)
 		ft_putendl_fd("`newline'", 2);
