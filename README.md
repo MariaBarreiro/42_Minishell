@@ -4,8 +4,8 @@
 
 ## Description
 
-**Minishell** is a simplified Unix shell developed as part of the curriculum at the :contentReference[oaicite:0]{index=0}.  
-The goal of the project is to recreate the core behavior of a Unix shell such as :contentReference[oaicite:1]{index=1} while respecting strict constraints on allowed functions and coding standards.
+**Minishell** is a simplified Unix shell developed as part of the curriculum at 42 School.  
+The goal of the project is to recreate the core behavior of a Unix shell such as Bash while respecting strict constraints on allowed functions and coding standards.
 
 The program provides an interactive command-line interface where users can execute commands, manage processes, and interact with the system environment.
 
