@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:20:14 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/13 13:38:24 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:25:44 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_pwd(char **cmd, t_env *env)
 
 	if (cmd[1] && cmd[1][0] == '-')
 	{
-		print_error("pwd", "invalid option");
+		print_arg_error("pwd", cmd[1], "invalid option");
 		ft_putstr_fd("pwd: usage: pwd with no options\n", 2);
 		return (2);
 	}
