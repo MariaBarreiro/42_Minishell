@@ -148,6 +148,8 @@ https://harm-smits.github.io/42docs/projects/minishell
 
 https://42-cursus.gitbook.io/guide/3-rank-03/minishell
 
+https://www.gnu.org/software/bash/manual/bash.html#Quoting
+
 https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a10598218
 
 These references helped understand shell architecture, parsing strategies, and execution models.
