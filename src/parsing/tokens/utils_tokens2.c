@@ -33,12 +33,3 @@ char	*expand_fragment(t_mini *mini, char *fragment, char quote_type,
 	fragment = tilde_fragment(mini, fragment, quote_type);
 	return (var_expansion(mini, fragment, quote_type));
 }
-
-char	*expand_fragment(t_mini *mini, char *fragment, char quote_type,
-		int expand)
-{
-	if (!expand)
-		return (fragment);
-	fragment = tilde_fragment(mini, fragment, quote_type);
-	return (var_expansion(mini, fragment, quote_type));
-}
