@@ -119,6 +119,7 @@ int				apply_redirections(t_cmd_block *cmd, t_env *env);
 int				handle_heredocs(t_cmd_block *cmd, t_env *env);
 int				execute_cmd(t_cmd_block *cmd, t_env *envp);
 void			free_array(char **str);
+void			print_arg_error(char *cmd, char *arg, char *error);
 void			print_error(char *cmd, char *error);
 char			**find_path(t_env *env);
 void			cmd_not_found(t_cmd_block *cmd, char **paths);
