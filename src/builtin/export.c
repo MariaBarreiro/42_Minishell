@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:20:02 by mda-enca          #+#    #+#             */
-/*   Updated: 2026/03/13 15:20:24 by mlima-si         ###   ########.fr       */
+/*   Updated: 2026/03/15 11:56:04 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,20 +93,19 @@ int	ft_export(t_env **my_env, char **args)
 	i = 1;
 	while (args[i])
 	{
-		if (args[1][0] == '-')
+		if (args[i][0] == '-')
 			return (arg_error(args[i]));
 		if (!valid_identifier(args[i]))
 			return (1);
+		key = get_key(args[i]);
+		value = get_value(args[i]);
+		if (has_plus_equal(args[i]))
+			append_env(key, value, my_env);
 		else
-		{
-			key = get_key(args[i]);
-			value = get_value(args[i]);
-			if (has_plus_equal(args[i]))
-				append_env(key, value, my_env);
-			else
-				update_env(key, value, my_env, !env_key_exists(key, *my_env));
-		}
+			update_env(key, value, my_env, !env_key_exists(key, *my_env));
+		free(key);
+		free(value);
 		i++;
 	}
-	return (free_and_ret(key, value));
+	return (0);
 }
